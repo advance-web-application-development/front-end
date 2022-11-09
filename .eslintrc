@@ -1,0 +1,29 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true
+  },
+  "extends": ["airbnb", "prettier", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["prettier", "@typescript-eslint"],
+  "rules": {
+    // "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/no-import-module-exports": 0,
+    "dot-notation": 0,
+    "@typescript-eslint/ban-ts-comment": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [["@", "./src/"]],
+      "typescript": {}
+    }
+  }
+}
