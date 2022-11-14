@@ -1,18 +1,32 @@
-const webpackMerge = require("webpack-merge");
-const commonConfig = require("./config/webpack.common.config");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
-const configs = {
-  dev: require("./config/webpack.dev.config"),
-  prod: require("./config/webpack.prod.config"),
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.join(__dirname, '/dist'),
+    filename: 'index_bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new ESLintPlugin()
+  ]
 };
-
-const config = (env) => {
-  if (env.config) {
-    const config = webpackMerge.merge(commonConfig, configs[env.config]);
-    return config;
-  }
-
-  return commonConfig;
-};
-
-module.exports = config;
