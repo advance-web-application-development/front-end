@@ -28,6 +28,22 @@ const SignIn = () => {
     validationSchema: signInSchema,
     onSubmit: async (value) => {
       console.log("value submit ", value);
+      try {
+        const responseSignIn = await loginUser(value.username, value.password);
+        const { data, status } = responseSignIn;
+
+        if (status != 200) {
+          alert(data);
+        } else {
+          const { accessToken, refreshToken, msg } = data;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+          alert(msg);
+          navigate("/home");
+        }
+      } catch (err) {
+        throw err;
+      }
     }
   });
   return (

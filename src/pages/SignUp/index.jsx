@@ -27,7 +27,17 @@ const SignUp = () => {
     },
     validationSchema: SignUpSchema,
     onSubmit: async (value) => {
-      console.log("value submit ", value);
+      console.log("sign up submit ", value);
+      const data = await registerUser(value.username, value.password);
+      console.log("data register ", data);
+      if (data.status != 200) {
+        alert(data.data);
+        return;
+      }
+      const userResponse = data.data.username;
+      //alert user have successfully register
+      alert(`User ${userResponse} have successfully signed up`);
+      navigate("/signin");
     }
   });
   return (

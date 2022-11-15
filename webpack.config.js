@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 module.exports = {
   // Webpack configuration goes here
