@@ -189,6 +189,12 @@ const Styled = styled.div`
     justify-content: center;
     cursor: pointer;
   }
+  #role_id {
+    width: 100%;
+    margin-top: 10px;
+    height: 30px;
+    border: none;
+  }
 `;
 
 export default Styled;

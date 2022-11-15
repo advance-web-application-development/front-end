@@ -5,8 +5,19 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { registerUser } from "../../components/api";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
+  const userRole = [
+    {
+      value: "teacher",
+      content: "teacher"
+    },
+    {
+      value: "student",
+      content: "student"
+    }
+  ];
   const navigate = useNavigate();
   const SignUpSchema = Yup.object({
     username: Yup.string()
@@ -23,12 +34,13 @@ const SignUp = () => {
   const formik = useFormik({
     initialValues: {
       username: "",
-      password: ""
+      password: "",
+      role_id: "teacher"
     },
     validationSchema: SignUpSchema,
     onSubmit: async (value) => {
       console.log("sign up submit ", value);
-      const data = await registerUser(value.username, value.password);
+      const data = await registerUser(value.username, value.password, value.role_id);
       console.log("data register ", data);
       if (data.status != 200) {
         alert(data.data);
@@ -96,6 +108,24 @@ const SignUp = () => {
                     {formik.errors.password && formik.touched.password && (
                       <p className="error-message">{formik.errors.password}</p>
                     )}
+                  </div>
+                  <div className="input-box">
+                    <label htmlFor="role_id" className="input-label">
+                      Your role
+                    </label>
+                    <select
+                      id="role_id"
+                      name="role_id"
+                      value={formik.values.role_id}
+                      onChange={formik.handleChange}>
+                      {userRole.map((item, idx) => {
+                        return (
+                          <option key={`userRole-${idx}`} value={item.value}>
+                            {item.content}
+                          </option>
+                        );
+                      })}
+                    </select>
                   </div>
                   <button type="submit" className="signup-btn">
                     Sign up
