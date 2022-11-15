@@ -1,6 +1,6 @@
 import styled from "styled-components";
 const Styled = styled.div`
-  .signin-container {
+  .signup-container {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -20,7 +20,7 @@ const Styled = styled.div`
   .header-img {
     width: 5rem;
   }
-  .signin-main {
+  .signup-main {
     padding-top: 3.5rem;
     width: 100%;
     height: 100%;
@@ -83,7 +83,7 @@ const Styled = styled.div`
   .input-text:focus {
     border: 1px solid rgb(19, 104, 206) !important;
   }
-  .login-btn {
+  .signup-btn {
     margin: 30px 0px;
     border: none;
     width: 100%;
@@ -188,6 +188,12 @@ const Styled = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+  #role_id {
+    width: 100%;
+    margin-top: 10px;
+    height: 30px;
+    border: none;
   }
 `;
 

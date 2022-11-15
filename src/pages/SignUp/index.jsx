@@ -5,11 +5,21 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { loginUser } from "../../components/api";
-const SignIn = () => {
+import { registerUser } from "../../components/api";
+const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
+  const userRole = [
+    {
+      value: "teacher",
+      content: "teacher"
+    },
+    {
+      value: "student",
+      content: "student"
+    }
+  ];
   const navigate = useNavigate();
-  const signInSchema = Yup.object({
+  const SignUpSchema = Yup.object({
     username: Yup.string()
       .email("Not a proper email")
       .min(10, "Minimum 10 characters")
@@ -24,40 +34,35 @@ const SignIn = () => {
   const formik = useFormik({
     initialValues: {
       username: "",
-      password: ""
+      password: "",
+      role_id: "teacher"
     },
-    validationSchema: signInSchema,
+    validationSchema: SignUpSchema,
     onSubmit: async (value) => {
-      console.log("value submit ", value);
-      try {
-        const responseSignIn = await loginUser(value.username, value.password);
-        const { data, status } = responseSignIn;
-
-        if (status != 200) {
-          alert(data);
-        } else {
-          const { accessToken, refreshToken, msg } = data;
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-          alert(msg);
-          navigate("/home");
-        }
-      } catch (err) {
-        throw err;
+      console.log("sign up submit ", value);
+      const data = await registerUser(value.username, value.password, value.role_id);
+      console.log("data register ", data);
+      if (data.status != 200) {
+        alert(data.data);
+        return;
       }
+      const userResponse = data.data.username;
+      //alert user have successfully register
+      alert(`User ${userResponse} have successfully signed up`);
+      navigate("/signin");
     }
   });
   return (
     <Styled>
-      <div className="signin-container">
+      <div className="signup-container">
         <div className="header">
           <img src="./kahoot.png" className="header-img" alt="kahoot" />
         </div>
-        <main class="signin-main">
+        <main class="signup-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
-                <h2>Log in</h2>
+                <h2>Sign up with your email</h2>
                 <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
@@ -104,8 +109,26 @@ const SignIn = () => {
                       <p className="error-message">{formik.errors.password}</p>
                     )}
                   </div>
-                  <button type="submit" className="login-btn">
-                    Log in
+                  <div className="input-box">
+                    <label htmlFor="role_id" className="input-label">
+                      Your role
+                    </label>
+                    <select
+                      id="role_id"
+                      name="role_id"
+                      value={formik.values.role_id}
+                      onChange={formik.handleChange}>
+                      {userRole.map((item, idx) => {
+                        return (
+                          <option key={`userRole-${idx}`} value={item.value}>
+                            {item.content}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <button type="submit" className="signup-btn">
+                    Sign up
                   </button>
                 </form>
                 <div className="auth-split">
@@ -123,8 +146,8 @@ const SignIn = () => {
                   </button>
                 </div>
                 <p className="redirect-signup">
-                  Don't have an account?
-                  <a href="/signup">Sign up</a>
+                  Already have an account?
+                  <a href="/signin">Sign in</a>
                 </p>
               </div>
             </div>
@@ -144,4 +167,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
