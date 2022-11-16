@@ -6,6 +6,10 @@ import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { registerUser } from "../../components/api";
+import Header from "../Header";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
   const userRole = [
@@ -45,27 +49,48 @@ const SignUp = () => {
       const data = await registerUser(value.username, value.email, value.password, value.role_id);
       console.log("data register ", data);
       if (data.status != 200) {
-        alert(data.data);
+        // alert(data.data);
+        toast.error(data.data, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "light"
+        });
         return;
       }
       const userResponse = data.data.username;
-      //alert user have successfully register
-      alert(`User ${userResponse} have successfully signed up`);
+      // user have successfully register
+      // alert(`User ${userResponse} have successfully signed up`);
+      const msg = `User ${userResponse} have successfully signed up`;
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
       navigate("/signin");
     }
   });
   return (
     <Styled>
       <div className="signup-container">
-        <div className="header">
-          <img src="./kahoot.png" className="header-img" alt="kahoot" />
-        </div>
+        <Header />
         <main className="signup-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
                 <h2>Sign up</h2>
-                <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
+                <form
+                  className="form-login"
+                  method="post"
+                  onSubmit={formik.handleSubmit}
+                  autoComplete="on">
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
                       Username
@@ -168,17 +193,18 @@ const SignUp = () => {
                   Already have an account?
                   <a href="/signin">Sign in</a>
                 </p>
+
+                <p className="text-disclaimer">
+                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                  and Children’s Privacy Policy.
+                </p>
+                <p className="text-disclaimer">
+                  I understand that I can withdraw my consent at any time and the withdrawal will
+                  not affect the lawfulness of the consent before its withdrawal, as described in
+                  the Kahoot! Privacy Policy.
+                </p>
               </div>
             </div>
-            <p className="text-disclaimer">
-              By signing up, you accept our Terms and Conditions. Please read our Privacy Policy and
-              Children’s Privacy Policy.
-            </p>
-            <p className="text-disclaimer">
-              I understand that I can withdraw my consent at any time and the withdrawal will not
-              affect the lawfulness of the consent before its withdrawal, as described in the
-              Kahoot! Privacy Policy.
-            </p>
           </div>
         </main>
       </div>

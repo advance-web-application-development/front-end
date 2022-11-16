@@ -4,27 +4,18 @@ const Styled = styled.div`
     width: 100vw;
     height: 100vh;
     overflow: auto;
+    background-image: url("./img/universe.jpg");
   }
-  .header {
-    width: 100%;
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    z-index: 2;
-    height: 3.5rem;
-    box-shadow: rgb(0 0 0 / 10%) 0px 2px 4px 0px;
-    background: #fff;
-    padding: 10px 20px;
-    display: flex;
-  }
-  .header-img {
-    width: 5rem;
-  }
+
   .signin-main {
     padding-top: 3.5rem;
     width: 100%;
     height: 100%;
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 800px;
   }
   .main-container {
     display: flex;

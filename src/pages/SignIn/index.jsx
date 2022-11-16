@@ -8,6 +8,9 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { loginUser, loginUserWithGoogle } from "../../components/api";
 import { useGoogleLogin, GoogleLogin } from "react-google-login";
 import { refreshTokenSetup } from "../../components/refreshToken";
+import Header from "../Header";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const clientId = "822297739446-deshsuk8vegbl4lpb1ehfpfgm7n80eim.apps.googleusercontent.com";
 // import { gapi } from "gapi-script";
 const SignIn = () => {
@@ -18,17 +21,6 @@ const SignIn = () => {
     const res = await loginUserWithGoogle(response.tokenId);
     const data = await res.json();
   };
-  // useEffect(() => {
-  //   function start() {
-  //     gapi.client.init({
-  //       clientId: clientId,
-  //       scope: "email"
-  //     });
-  //   }
-
-  //   gapi.load("client:auth2", start);
-  // }, []);
-
   const signInSchema = Yup.object({
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     password: Yup.string()
@@ -51,13 +43,29 @@ const SignIn = () => {
         const { data, status } = responseSignIn;
 
         if (status != 200) {
-          alert(data);
+          toast.error(data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light"
+          });
         } else {
           const { accessToken, refreshToken, msg } = data;
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-          alert(msg);
-          navigate("/home");
+          toast.success(msg, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light"
+          });
+          setTimeout(() => navigate("/home"), 1000);
         }
       } catch (err) {
         throw err;
@@ -66,15 +74,11 @@ const SignIn = () => {
   });
   const onSuccess = (res) => {
     console.log("Login Success: currentUser:", res.profileObj);
-    // alert(
-    //   `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    // );
     refreshTokenSetup(res);
   };
 
   const onFailure = (res) => {
     console.log("Login failed: res:", res);
-    // alert(`Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`);
   };
   const { signInWithGoogle } = useGoogleLogin({
     onSuccess,
@@ -88,15 +92,17 @@ const SignIn = () => {
   return (
     <Styled>
       <div className="signin-container">
-        <div className="header">
-          <img src="./kahoot.png" className="header-img" alt="kahoot" />
-        </div>
+        <Header />
         <main className="signin-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
                 <h2>Log in</h2>
-                <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
+                <form
+                  className="form-login"
+                  method="post"
+                  onSubmit={formik.handleSubmit}
+                  autoComplete="on">
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
                       Username or email
@@ -151,15 +157,6 @@ const SignIn = () => {
                   <span className="card-text">or</span>
                 </div>
                 <div className="single-sign-on">
-                  {/* <div className="google-sign" onClick={signInWithGoogle}>
-                    <img
-                      className="google-sign-img"
-                      src="https://assets-cdn.kahoot.it/auth/assets/google.004af66e.svg"
-                      alt="google"
-                    />
-                    <span className="google-sign-label">Continue with google </span>
-                  </div> */}
-
                   <GoogleLogin
                     clientId="822297739446-qu3br0ghfita1c8fls1v11jibi6r13fm.apps.googleusercontent.com"
                     buttonText="Continue with google"
@@ -171,17 +168,18 @@ const SignIn = () => {
                   Don't have an account?
                   <a href="/signup">Sign up</a>
                 </p>
+
+                <p className="text-disclaimer">
+                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                  and Children’s Privacy Policy.
+                </p>
+                <p className="text-disclaimer">
+                  I understand that I can withdraw my consent at any time and the withdrawal will
+                  not affect the lawfulness of the consent before its withdrawal, as described in
+                  the Kahoot! Privacy Policy.
+                </p>
               </div>
             </div>
-            <p className="text-disclaimer">
-              By signing up, you accept our Terms and Conditions. Please read our Privacy Policy and
-              Children’s Privacy Policy.
-            </p>
-            <p className="text-disclaimer">
-              I understand that I can withdraw my consent at any time and the withdrawal will not
-              affect the lawfulness of the consent before its withdrawal, as described in the
-              Kahoot! Privacy Policy.
-            </p>
           </div>
         </main>
       </div>
