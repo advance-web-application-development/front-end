@@ -145,6 +145,7 @@ const Styled = styled.div`
     line-height: 1rem;
     height: auto;
     font-weight: 500;
+    cursor: pointer;
   }
   .google-sign-img {
     min-height: 1.75rem;

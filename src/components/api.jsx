@@ -62,3 +62,26 @@ export const loginUser = async (username, password) => {
   };
   return objectReturn;
 };
+export const loginUserWithGoogle = async (tokenId) => {
+  const response = await axios.post(`${URL}/auth/google`, {
+    token: tokenId
+  });
+  console.log("response ", response);
+  //   .catch((error) => {
+  //     if (error.response) {
+  //       // The request was made and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       const objectReturn = {
+  //         data: error.response.data,
+  //         status: error.response.status
+  //       };
+  //       return objectReturn;
+  //     }
+  //   });
+  // const { data, status } = response;
+  // const objectReturn = {
+  //   data: data,
+  //   status: status
+  // };
+  // return objectReturn;
+};

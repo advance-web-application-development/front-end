@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Styled from "./style";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { loginUser } from "../../components/api";
+import { loginUser, loginUserWithGoogle } from "../../components/api";
+import { useGoogleLogin, GoogleLogin } from "react-google-login";
+import { refreshTokenSetup } from "../../components/refreshToken";
+const clientId = "822297739446-deshsuk8vegbl4lpb1ehfpfgm7n80eim.apps.googleusercontent.com";
+// import { gapi } from "gapi-script";
 const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
+  const responseGoogle = async (response) => {
+    console.log("thont tin gg tra ve 48");
+    console.log(response);
+    const res = await loginUserWithGoogle(response.tokenId);
+    const data = await res.json();
+  };
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.client.init({
+  //       clientId: clientId,
+  //       scope: "email"
+  //     });
+  //   }
+
+  //   gapi.load("client:auth2", start);
+  // }, []);
+
   const signInSchema = Yup.object({
     username: Yup.string()
       .email("Not a proper email")
@@ -46,6 +67,27 @@ const SignIn = () => {
         throw err;
       }
     }
+  });
+  const onSuccess = (res) => {
+    console.log("Login Success: currentUser:", res.profileObj);
+    // alert(
+    //   `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
+    // );
+    refreshTokenSetup(res);
+  };
+
+  const onFailure = (res) => {
+    console.log("Login failed: res:", res);
+    // alert(`Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`);
+  };
+  const { signInWithGoogle } = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId,
+    isSignedIn: true,
+    accessType: "offline"
+    // responseType: 'code',
+    // prompt: 'consent',
   });
   return (
     <Styled>
@@ -113,14 +155,21 @@ const SignIn = () => {
                   <span className="card-text">or</span>
                 </div>
                 <div className="single-sign-on">
-                  <button className="google-sign">
+                  {/* <div className="google-sign" onClick={signInWithGoogle}>
                     <img
                       className="google-sign-img"
                       src="https://assets-cdn.kahoot.it/auth/assets/google.004af66e.svg"
                       alt="google"
                     />
-                    <div className="google-sign-label">Continue with google </div>
-                  </button>
+                    <span className="google-sign-label">Continue with google </span>
+                  </div> */}
+
+                  <GoogleLogin
+                    clientId="822297739446-qu3br0ghfita1c8fls1v11jibi6r13fm.apps.googleusercontent.com"
+                    buttonText="Continue with google"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={"single_host_origin"}></GoogleLogin>
                 </div>
                 <p className="redirect-signup">
                   Don't have an account?
