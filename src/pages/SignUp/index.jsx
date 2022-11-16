@@ -20,7 +20,8 @@ const SignUp = () => {
   ];
   const navigate = useNavigate();
   const SignUpSchema = Yup.object({
-    username: Yup.string()
+    username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
+    email: Yup.string()
       .email("Not a proper email")
       .min(10, "Minimum 10 characters")
       .required("Username required"),
@@ -34,13 +35,14 @@ const SignUp = () => {
   const formik = useFormik({
     initialValues: {
       username: "",
+      email: "",
       password: "",
       role_id: "teacher"
     },
     validationSchema: SignUpSchema,
     onSubmit: async (value) => {
       console.log("sign up submit ", value);
-      const data = await registerUser(value.username, value.password, value.role_id);
+      const data = await registerUser(value.username, value.email, value.password, value.role_id);
       console.log("data register ", data);
       if (data.status != 200) {
         alert(data.data);
@@ -58,15 +60,15 @@ const SignUp = () => {
         <div className="header">
           <img src="./kahoot.png" className="header-img" alt="kahoot" />
         </div>
-        <main class="signup-main">
+        <main className="signup-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
-                <h2>Sign up with your email</h2>
+                <h2>Sign up</h2>
                 <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
-                      Email
+                      Username
                     </label>
                     <input
                       id="username"
@@ -79,6 +81,23 @@ const SignUp = () => {
                     />
                     {formik.errors.username && formik.touched.username && (
                       <p className="error-message">{formik.errors.username}</p>
+                    )}
+                  </div>
+                  <div className="input-box">
+                    <label htmlFor="email" className="input-label">
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      type="text"
+                      placeholder="Input email"
+                      className="input-text"
+                    />
+                    {formik.errors.email && formik.touched.email && (
+                      <p className="error-message">{formik.errors.email}</p>
                     )}
                   </div>
                   <div className="input-box">

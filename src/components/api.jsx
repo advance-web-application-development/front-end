@@ -8,14 +8,14 @@ export const fetchUsers = async (accessToken) => {
   });
   return data;
 };
-export const registerUser = async (username, password, role_id) => {
+export const registerUser = async (username, email, password, role_id) => {
   try {
-    console.log("username", username, password, role_id);
     const response = await axios
       .post(`${URL}/auth/register`, {
         username: username,
         password: password,
-        role_id: role_id
+        role_id: role_id,
+        email: email
       })
       .catch((error) => {
         if (error.response) {

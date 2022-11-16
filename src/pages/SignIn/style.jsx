@@ -3,7 +3,7 @@ const Styled = styled.div`
   .signin-container {
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
   }
   .header {
     width: 100%;

@@ -14,8 +14,7 @@ const SignIn = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const responseGoogle = async (response) => {
-    console.log("thont tin gg tra ve 48");
-    console.log(response);
+    console.log("response google ", response);
     const res = await loginUserWithGoogle(response.tokenId);
     const data = await res.json();
   };
@@ -31,13 +30,10 @@ const SignIn = () => {
   // }, []);
 
   const signInSchema = Yup.object({
-    username: Yup.string()
-      .email("Not a proper email")
-      .min(10, "Minimum 10 characters")
-      .required("Username required"),
+    username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     password: Yup.string()
       .required("No password provided.")
-      .min(8, "Password is too short - should be at least 8 characters")
+      .min(8, "Password is too short - shoulWd be at least 8 characters")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*[0-9])/, "Must contain at least one number")
       .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character")
@@ -95,7 +91,7 @@ const SignIn = () => {
         <div className="header">
           <img src="./kahoot.png" className="header-img" alt="kahoot" />
         </div>
-        <main class="signin-main">
+        <main className="signin-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
@@ -103,7 +99,7 @@ const SignIn = () => {
                 <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
-                      Email
+                      Username or email
                     </label>
                     <input
                       id="username"
