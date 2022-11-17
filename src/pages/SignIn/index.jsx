@@ -5,21 +5,48 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { loginUser, loginUserWithGoogle } from "../../components/api";
+import { loginUser, loginUserWithGoogle } from "../../utils/api";
 import { useGoogleLogin, GoogleLogin } from "react-google-login";
-import { refreshTokenSetup } from "../../components/refreshToken";
+import { refreshTokenSetup } from "../../utils/refreshToken";
 import Header from "../Header";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const clientId = "822297739446-deshsuk8vegbl4lpb1ehfpfgm7n80eim.apps.googleusercontent.com";
+import { GOOGLE_CLIENT_ID } from "../../actions/constants";
+import GoogleLoginButton from "../../components/GoogleLoginButton";
 // import { gapi } from "gapi-script";
-const SignIn = () => {
+export default function SignIn() {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const responseGoogle = async (response) => {
     console.log("response google ", response);
     const res = await loginUserWithGoogle(response.tokenId);
-    const data = await res.json();
+    const { data, status } = res;
+
+    if (status != 200) {
+      toast.error(data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+    } else {
+      const { accessToken, refreshToken, msg } = data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      navigate("/home");
+    }
   };
   const signInSchema = Yup.object({
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
@@ -65,7 +92,7 @@ const SignIn = () => {
             draggable: true,
             theme: "light"
           });
-          setTimeout(() => navigate("/home"), 1000);
+          navigate("/home");
         }
       } catch (err) {
         throw err;
@@ -83,7 +110,7 @@ const SignIn = () => {
   const { signInWithGoogle } = useGoogleLogin({
     onSuccess,
     onFailure,
-    clientId,
+    GOOGLE_CLIENT_ID,
     isSignedIn: true,
     accessType: "offline"
     // responseType: 'code',
@@ -157,12 +184,7 @@ const SignIn = () => {
                   <span className="card-text">or</span>
                 </div>
                 <div className="single-sign-on">
-                  <GoogleLogin
-                    clientId="822297739446-qu3br0ghfita1c8fls1v11jibi6r13fm.apps.googleusercontent.com"
-                    buttonText="Continue with google"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={"single_host_origin"}></GoogleLogin>
+                  <GoogleLoginButton responseGoogle={responseGoogle} />
                 </div>
                 <p className="redirect-signup">
                   Don't have an account?
@@ -185,6 +207,4 @@ const SignIn = () => {
       </div>
     </Styled>
   );
-};
-
-export default SignIn;
+}

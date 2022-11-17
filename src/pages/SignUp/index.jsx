@@ -5,23 +5,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { registerUser } from "../../components/api";
+import { registerUser } from "../../utils/api";
 import Header from "../Header";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { GOOGLE_CLIENT_ID } from "../../actions/constants";
+import { loginUserWithGoogle } from "../../utils/api";
+import GoogleLoginButton from "../../components/GoogleLoginButton";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
-  const userRole = [
-    {
-      value: "teacher",
-      content: "teacher"
-    },
-    {
-      value: "student",
-      content: "student"
-    }
-  ];
   const navigate = useNavigate();
   const SignUpSchema = Yup.object({
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
@@ -40,13 +32,12 @@ const SignUp = () => {
     initialValues: {
       username: "",
       email: "",
-      password: "",
-      role_id: "teacher"
+      password: ""
     },
     validationSchema: SignUpSchema,
     onSubmit: async (value) => {
       console.log("sign up submit ", value);
-      const data = await registerUser(value.username, value.email, value.password, value.role_id);
+      const data = await registerUser(value.username, value.email, value.password);
       console.log("data register ", data);
       if (data.status != 200) {
         // alert(data.data);
@@ -77,6 +68,47 @@ const SignUp = () => {
       navigate("/signin");
     }
   });
+  const responseGoogle = async (response) => {
+    console.log("response google ", response);
+    const res = await loginUserWithGoogle(response.tokenId);
+    const { data, status } = res;
+
+    if (status != 200) {
+      toast.error(data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+    } else {
+      const { accessToken, refreshToken, msg } = data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      navigate("/home");
+    }
+  };
+  // const userRole = [
+  //   {
+  //     value: "teacher",
+  //     content: "teacher"
+  //   },
+  //   {
+  //     value: "student",
+  //     content: "student"
+  //   }
+  // ];
   return (
     <Styled>
       <div className="signup-container">
@@ -153,7 +185,7 @@ const SignUp = () => {
                       <p className="error-message">{formik.errors.password}</p>
                     )}
                   </div>
-                  <div className="input-box">
+                  {/* <div className="input-box">
                     <label htmlFor="role_id" className="input-label">
                       Your role
                     </label>
@@ -170,7 +202,7 @@ const SignUp = () => {
                         );
                       })}
                     </select>
-                  </div>
+                  </div> */}
                   <button type="submit" className="signup-btn">
                     Sign up
                   </button>
@@ -180,14 +212,7 @@ const SignUp = () => {
                   <span className="card-text">or</span>
                 </div>
                 <div className="single-sign-on">
-                  <button className="google-sign">
-                    <img
-                      className="google-sign-img"
-                      src="https://assets-cdn.kahoot.it/auth/assets/google.004af66e.svg"
-                      alt="google"
-                    />
-                    <div className="google-sign-label">Continue with google </div>
-                  </button>
+                  <GoogleLoginButton responseGoogle={responseGoogle} />
                 </div>
                 <p className="redirect-signup">
                   Already have an account?
