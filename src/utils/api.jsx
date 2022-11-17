@@ -8,14 +8,13 @@ export const fetchUsers = async (accessToken) => {
   });
   return data;
 };
-export const registerUser = async (username, password, role_id) => {
+export const registerUser = async (username, email, password) => {
   try {
-    console.log("username", username, password, role_id);
     const response = await axios
       .post(`${URL}/auth/register`, {
         username: username,
         password: password,
-        role_id: role_id
+        email: email
       })
       .catch((error) => {
         if (error.response) {
@@ -63,10 +62,28 @@ export const loginUser = async (username, password) => {
   return objectReturn;
 };
 export const loginUserWithGoogle = async (tokenId) => {
-  const response = await axios.post(`${URL}/auth/google`, {
-    token: tokenId
-  });
-  console.log("response ", response);
+  const response = await axios
+    .post(`${URL}/auth/google`, {
+      token: tokenId
+    })
+    .catch((error) => {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        const objectReturn = {
+          data: error.response.data,
+          status: error.response.status
+        };
+        return objectReturn;
+      }
+    });
+  const { data, status } = response;
+  const objectReturn = {
+    data: data,
+    status: status
+  };
+  return objectReturn;
+
   //   .catch((error) => {
   //     if (error.response) {
   //       // The request was made and the server responded with a status code

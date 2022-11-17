@@ -5,39 +5,54 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { loginUser, loginUserWithGoogle } from "../../components/api";
+import { loginUser, loginUserWithGoogle } from "../../utils/api";
 import { useGoogleLogin, GoogleLogin } from "react-google-login";
-import { refreshTokenSetup } from "../../components/refreshToken";
-const clientId = "822297739446-deshsuk8vegbl4lpb1ehfpfgm7n80eim.apps.googleusercontent.com";
+import { refreshTokenSetup } from "../../utils/refreshToken";
+import Header from "../Header";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { GOOGLE_CLIENT_ID } from "../../actions/constants";
+import GoogleLoginButton from "../../components/GoogleLoginButton";
 // import { gapi } from "gapi-script";
-const SignIn = () => {
+export default function SignIn() {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const responseGoogle = async (response) => {
-    console.log("thont tin gg tra ve 48");
-    console.log(response);
+    console.log("response google ", response);
     const res = await loginUserWithGoogle(response.tokenId);
-    const data = await res.json();
+    const { data, status } = res;
+
+    if (status != 200) {
+      toast.error(data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+    } else {
+      const { accessToken, refreshToken, msg } = data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      navigate("/home");
+    }
   };
-  // useEffect(() => {
-  //   function start() {
-  //     gapi.client.init({
-  //       clientId: clientId,
-  //       scope: "email"
-  //     });
-  //   }
-
-  //   gapi.load("client:auth2", start);
-  // }, []);
-
   const signInSchema = Yup.object({
-    username: Yup.string()
-      .email("Not a proper email")
-      .min(10, "Minimum 10 characters")
-      .required("Username required"),
+    username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     password: Yup.string()
       .required("No password provided.")
-      .min(8, "Password is too short - should be at least 8 characters")
+      .min(8, "Password is too short - shoulWd be at least 8 characters")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*[0-9])/, "Must contain at least one number")
       .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character")
@@ -55,12 +70,28 @@ const SignIn = () => {
         const { data, status } = responseSignIn;
 
         if (status != 200) {
-          alert(data);
+          toast.error(data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light"
+          });
         } else {
           const { accessToken, refreshToken, msg } = data;
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-          alert(msg);
+          toast.success(msg, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light"
+          });
           navigate("/home");
         }
       } catch (err) {
@@ -70,20 +101,16 @@ const SignIn = () => {
   });
   const onSuccess = (res) => {
     console.log("Login Success: currentUser:", res.profileObj);
-    // alert(
-    //   `Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-    // );
     refreshTokenSetup(res);
   };
 
   const onFailure = (res) => {
     console.log("Login failed: res:", res);
-    // alert(`Failed to login. 😢 Please ping this to repo owner twitter.com/sivanesh_fiz`);
   };
   const { signInWithGoogle } = useGoogleLogin({
     onSuccess,
     onFailure,
-    clientId,
+    GOOGLE_CLIENT_ID,
     isSignedIn: true,
     accessType: "offline"
     // responseType: 'code',
@@ -92,18 +119,20 @@ const SignIn = () => {
   return (
     <Styled>
       <div className="signin-container">
-        <div className="header">
-          <img src="./kahoot.png" className="header-img" alt="kahoot" />
-        </div>
-        <main class="signin-main">
+        <Header />
+        <main className="signin-main">
           <div className="main-container">
             <div className="auth-form">
               <div className="card-container">
                 <h2>Log in</h2>
-                <form className="form-login" method="post" onSubmit={formik.handleSubmit}>
+                <form
+                  className="form-login"
+                  method="post"
+                  onSubmit={formik.handleSubmit}
+                  autoComplete="on">
                   <div className="input-box">
                     <label htmlFor="username" className="input-label">
-                      Email
+                      Username or email
                     </label>
                     <input
                       id="username"
@@ -155,42 +184,27 @@ const SignIn = () => {
                   <span className="card-text">or</span>
                 </div>
                 <div className="single-sign-on">
-                  {/* <div className="google-sign" onClick={signInWithGoogle}>
-                    <img
-                      className="google-sign-img"
-                      src="https://assets-cdn.kahoot.it/auth/assets/google.004af66e.svg"
-                      alt="google"
-                    />
-                    <span className="google-sign-label">Continue with google </span>
-                  </div> */}
-
-                  <GoogleLogin
-                    clientId="822297739446-qu3br0ghfita1c8fls1v11jibi6r13fm.apps.googleusercontent.com"
-                    buttonText="Continue with google"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={"single_host_origin"}></GoogleLogin>
+                  <GoogleLoginButton responseGoogle={responseGoogle} />
                 </div>
                 <p className="redirect-signup">
                   Don't have an account?
                   <a href="/signup">Sign up</a>
                 </p>
+
+                <p className="text-disclaimer">
+                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                  and Children’s Privacy Policy.
+                </p>
+                <p className="text-disclaimer">
+                  I understand that I can withdraw my consent at any time and the withdrawal will
+                  not affect the lawfulness of the consent before its withdrawal, as described in
+                  the Kahoot! Privacy Policy.
+                </p>
               </div>
             </div>
-            <p className="text-disclaimer">
-              By signing up, you accept our Terms and Conditions. Please read our Privacy Policy and
-              Children’s Privacy Policy.
-            </p>
-            <p className="text-disclaimer">
-              I understand that I can withdraw my consent at any time and the withdrawal will not
-              affect the lawfulness of the consent before its withdrawal, as described in the
-              Kahoot! Privacy Policy.
-            </p>
           </div>
         </main>
       </div>
     </Styled>
   );
-};
-
-export default SignIn;
+}

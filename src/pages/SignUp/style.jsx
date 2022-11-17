@@ -3,28 +3,19 @@ const Styled = styled.div`
   .signup-container {
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
-  }
-  .header {
-    width: 100%;
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    z-index: 2;
-    height: 3.5rem;
-    box-shadow: rgb(0 0 0 / 10%) 0px 2px 4px 0px;
-    background: #fff;
-    padding: 10px 20px;
-    display: flex;
-  }
-  .header-img {
-    width: 5rem;
+    overflow: auto;
+    background-image: url("./img/universe.jpg");
   }
   .signup-main {
     padding-top: 3.5rem;
     width: 100%;
     height: 100%;
     background-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 800px;
   }
   .main-container {
     display: flex;
