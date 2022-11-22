@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-import NoMatch from "./pages/NoMatch";
-import SignIn from "./pages/SignIn";
+import { NoMatch } from "./pages/NoMatch";
+import { SignIn } from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import { Header } from "./components/Header";
@@ -12,7 +12,14 @@ const App = () => {
     <>
       <BrowserRouter>
         <Header />
-        <main style={{ margin: "100px 24px" }}>
+        <main
+          style={{
+            marginTop: "5rem",
+            padding: "1rem 2.4rem",
+            overflowY: "auto",
+            width: "100vw",
+            height: "100vh"
+          }}>
           <Routes>
             <Route exact path="/" element={<Navigate to="/signin" />} />
             <Route path="/signin" element={<SignIn />} />
@@ -27,8 +34,8 @@ const App = () => {
               }
             />
             <Route path="/user" element={<UserProfile />}>
-              <Route path={``} element={<Navigate to={`./profiles`} />}/>
-              <Route path={`profiles`} element={<DefaultProfile />}/>
+              <Route path={``} element={<Navigate to={`./profiles`} />} />
+              <Route path={`profiles`} element={<DefaultProfile />} />
             </Route>
             <Route element={<NoMatch />} />
           </Routes>

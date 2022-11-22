@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Avatar from "@mui/material/Avatar";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -12,7 +12,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Lấy 2 chữ cái đầu của tên cho Avatar.
 function stringAvatar(name) {
@@ -22,18 +22,68 @@ function stringAvatar(name) {
 }
 
 export const Header = function (props) {
-  // const MenuCreate = [
-  //   {
-  //     Name: "Tạo group",
-  //     Link: "/home"
-  //   }
-  // ];
+  const [hasSignedIn, setHasSignedIn] = useState(false);
+  if (hasSignedIn) {
+    return (
+      <>
+        <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
+          <Container fluid style={{ height: "inherit" }}>
+            <MenuBar.Brand href="/">
+              <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
+            </MenuBar.Brand>
+            {/* <MenuBar.Toggle aria-controls="navbar-nav" /> */}
+            <MenuList className="me-auto">
+              <MenuBarItem to="/home">Home</MenuBarItem>
+              <MenuBarItem to="/groups">Groups</MenuBarItem>
+            </MenuList>
+            <MenuList className="d-flex align-items-center justify-content-evenly">
+              <CreatingButton variant="contained" id="create-btn" className="m-2 expanded">
+                <AddIcon className="d-lg-none" fontSize="large" />
+                <p className="d-none d-lg-block mb-0">Create</p>
+              </CreatingButton>
+              <AvatarButton>
+                <Avatar
+                  {...stringAvatar("Kent Dodds")}
+                  className="bg-success"
+                  role="button"
+                  sx={{ fontSize: "1.6rem" }}
+                />
+              </AvatarButton>
+              <NotificationsOutlinedIcon
+                className="m-2"
+                sx={{ width: "4rem", height: "4rem" }}
+                role="button"
+              />
+            </MenuList>
+          </Container>
+        </MenuBar>
+      </>
+    );
+  }
+  return <DefaultHeader />;
+};
+
+const DefaultHeader = (props) => {
   return (
     <>
       <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
         <Container fluid style={{ height: "inherit" }}>
           <MenuBar.Brand href="/">
-            <img id="logo" width={40} src="/assets/images/google-classroom.png" />
+            <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
+          </MenuBar.Brand>
+        </Container>
+      </MenuBar>
+    </>
+  );
+};
+
+const FullHeader = (props) => {
+  return (
+    <>
+      <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
+        <Container fluid style={{ height: "inherit" }}>
+          <MenuBar.Brand href="/">
+            <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
           </MenuBar.Brand>
           {/* <MenuBar.Toggle aria-controls="navbar-nav" /> */}
           <MenuList className="me-auto">
@@ -42,15 +92,20 @@ export const Header = function (props) {
           </MenuList>
           <MenuList className="d-flex align-items-center justify-content-evenly">
             <CreatingButton variant="contained" id="create-btn" className="m-2 expanded">
-              <AddIcon className="d-lg-none" sx={{ width: "32px" }} />
+              <AddIcon className="d-lg-none" fontSize="large" />
               <p className="d-none d-lg-block mb-0">Create</p>
             </CreatingButton>
             <AvatarButton>
-              <Avatar {...stringAvatar("Kent Dodds")} className="bg-success" role="button" />
+              <Avatar
+                {...stringAvatar("Kent Dodds")}
+                className="bg-success"
+                role="button"
+                sx={{ fontSize: "1.6rem" }}
+              />
             </AvatarButton>
             <NotificationsOutlinedIcon
               className="m-2"
-              sx={{ width: "40px", height: "40px" }}
+              sx={{ width: "4rem", height: "4rem" }}
               role="button"
             />
           </MenuList>
@@ -81,7 +136,8 @@ function CreatingButton(props) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         variant="contained"
-        className="m-2 expanded">
+        className="m-2 expanded"
+        sx={{ fontSize: "1.4rem" }}>
         {props.children}
       </Button>
       <Menu
@@ -98,11 +154,11 @@ function CreatingButton(props) {
           horizontal: "right"
         }}
         MenuListProps={{
-          "aria-labelledby": "basic-button"
+          "aria-labelledby": "create-btn"
         }}>
-        <MenuItem>
+        <MenuItem onClick={handleClose}>
           <a className="text-decoration-none text-dark" href="/groups/create">
-            Create new group
+            <span style={{ fontSize: "1.4rem" }}>Create new group</span>
           </a>
         </MenuItem>
       </Menu>
@@ -151,19 +207,23 @@ function AvatarButton(props) {
           "aria-labelledby": "basic-button"
         }}>
         <Link className="text-decoration-none text-dark" to="/user/profiles">
-          <MenuItem sx={{ minWidth: 40 }}>
+          <MenuItem onClick={handleClose} sx={{ minWidth: "4rem" }}>
             <ListItemIcon>
-              <PersonIcon fontSize="small" />
+              <PersonIcon fontSize="large" />
             </ListItemIcon>
-            <ListItemText>My Profile</ListItemText>
+            <ListItemText>
+              <span style={{ fontSize: "1.4rem" }}>My Profile</span>
+            </ListItemText>
           </MenuItem>
         </Link>
-        <Link className="text-decoration-none text-dark" href="/logout">
-          <MenuItem sx={{ minWidth: 40 }}>
+        <Link className="text-decoration-none text-dark" href="/logout" sx={{ fontSize: "1.4rem" }}>
+          <MenuItem onClick={handleClose} sx={{ minWidth: "4rem" }}>
             <ListItemIcon>
-              <LogoutIcon fontSize="small" />
+              <LogoutIcon fontSize="large" />
             </ListItemIcon>
-            <ListItemText>Log out</ListItemText>
+            <ListItemText>
+              <span style={{ fontSize: "1.4rem" }}>Log out</span>
+            </ListItemText>
           </MenuItem>
         </Link>
       </Menu>

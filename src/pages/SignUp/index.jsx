@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Styled from "./style";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -99,20 +99,14 @@ const SignUp = () => {
       navigate("/home");
     }
   };
-  // const userRole = [
-  //   {
-  //     value: "teacher",
-  //     content: "teacher"
-  //   },
-  //   {
-  //     value: "student",
-  //     content: "student"
-  //   }
-  // ];
+  useEffect(()=>{
+    document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
+    document.getElementById("root").style.backgroundSize = `cover`;
+    document.getElementById("root").style.backgroundRepeat = `no-repeat`;
+  },[])
   return (
     <Styled>
       <div className="signup-container">
-        <Header />
         <main className="signup-main">
           <div className="main-container">
             <div className="auth-form">

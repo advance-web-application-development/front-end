@@ -1,26 +1,17 @@
 import styled from "styled-components";
 const Styled = styled.div`
-  .signup-container {
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-    background-image: url("./img/universe.jpg");
-  }
+box-shadow: rgb(0 0 0 / 25%) 0 0.2rem 0.4rem 0;
   .signup-main {
-    padding-top: 3.5rem;
+    padding-top: 5rem;
     width: 100%;
     height: 100%;
     background-color: transparent;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 800px;
+    min-height: 100rem;
   }
   .main-container {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
+    max-width: 40rem;
     margin: 0 auto;
     width: fit-content;
   }
@@ -30,14 +21,14 @@ const Styled = styled.div`
     flex-direction: column;
     align-items: center;
     background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    box-shadow: rgb(0 0 0 / 15%) 0px 2px 4px 0px;
-    padding: 10px 40px;
+    border-radius: 1rem;
+    box-shadow: rgb(0 0 0 / 15%) 0 0.2rem 0.4rem 0;
+    padding: 1rem 4rem;
   }
   .card-container h2 {
     font-weight: bold;
     line-height: 140%;
-    margin-top: 30px;
+    margin-top: 3rem;
   }
   .input-box {
     align-self: flex-start;
@@ -46,55 +37,55 @@ const Styled = styled.div`
   .input-label {
     font-weight: bold;
     display: block;
-    padding: 5px 0px;
+    padding: 0.5rem 0rem;
   }
   .input-box .input-text[type="text"],
   .input-box .input-text[type="password"] {
     width: 100%;
-    min-height: 2.75rem;
+    min-height: 4.4rem;
     font-family: Montserrat, "Noto Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border: 1px solid rgb(178, 178, 178);
-    border-radius: 5px;
+    border: 0.1rem solid rgb(178, 178, 178);
+    border-radius: 0.5rem;
     background-color: #fff !important;
     color: rgb(51, 51, 51) !important;
-    font-size: 1rem;
-    line-height: 1.25rem;
-    letter-spacing: 0.2px;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    letter-spacing: 0.02rem;
     outline: none;
-    border: none;
+    
     transition: all 1s ease-in;
-    padding-left: 20px;
+    padding-left: 2rem;
     text-overflow: ellipsis;
   }
   .input-text[type="password"] {
-    padding-right: 35px;
+    padding-right: 3.5rem;
     overflow: hidden;
     white-space: nowrap;
   }
   .input-text:focus {
-    border: 1px solid rgb(19, 104, 206) !important;
+    border: 0.2rem solid rgb(19, 104, 206) !important;
   }
   .signup-btn {
-    margin: 30px 0px;
+    margin: 3rem 0rem;
     border: none;
     width: 100%;
     cursor: pointer;
-    box-shadow: rgb(0 0 0 / 25%) 0px -4px inset;
+    box-shadow: rgb(0 0 0 / 25%) 0rem -0.4rem inset;
     background: rgb(38, 137, 12);
     color: rgb(255, 255, 255);
-    border-radius: 4px;
-    font-size: 0.875rem;
+    border-radius: 0.4rem;
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
-    min-width: 42px;
-    min-height: 42px;
-    padding: 0px 16px 4px;
+    min-width: 4.2rem;
+    min-height: 4.2rem;
+    padding: 0rem 1.6rem 0.4rem;
   }
   .card-line {
-    margin: 0px;
+    margin: 0rem;
     width: 100%;
-    border-top: 1px solid rgb(204, 204, 204);
+    border-top: 0.1rem solid rgb(204, 204, 204);
   }
   .auth-split {
     display: flex;
@@ -106,17 +97,17 @@ const Styled = styled.div`
   }
   .card-text {
     position: absolute;
-    padding: 0px 0.5rem;
+    padding: 0rem 0.8rem;
     background: rgb(255, 255, 255);
     font-weight: bold;
-    margin-top: -0.6rem;
+    margin-top: -0.96rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
   }
   .single-sign-on {
     width: 100%;
-    padding: 1.5rem 0;
+    padding: 2.4rem 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -126,51 +117,52 @@ const Styled = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin: 0.25rem 0px;
-    border-radius: 4px;
+    margin: 0.4rem 0rem;
+    border-radius: 0.4rem;
     color: rgb(0, 0, 0);
-    border: 1px solid rgb(0, 0, 0);
+    border: 0.1rem solid rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
     box-shadow: none;
-    padding: 0px;
-    line-height: 1rem;
+    padding: 0;
+    line-height: 1.6rem;
     height: auto;
     font-weight: 500;
+    cursor: pointer;
   }
   .google-sign-img {
-    min-height: 1.75rem;
-    margin: 0px 0.5rem;
+    min-height: 2.8rem;
+    margin: 0rem 0.8rem;
   }
   .form-login {
     width: 100%;
   }
   .text-disclaimer {
-    margin-top: 1rem;
-    max-width: 26rem;
+    margin-top: 1.6rem;
+    max-width: 41.6rem;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 1.28rem;
     color: rgb(110, 110, 110);
   }
   .error-message {
     color: red;
-    font-size: 14px;
-    line-height: 20px;
-    margin: 20px 0px;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    margin: 2rem 0;
   }
   .redirect-signup {
     text-align: center;
-    letter-spacing: 1px;
+    letter-spacing: 0.1rem;
   }
   .redirect-signup a {
     color: rgb(19, 104, 206);
-    margin-left: 5px;
+    margin-left: 0.5rem;
   }
   .pwd-container {
     position: relative;
   }
   .pwd-action {
     position: absolute;
-    right: 0.5rem;
+    right: 0.8rem;
     top: 50%;
     transform: translateY(-50%);
     height: 100%;
@@ -182,8 +174,8 @@ const Styled = styled.div`
   }
   #role_id {
     width: 100%;
-    margin-top: 10px;
-    height: 30px;
+    margin-top: 1rem;
+    height: 3rem;
     border: none;
   }
 `;

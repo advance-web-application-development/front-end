@@ -4,16 +4,15 @@ import { Navbar, Nav } from "react-bootstrap";
 import Avatar from "@mui/material/Avatar";
 
 export const Styled = styled.div`
-  line-height: 1.72rem;
+  line-height: 1.72;
   #logo {
-    width: 4rem;
+    width: .4rem;
   }
 
   #menubar {
-    line-height: 1.72;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: .0rem .4rem 1.0rem rgba(0, 0, 0, 0.25);
     position: absolute;
     left: 0;
     top: 0;
@@ -21,14 +20,14 @@ export const Styled = styled.div`
   }
 
   .nav-link {
-    height: 6.4rem;
+    height: 6..4rem;
     display: flex;
     align-items: center;
-    padding: 0.2rem 2rem 0;
+    padding: 0..2rem .2rem 0;
     position: relative;
     box-sizing: border-box;
     font-weight: 500;
-    font-size: 1.4rem;
+    font-size: 1..4rem;
   }
 
   .nav-link:hover {
@@ -36,25 +35,26 @@ export const Styled = styled.div`
   }
   .nav-link.active {
     color: #ff8b66;
-    border-bottom: 1px solid transparent;
+    border-bottom: .1rem solid transparent;
     background: #feefe3;
   }
 
   .nav-link:hover:after {
     border: #ff8b66;
-    border-radius: 0.25rem 0;
+    border-radius: 0.2.5rem 0;
   }
 `;
 
 export const MenuBar = styled(Navbar)`
   padding: 0 !important;
-  height: 64px;
-  border-bottom: 1px solid #ccc;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  height: 6.4rem;
+  border-bottom: .1rem solid #ccc;
+  box-shadow: .0rem .2rem .5rem rgba(0, 0, 0, 0.25);
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
+  z-index: 9999;
 `;
 
 export const MenuList = styled(Nav)`
@@ -66,11 +66,11 @@ export const MenuItem = styled(NavLink)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 24px;
+  padding: 0 2.4rem;
   color: #000;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 500;
-  border-bottom: 1px solid transparent;
+  border-bottom: .1rem solid transparent;
   :hover {
     background-color: #ccc;
     color: #000;
@@ -78,12 +78,12 @@ export const MenuItem = styled(NavLink)`
   :after {
     content: "";
     position: absolute;
-    bottom: -2px;
-    left: 0px;
+    bottom: -.2rem;
+    left: .0rem;
     width: 100%;
-    height: 0px;
-    border-top: 4px solid transparent;
-    border-radius: 25px 25px 0 0;
+    height: .0rem;
+    border-top: .4rem solid transparent;
+    border-radius: 2.5rem 2.5rem 0 0;
   }
   &.active {
     color: #009e58 !important;
@@ -95,7 +95,7 @@ export const MenuItem = styled(NavLink)`
     background-color: #deece8;
   }
   &.active:hover:after {
-    border-top: 5px solid;
+    border-top: .5rem solid;
   }
 `;
 

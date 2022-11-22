@@ -5,6 +5,8 @@ import { fetchUsers } from "../../utils/api";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { onLogout } from "../../utils/method";
 import { Link } from "react-router-dom";
+import { Header } from "../../components/Header";
+
 const queryClient = new QueryClient();
 export default function Home() {
   return (
@@ -14,7 +16,7 @@ export default function Home() {
   );
 }
 
-function HomePage() {
+function HomePage_() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const { data, isLoading, error, isError, refetch } = useQuery(
@@ -66,4 +68,11 @@ function HomePage() {
       /> */}
     </div>
   );
+}
+
+function HomePage() {
+  useEffect(() => {
+    document.title = "Home Page - KKahoot";
+  }, []);
+  return <>This is Homepage</>;
 }

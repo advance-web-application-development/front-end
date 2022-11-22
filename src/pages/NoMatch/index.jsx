@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "semantic-ui-react";
 
-const NoMatch = () => {
+export const NoMatch = () => {
   return (
     <>
       <Icon name="minus circle" size="big" />

@@ -5,6 +5,10 @@
   font-family: "Roboto", sans-serif;
 }
 
+html{
+  font-size: 62.5%;
+}
+
 body {
   margin: 0;
   font-size: 1.6rem;
@@ -12,4 +16,5 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: hidden;
 }
