@@ -4,17 +4,37 @@ import NoMatch from "./pages/NoMatch";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import { Header } from "./components/Header";
+import { UserProfile, DefaultProfile } from "./pages/UserProfile";
+
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Navigate to="/signin" />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="*" element={<NoMatch />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Header />
+        <main style={{ margin: "100px 24px" }}>
+          <Routes>
+            <Route exact path="/" element={<Navigate to="/signin" />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/home" element={<Home />} />
+            <Route
+              path="/groups"
+              element={
+                <>
+                  <h2>This is groups page</h2>
+                </>
+              }
+            />
+            <Route path="/user" element={<UserProfile />}>
+              <Route path={``} element={<Navigate to={`./profiles`} />}/>
+              <Route path={`profiles`} element={<DefaultProfile />}/>
+            </Route>
+            <Route element={<NoMatch />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </>
   );
 };
 
