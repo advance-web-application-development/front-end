@@ -1,0 +1,58 @@
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useLocation } from 'react-router'
+import {  Divider  } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+export default function ButtonAppBar() {
+  const {state} = useLocation();
+  const { id } = state; // Read values passed on state
+  console.log(id)
+  const navigate = useNavigate();
+  const leaveGroup = () => {
+    console.log("are you sure")
+  };
+  const getMemeber = () => {
+    navigate('/group-members', { state: { id: id } });
+  };
+  const getSlide = () => {
+    navigate('/group-slides', { state: { id: id } });
+  };
+  const back = () => {
+    navigate('/groups');
+  };
+
+  return (
+    <div>
+      <Toolbar>
+        <Typography variant="h6" component="div" style={{ color: 'black' }}>
+          Danh Sách Nhóm
+        </Typography>
+        <Box sx={{ marginLeft: "auto" }}>
+          <Button variant="contained" startIcon={<ArrowBackIcon /> } onClick={back}></Button>
+
+          <Button variant="contained" startIcon={<LogoutIcon /> } onClick={leaveGroup}>Rời Nhóm</Button>
+        </Box>
+      </Toolbar>
+      <Box sx={{ flexGrow: 1 }}>
+        
+        <Toolbar>
+        <Button key="members" sx={{ color: 'black', p: 2, mr: 6 }} onClick={getMemeber}>
+          Danh sách Thành Viên
+        </Button>
+        <Button key="slides" sx={{ color: 'black', p: 2 }} onClick={getSlide}>
+          Chia sẻ Bộ Câu Hỏi
+        </Button>
+      </Toolbar>
+
+      </Box>
+    </div>
+  );
+}
