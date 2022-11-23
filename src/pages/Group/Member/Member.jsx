@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { fetchUsers, addGroupMember, fetchGroupMember } from "../../../utils/api";
+import { fetchUsers, addGroupMember, fetchGroupMember, toggleRole, fetchListUser, exitsGroup} from "../../../utils/api";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 // import { onLogout } from "../../utils/method";
 import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { Typography, Box, Table, TableBody, TableCell, TableRow, Button, TableContainer, Paper, Modal, TableHead  } from '@mui/material';
+import { Typography, Box, Table, TableBody, TableCell, TableRow, Button, TableContainer, Paper, Modal, TableHead, Autocomplete, TextField  } from '@mui/material';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -37,15 +37,21 @@ export default function GroupMember() {
     </QueryClientProvider>
   );
 }
+const userRole = [
+  {
+    value: "owner",
+    content: "owner"
+  },
+  {
+    value: "co-owner",
+    content: "co-owner"
+  },
+  {
+    value: "member",
+    content: "member"
+  }
+];
 
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { useLocation } from 'react-router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -56,11 +62,14 @@ function MemberPage() {
   const [openRoleForm, setOpenRoleForm] = React.useState(false);
   const [openAddForm, setOpenAddForm] = React.useState(false);
   const [data, setData] = React.useState([]);
+  const [currentMember, setCurrentMember] = React.useState(null);
+  const [listUser, setListUser] = React.useState([]);
 
   const {state} = useLocation();
   const { id } = state; // Read values passed on state
 
-  const handleOpenRoleForm = () => {
+  const handleOpenRoleForm = (rowId) => {
+    setCurrentMember(rowId);
     setOpenRoleForm(true);
   };
   const handleCloseRoleForm = () => {
@@ -83,32 +92,35 @@ function MemberPage() {
     },
     validationSchema: RoleSchema,
     onSubmit: async (value) => {
-      // console.log("submit ", value);
-      // const data = await addGroupMember(value.name);
-      // console.log("data register ", data);
-      // if (data.status != 200) {
-      //   // alert(data.data);
-      //   toast.error(data.data, {
-      //     position: "top-right",
-      //     autoClose: 2000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: false,
-      //     draggable: true,
-      //     theme: "light"
-      //   });
-      //   return;
-      // }
-      // const msg = `User ${userResponse} have successfully signed up`;
-      // toast.success(msg, {
-      //   position: "top-right",
-      //   autoClose: 2000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: false,
-      //   draggable: true,
-      //   theme: "light"
-      // });
+      console.log("submit ", value);
+      const data = await toggleRole(value.role, currentMember);
+      if (data.status != 200) {
+        // alert(data.data);
+        toast.error(data.data, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "light"
+        });
+        return;
+      }
+      handleCloseRoleForm();
+      reloadMember();
+      this.setFieldValue("role",'');
+
+      const msg = `Updating new role is successful`;
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
     }
   });
   const AddSchema = Yup.object({
@@ -142,6 +154,7 @@ function MemberPage() {
       }
       reloadMember();
       handleCloseAddForm();
+      this.setFieldValue("email",'');
       const msg = `Adding member ${value.email} is successful `;
       toast.success(msg, {
         position: "top-right",
@@ -152,12 +165,28 @@ function MemberPage() {
         draggable: true,
         theme: "light"
       });
+    },
+    onChange:(e, value)=>{
+      console.log(value);
+      addFormik.setValue({email: value});
     }
   });
 
+  const navigate = useNavigate();
 
-  const leaveGroup = () => {
-    console.log("are you sure")
+  const leaveGroup = async() => {
+    await exitsGroup(id );
+    navigate('/groups')
+    const msg = `Leaving group is successful `;
+    toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+    });
   };
   const getMemeber = () => {
     navigate('/group-members', { state: { id: id } });
@@ -173,8 +202,15 @@ function MemberPage() {
     setData(list.users)
     console.log(list.users)
   };
+  const loadUser = async() => {
+    const list = await fetchListUser()
+    console.log(list.users)
+    setListUser(list.users)
+    
+  };
   useEffect(() => {
     reloadMember()
+    loadUser()
   }, []);
 
 
@@ -229,15 +265,20 @@ function MemberPage() {
                   <label htmlFor="email" className="input-label">
                     Email
                   </label>
-                  <input
-                    id="email"
-                    name="email"
-                    value={addFormik.values.email}
-                    onChange={addFormik.handleChange}
-                    type="text"
-                    placeholder="Input email"
-                    className="input-text"
-                  />
+                    <Autocomplete
+                      value={addFormik.values.email} 
+                      onChange={(e, value) => {
+                          addFormik.setFieldValue(
+                            "email",
+                            value
+                          );
+                        }}
+
+                      freeSolo
+                      options={listUser.map((option) => option.email)}
+                      renderInput={(params) => <TextField {...params}/>}
+                    />
+
                   {addFormik.errors.email && addFormik.touched.email && (
                     <p className="error-message">{addFormik.errors.email}</p>
                   )}
@@ -271,7 +312,7 @@ function MemberPage() {
                   <TableRow
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    onClick={() => handleOpenRoleForm()}
+                    onClick={() => handleOpenRoleForm(row.id)}
                   >
 
                     <TableCell component="th" scope="row" >
@@ -304,15 +345,22 @@ function MemberPage() {
               <label htmlFor="role" className="input-label">
                 Vai Trò
               </label>
-              <select name="role" id="role" defaultValue={roleFormik.values.role} onChange={roleFormik.handleChange}>
-                <option value="valor1">Valor 1</option> 
-                <option value="valor2" >Valor 2</option>
-                <option value="valor3">Valor 3</option>
-              </select>
-
+                  <select
+                    id="role"
+                    name="role"
+                    value={roleFormik.values.role}
+                    onChange={roleFormik.handleChange}>
+                    {userRole.map((item, idx) => {
+                      return (
+                        <option key={`userRole-${idx}`} value={item.value}>
+                          {item.content}
+                        </option>
+                      );
+                    })}
+                  </select>
               {roleFormik.errors.role && roleFormik.touched.role && (
                 <p className="error-message">{roleFormik.errors.role}</p>
-              )}s
+              )}
             </div>
             
             <Button variant="contained" type="submit">

@@ -169,6 +169,8 @@ function GroupsPage() {
         return;
       }
       handleClose();
+      this.setFieldValue("name",'');
+
       const msg = `Group ${data.data.group.name} have successfully create`;
       toast.success(msg, {
         position: "top-right",
@@ -179,16 +181,16 @@ function GroupsPage() {
         draggable: true,
         theme: "light"
       });
-      reloadGroup();
+      reloadGroup('');
     }
   });
-  const reloadGroup = async() => {
-    const list = await fetchGroup()
+  const reloadGroup = async(params) => {
+    const list = await fetchGroup(params)
     setData(list.groups);
   };
 
   useEffect(() => {
-    reloadGroup()
+    reloadGroup('')
   }, []);
 
   const getGroupDetail=(groupId)=>{
@@ -200,13 +202,16 @@ function GroupsPage() {
       <Toolbar />
       <Divider />
       <List>
-        {['Nhóm Của Tôi', 'Nhóm Tôi Quản Lý'].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
+          <ListItem key={'my-group'} disablePadding>
+            <ListItemButton onClick={()=>reloadGroup('')} >
+              <ListItemText primary={'Nhóm Của Tôi'} />
             </ListItemButton>
           </ListItem>
-        ))}
+          <ListItem key={'my-owner-group'} disablePadding>
+            <ListItemButton onClick={()=>{reloadGroup('/owner')}}>
+              <ListItemText primary={'Nhóm Của Tôi Quản Lý'} />
+            </ListItemButton>
+          </ListItem>
       </List>
     </div>
   );

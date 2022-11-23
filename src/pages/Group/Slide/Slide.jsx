@@ -14,14 +14,28 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { exitsGroup} from "../../../utils/api";
+import { toast } from "react-toastify";
 
 export default function GroupSile() {
   const {state} = useLocation();
   const { id } = state; // Read values passed on state
   console.log(id)
   const navigate = useNavigate();
-  const leaveGroup = () => {
-    console.log("are you sure")
+  const leaveGroup = async() => {
+    await exitsGroup(id );
+    navigate('/groups')
+
+    const msg = `Leaving group is successful `;
+    toast.success(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+    });
   };
   const getMemeber = () => {
     navigate('/group-members', { state: { id: id } });
