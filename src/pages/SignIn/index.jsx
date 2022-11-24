@@ -311,11 +311,15 @@ export const  SignIn = function() {
     // responseType: 'code',
     // prompt: 'consent',
   });
-  useEffect(()=>{
+  useEffect(() => {
+    document.title = "Sign Up - KKahoot!"
     document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
-  },[])
+    return () => {
+      document.getElementById("root").style.backgroundImage = "url";
+    };
+  });
   return (
     <Styled>
     <div className="signin-container">

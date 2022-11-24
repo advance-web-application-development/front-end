@@ -151,7 +151,7 @@ box-shadow: rgb(0 0 0 / 25%) 0 0.2rem 0.4rem 0;
   }
   .redirect-signup {
     text-align: center;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.01rem;
   }
   .redirect-signup a {
     color: rgb(19, 104, 206);
