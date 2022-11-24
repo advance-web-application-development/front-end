@@ -73,6 +73,7 @@ function HomePage_() {
 function HomePage() {
   useEffect(() => {
     document.title = "Home Page - KKahoot";
+    document.getElementById("root").style.backgroundImage = "none";
   }, []);
   return <>This is Homepage</>;
 }

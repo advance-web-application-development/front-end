@@ -150,7 +150,7 @@ const Styled = styled.div`
   }
   .redirect-signup {
     text-align: center;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.01rem;
   }
   .redirect-signup a {
     color: rgb(19, 104, 206);

@@ -5,7 +5,7 @@ import { SignIn } from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import { Header } from "./components/Header";
-import { UserProfile, DefaultProfile } from "./pages/UserProfile";
+import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 
 const App = () => {
   return (
@@ -14,8 +14,8 @@ const App = () => {
         <Header />
         <main
           style={{
-            marginTop: "5rem",
-            padding: "1rem 2.4rem",
+            marginTop: "6.4rem",
+            padding: "2.4rem 2.4rem", 
             overflowY: "auto",
             width: "100vw",
             height: "100vh"
@@ -34,8 +34,8 @@ const App = () => {
               }
             />
             <Route path="/user" element={<UserProfile />}>
-              <Route path={``} element={<Navigate to={`./profiles`} />} />
-              <Route path={`profiles`} element={<DefaultProfile />} />
+              <Route path={``} element={<Navigate to={`./profile`} />} />
+              <Route path={`profile`} element={<ProfileSetting />} />
             </Route>
             <Route element={<NoMatch />} />
           </Routes>

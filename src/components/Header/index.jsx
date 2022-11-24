@@ -22,7 +22,7 @@ function stringAvatar(name) {
 }
 
 export const Header = function (props) {
-  const [hasSignedIn, setHasSignedIn] = useState(false);
+  const [hasSignedIn, setHasSignedIn] = useState(true);
   if (hasSignedIn) {
     return (
       <>
@@ -137,7 +137,11 @@ function CreatingButton(props) {
         onClick={handleClick}
         variant="contained"
         className="m-2 expanded"
-        sx={{ fontSize: "1.4rem" }}>
+        sx={{
+          fontSize: "1.4rem",
+          boxShadow: "rgb(0 0 0 / 25%) 0px -4px inset",
+          "&:hover": { boxShadow: "rgb(0 0 0 / 25%) 0px -2px inset" }
+        }}>
         {props.children}
       </Button>
       <Menu
@@ -155,7 +159,8 @@ function CreatingButton(props) {
         }}
         MenuListProps={{
           "aria-labelledby": "create-btn"
-        }}>
+        }}
+        sx={{ zIndex: "9999" }}>
         <MenuItem onClick={handleClose}>
           <a className="text-decoration-none text-dark" href="/groups/create">
             <span style={{ fontSize: "1.4rem" }}>Create new group</span>
@@ -205,8 +210,9 @@ function AvatarButton(props) {
         }}
         MenuListProps={{
           "aria-labelledby": "basic-button"
-        }}>
-        <Link className="text-decoration-none text-dark" to="/user/profiles">
+        }}
+        sx={{ zIndex: "9999" }}>
+        <Link className="text-decoration-none text-dark" to="/user/profile">
           <MenuItem onClick={handleClose} sx={{ minWidth: "4rem" }}>
             <ListItemIcon>
               <PersonIcon fontSize="large" />
