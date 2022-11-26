@@ -4,6 +4,10 @@ import { NoMatch } from "./pages/NoMatch";
 import { SignIn } from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import ListGroup from "./pages/Group/List/List";
+import ButtonAppBar from "./pages/Group/Detail/Detail";
+import GroupMember from "./pages/Group/Member/Member";
+
 import { Header } from "./components/Header";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -36,14 +40,11 @@ const App = () => {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/home" element={<Home />} />
-              <Route
-                path="/groups"
-                element={
-                  <>
-                    <h2>This is groups page</h2>
-                  </>
-                }
-              />
+              <Route exact path="/groups" element={<ListGroup />} />
+              <Route exact path="/group-detail" element={<ButtonAppBar />} />
+              <Route exact path="/group-members" element={<GroupMember />} />
+              <Route exact path="/group-slides" element={<GroupSile />} />
+
               <Route path="/user" element={<UserProfile />}>
                 <Route path={``} element={<Navigate to={`./profile`} />} />
                 <Route path={`profile`} element={<ProfileSetting />} />
