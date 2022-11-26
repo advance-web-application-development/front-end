@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 const port = process.env.PORT || 3001;
 
 module.exports = {
@@ -50,7 +51,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new ESLintPlugin()
+    new ESLintPlugin(),
+    new Dotenv(),
   ],
   devServer: {
     host: "localhost",
