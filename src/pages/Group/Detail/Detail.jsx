@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Typography, Box, Button, Modal } from '@mui/material';
 import { toast } from "react-toastify";
+import { BACKEND_URL } from "../../../actions/constants";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -37,12 +38,25 @@ export default function ButtonAppBar() {
     setOpen(true);
   };
   const handleClose = () => {
+    formik.setFieldValue("email",'');
     setOpen(false);
   };
   const navigate = useNavigate();
   const leaveGroup = async() => {
-    await exitsGroup(id );
-     navigate('/groups')
+    const data = await exitsGroup(id );
+    if (data.status != 200) {
+      toast.error(data.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      return;
+    }
+    navigate('/groups')
     const msg = `Leaving group is successful `;
     toast.success(msg, {
         position: "top-right",
@@ -93,7 +107,6 @@ export default function ButtonAppBar() {
           return;
         }
         handleClose()
-        this.setFieldValue("email",'');
         const msg = `You have send mail for ${value.email} successfully `;
         toast.success(msg, {
           position: "top-right",
@@ -148,6 +161,20 @@ export default function ButtonAppBar() {
                     {formik.errors.email && formik.touched.email && (
                       <p className="error-message">{formik.errors.email}</p>
                     )}
+                    <label htmlFor="email" className="input-label">
+                      Coppy this invitation link and send it to invitate new member
+                    </label>
+
+                    <input
+                      className="input-text"
+                      id="email"
+                      name="email"
+                      value={`${BACKEND_URL}/group/confirmMail/${id}`}
+                      type="text"
+                      readOnly
+                      placeholder="Nhập Email"
+                    />
+
                   </div>
                   
                   <Button variant="contained" type="submit">

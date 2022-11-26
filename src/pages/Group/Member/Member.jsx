@@ -74,12 +74,15 @@ function MemberPage() {
   };
   const handleCloseRoleForm = () => {
     setOpenRoleForm(false);
+    roleFormik.setFieldValue("role",'');
   };
   const handleOpenAddForm = () => {
     setOpenAddForm(true);
   };
   const handleCloseAddForm = () => {
     setOpenAddForm(false);
+    addFormik.setFieldValue("email",'');
+
   };
 
   const RoleSchema = Yup.object({
@@ -109,7 +112,6 @@ function MemberPage() {
       }
       handleCloseRoleForm();
       reloadMember();
-      this.setFieldValue("role",'');
 
       const msg = `Updating new role is successful`;
       toast.success(msg, {
@@ -154,7 +156,6 @@ function MemberPage() {
       }
       reloadMember();
       handleCloseAddForm();
-      this.setFieldValue("email",'');
       const msg = `Adding member ${value.email} is successful `;
       toast.success(msg, {
         position: "top-right",
@@ -175,7 +176,19 @@ function MemberPage() {
   const navigate = useNavigate();
 
   const leaveGroup = async() => {
-    await exitsGroup(id );
+    const data = await exitsGroup(id );
+    if (data.status != 200) {
+      toast.error(data.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      return;
+    }    
     navigate('/groups')
     const msg = `Leaving group is successful `;
     toast.success(msg, {

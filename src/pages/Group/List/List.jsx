@@ -143,6 +143,8 @@ function GroupsPage() {
   };
   const handleClose = () => {
     setOpen(false);
+    formik.setFieldValue("name",'');
+
   };
   const GroupSchema = Yup.object({
     name: Yup.string().max(20, "Maximine 20 characters").required("Name required"),
@@ -169,8 +171,7 @@ function GroupsPage() {
         return;
       }
       handleClose();
-      this.setFieldValue("name",'');
-
+      reloadGroup('')
       const msg = `Group ${data.data.group.name} have successfully create`;
       toast.success(msg, {
         position: "top-right",

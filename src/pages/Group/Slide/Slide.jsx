@@ -19,11 +19,23 @@ import { toast } from "react-toastify";
 
 export default function GroupSile() {
   const {state} = useLocation();
-  const { id } = state; // Read values passed on state
-  console.log(id)
+  const { id } = state; // Read values passed on state  
   const navigate = useNavigate();
+  
   const leaveGroup = async() => {
-    await exitsGroup(id );
+    const data = await exitsGroup(id );
+    if (data.status != 200) {
+      toast.error(data.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      return;
+    }
     navigate('/groups')
 
     const msg = `Leaving group is successful `;
