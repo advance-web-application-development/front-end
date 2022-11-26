@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import ListGroup from "./pages/Group/List/List";
 import ButtonAppBar from "./pages/Group/Detail/Detail";
 import GroupMember from "./pages/Group/Member/Member";
+import GroupSile from "./pages/Group/Slide/Slide";
 
 import { Header } from "./components/Header";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
