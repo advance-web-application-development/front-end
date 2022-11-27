@@ -6,6 +6,7 @@ import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { onLogout } from "../../utils/method";
 import { Link } from "react-router-dom";
 import { Header } from "../../components/Header";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient();
 export default function Home() {
@@ -75,5 +76,10 @@ function HomePage() {
     document.title = "Home Page - KKahoot";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
-  return <>This is Homepage</>;
+  return (
+    <>
+      <Header />
+      <div>This is a homepage</div>
+    </>
+  );
 }

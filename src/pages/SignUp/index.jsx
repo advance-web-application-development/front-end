@@ -6,12 +6,10 @@ import * as Yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { registerUser } from "../../utils/api";
-import Header from "../Header";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import { loginUserWithGoogle } from "../../utils/api";
-import GoogleLoginButton from "../../components/GoogleLoginButton";
+import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
@@ -100,7 +98,7 @@ const SignUp = () => {
     }
   };
   useEffect(() => {
-    document.title = "Sign Up - KKahoot!"
+    document.title = "Sign Up - KKahoot!";
     document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
@@ -110,6 +108,9 @@ const SignUp = () => {
   });
   return (
     <Styled>
+      <div className="header">
+        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+      </div>
       <div className="signup-container">
         <main className="signup-main">
           <div className="main-container">

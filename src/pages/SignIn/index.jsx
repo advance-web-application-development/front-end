@@ -8,208 +8,11 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { loginUser, loginUserWithGoogle } from "../../utils/api";
 import { useGoogleLogin, GoogleLogin } from "react-google-login";
 import { refreshTokenSetup } from "../../utils/refreshToken";
-import Header from "../Header";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
-import GoogleLoginButton from "../../components/GoogleLoginButton";
+import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 // import { gapi } from "gapi-script";
-export const SignIn_ = function() {
-  const [showPwd, setShowPwd] = useState(false);
-  const navigate = useNavigate();
-  const responseGoogle = async (response) => {
-    console.log("response google ", response);
-    const res = await loginUserWithGoogle(response.tokenId);
-    const { data, status } = res;
-
-    if (status != 200) {
-      toast.error(data, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "light"
-      });
-    } else {
-      const { accessToken, refreshToken, msg } = data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "light"
-      });
-      navigate("/home");
-    }
-  };
-  const signInSchema = Yup.object({
-    username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
-    password: Yup.string()
-      .required("No password provided.")
-      .min(8, "Password is too short - shoulWd be at least 8 characters")
-      .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
-      .matches(/^(?=.*[0-9])/, "Must contain at least one number")
-      .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character")
-  });
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: ""
-    },
-    validationSchema: signInSchema,
-    onSubmit: async (value) => {
-      console.log("value submit ", value);
-      try {
-        const responseSignIn = await loginUser(value.username, value.password);
-        const { data, status } = responseSignIn;
-
-        if (status != 200) {
-          toast.error(data, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: "light"
-          });
-        } else {
-          const { accessToken, refreshToken, msg } = data;
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-          toast.success(msg, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: "light"
-          });
-          navigate("/home");
-        }
-      } catch (err) {
-        throw err;
-      }
-    }
-  });
-  const onSuccess = (res) => {
-    console.log("Login Success: currentUser:", res.profileObj);
-    refreshTokenSetup(res);
-  };
-
-  const onFailure = (res) => {
-    console.log("Login failed: res:", res);
-  };
-  const { signInWithGoogle } = useGoogleLogin({
-    onSuccess,
-    onFailure,
-    GOOGLE_CLIENT_ID,
-    isSignedIn: true,
-    accessType: "offline"
-    // responseType: 'code',
-    // prompt: 'consent',
-  });
-  return (
-    <Styled>
-      <div className="signin-container">
-        <Header />
-        <main className="signin-main">
-          <div className="main-container">
-            <div className="auth-form">
-              <div className="card-container">
-                <h2>Log in</h2>
-                <form
-                  className="form-login"
-                  method="post"
-                  onSubmit={formik.handleSubmit}
-                  autoComplete="on">
-                  <div className="input-box">
-                    <label htmlFor="username" className="input-label">
-                      Username or email
-                    </label>
-                    <input
-                      id="username"
-                      name="username"
-                      value={formik.values.username}
-                      onChange={formik.handleChange}
-                      type="text"
-                      placeholder="Input username"
-                      className="input-text"
-                    />
-                    {formik.errors.username && formik.touched.username && (
-                      <p className="error-message">{formik.errors.username}</p>
-                    )}
-                  </div>
-                  <div className="input-box">
-                    <label htmlFor="password" className="input-label">
-                      Password
-                    </label>
-                    <div className="pwd-container">
-                      <input
-                        id="password"
-                        name="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        type={showPwd ? "text" : "password"}
-                        placeholder="Input password"
-                        className="input-text"
-                      />
-                      <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
-                        <div className="pwd-img">
-                          {showPwd == false ? (
-                            <VisibilityOutlinedIcon />
-                          ) : (
-                            <VisibilityOffOutlinedIcon />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {formik.errors.password && formik.touched.password && (
-                      <p className="error-message">{formik.errors.password}</p>
-                    )}
-                  </div>
-                  <button type="submit" className="login-btn">
-                    Log in
-                  </button>
-                </form>
-                <div className="auth-split">
-                  <hr className="card-line" />
-                  <span className="card-text">or</span>
-                </div>
-                <div className="single-sign-on">
-                  <GoogleLoginButton responseGoogle={responseGoogle} />
-                </div>
-                <p className="redirect-signup">
-                  Don't have an account?
-                  <a href="/signup">Sign up</a>
-                </p>
-
-                <p className="text-disclaimer">
-                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
-                  and Children’s Privacy Policy.
-                </p>
-                <p className="text-disclaimer">
-                  I understand that I can withdraw my consent at any time and the withdrawal will
-                  not affect the lawfulness of the consent before its withdrawal, as described in
-                  the Kahoot! Privacy Policy.
-                </p>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </Styled>
-  );
-}
-
-export const  SignIn = function() {
+export const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const responseGoogle = async (response) => {
@@ -312,7 +115,7 @@ export const  SignIn = function() {
     // prompt: 'consent',
   });
   useEffect(() => {
-    document.title = "Sign Up - KKahoot!"
+    document.title = "Sign in- KKahoot!";
     document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
@@ -322,92 +125,95 @@ export const  SignIn = function() {
   });
   return (
     <Styled>
-    <div className="signin-container">
-      <main className="signin-main">
-        <div className="main-container">
-          <div className="auth-form">
-            <div className="card-container">
-              <h2>Log in</h2>
-              <form
-                className="form-login"
-                method="post"
-                onSubmit={formik.handleSubmit}
-                autoComplete="on">
-                <div className="input-box">
-                  <label htmlFor="username" className="input-label">
-                    Username or email
-                  </label>
-                  <input
-                    id="username"
-                    name="username"
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                    type="text"
-                    placeholder="Input username"
-                    className="input-text"
-                  />
-                  {formik.errors.username && formik.touched.username && (
-                    <p className="error-message">{formik.errors.username}</p>
-                  )}
-                </div>
-                <div className="input-box">
-                  <label htmlFor="password" className="input-label">
-                    Password
-                  </label>
-                  <div className="pwd-container">
+      <div className="header">
+        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+      </div>
+      <div className="signin-container">
+        <main className="signin-main">
+          <div className="main-container">
+            <div className="auth-form">
+              <div className="card-container">
+                <h2>Log in</h2>
+                <form
+                  className="form-login"
+                  method="post"
+                  onSubmit={formik.handleSubmit}
+                  autoComplete="on">
+                  <div className="input-box">
+                    <label htmlFor="username" className="input-label">
+                      Username or email
+                    </label>
                     <input
-                      id="password"
-                      name="password"
-                      value={formik.values.password}
+                      id="username"
+                      name="username"
+                      value={formik.values.username}
                       onChange={formik.handleChange}
-                      type={showPwd ? "text" : "password"}
-                      placeholder="Input password"
+                      type="text"
+                      placeholder="Input username"
                       className="input-text"
                     />
-                    <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
-                      <div className="pwd-img">
-                        {showPwd == false ? (
-                          <VisibilityOutlinedIcon />
-                        ) : (
-                          <VisibilityOffOutlinedIcon />
-                        )}
+                    {formik.errors.username && formik.touched.username && (
+                      <p className="error-message">{formik.errors.username}</p>
+                    )}
+                  </div>
+                  <div className="input-box">
+                    <label htmlFor="password" className="input-label">
+                      Password
+                    </label>
+                    <div className="pwd-container">
+                      <input
+                        id="password"
+                        name="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        type={showPwd ? "text" : "password"}
+                        placeholder="Input password"
+                        className="input-text"
+                      />
+                      <div className="pwd-action" onClick={() => setShowPwd(!showPwd)}>
+                        <div className="pwd-img">
+                          {showPwd == false ? (
+                            <VisibilityOutlinedIcon />
+                          ) : (
+                            <VisibilityOffOutlinedIcon />
+                          )}
+                        </div>
                       </div>
                     </div>
+                    {formik.errors.password && formik.touched.password && (
+                      <p className="error-message">{formik.errors.password}</p>
+                    )}
                   </div>
-                  {formik.errors.password && formik.touched.password && (
-                    <p className="error-message">{formik.errors.password}</p>
-                  )}
+                  <button type="submit" className="login-btn">
+                    Log in
+                  </button>
+                </form>
+                <div className="auth-split">
+                  <hr className="card-line" />
+                  <span className="card-text">or</span>
                 </div>
-                <button type="submit" className="login-btn">
-                  Log in
-                </button>
-              </form>
-              <div className="auth-split">
-                <hr className="card-line" />
-                <span className="card-text">or</span>
-              </div>
-              <div className="single-sign-on">
-                <GoogleLoginButton responseGoogle={responseGoogle} />
-              </div>
-              <p className="redirect-signup">
-                Don't have an account?
-                <a href="/signup">Sign up</a>
-              </p>
+                <div className="single-sign-on">
+                  <GoogleLoginButton responseGoogle={responseGoogle} />
+                </div>
+                <p className="redirect-signup">
+                  Don't have an account?
+                  <a href="/signup">Sign up</a>
+                </p>
 
-              <p className="text-disclaimer">
-                By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
-                and Children’s Privacy Policy.
-              </p>
-              <p className="text-disclaimer">
-                I understand that I can withdraw my consent at any time and the withdrawal will
-                not affect the lawfulness of the consent before its withdrawal, as described in
-                the Kahoot! Privacy Policy.
-              </p>
+                <p className="text-disclaimer">
+                  By signing up, you accept our Terms and Conditions. Please read our Privacy Policy
+                  and Children’s Privacy Policy.
+                </p>
+                <p className="text-disclaimer">
+                  I understand that I can withdraw my consent at any time and the withdrawal will
+                  not affect the lawfulness of the consent before its withdrawal, as described in
+                  the Kahoot! Privacy Policy.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
-  </Styled> 
+        </main>
+      </div>
+    </Styled>
   );
-}
+};
