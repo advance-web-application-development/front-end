@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 // import { gapi } from "gapi-script";
-export const SignIn = function () {
+const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const responseGoogle = async (response) => {
@@ -217,3 +217,4 @@ export const SignIn = function () {
     </Styled>
   );
 };
+export default SignIn;
