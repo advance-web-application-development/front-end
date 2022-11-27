@@ -41,10 +41,11 @@ const App = () => {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/home" element={<Home />} />
-              <Route exact path="/groups" element={<ListGroup />} />
-              <Route exact path="/group-detail" element={<ButtonAppBar />} />
-              <Route exact path="/group-members" element={<GroupMember />} />
-              <Route exact path="/group-slides" element={<GroupSile />} />
+              <Route exact path="/groups" element={<ListGroup />} >
+                <Route exact path="/group-detail" element={<ButtonAppBar />} />
+                <Route exact path="/group-members" element={<GroupMember />} />
+                <Route exact path="/group-slides" element={<GroupSile />} />
+              </Route>
 
               <Route path="/user" element={<UserProfile />}>
                 <Route path={``} element={<Navigate to={`./profile`} />} />
