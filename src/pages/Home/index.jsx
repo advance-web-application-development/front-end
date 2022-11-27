@@ -76,5 +76,10 @@ function HomePage() {
     document.title = "Home Page - KKahoot";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
-  return <>This is Homepage</>;
+  return (
+    <>
+      <Header />
+      <div>This is a homepage</div>
+    </>
+  );
 }

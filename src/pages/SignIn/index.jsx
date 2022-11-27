@@ -10,7 +10,7 @@ import { useGoogleLogin, GoogleLogin } from "react-google-login";
 import { refreshTokenSetup } from "../../utils/refreshToken";
 import { toast } from "react-toastify";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
-import GoogleLoginButton from "../../components/GoogleLoginButton";
+import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 // import { gapi } from "gapi-script";
 export const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);

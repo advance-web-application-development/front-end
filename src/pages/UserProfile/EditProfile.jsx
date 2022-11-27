@@ -68,6 +68,7 @@ export const EditProfileScreen = (props) => {
 
   return (
     <div>
+      <Header />
       <Formik
         enableReinitialize
         initialValues={userProfile}
@@ -77,8 +78,7 @@ export const EditProfileScreen = (props) => {
           setSubmitting(false);
           const updateUserProfileResponse = await UpdateUserProfile(values);
           console.log(updateUserProfileResponse);
-          if(updateUserProfileResponse.Code == 1)
-          {
+          if (updateUserProfileResponse.Code == 1) {
             Toast.success("Update successfully", {
               position: "top-right",
               autoClose: 2000,
@@ -88,9 +88,7 @@ export const EditProfileScreen = (props) => {
               draggable: true,
               theme: "light"
             });
-          }
-          else 
-          {
+          } else {
             Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
               position: "top-right",
               autoClose: 2000,
@@ -205,8 +203,7 @@ const EditUserNameModal = (props) => {
         setSubmitting(false);
         const updateUserProfileResponse = await UpdateUserProfile(values);
         console.log(updateUserProfileResponse);
-        if(updateUserProfileResponse.Code == 1)
-        {
+        if (updateUserProfileResponse.Code == 1) {
           Toast.success("Update successfully", {
             position: "top-right",
             autoClose: 2000,
@@ -216,9 +213,7 @@ const EditUserNameModal = (props) => {
             draggable: true,
             theme: "light"
           });
-        }
-        else 
-        {
+        } else {
           Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
             position: "top-right",
             autoClose: 2000,

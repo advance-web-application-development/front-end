@@ -1,5 +1,5 @@
 import React from "react";
-import { GOOGLE_CLIENT_ID } from "../actions/constants";
+import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import { GoogleLogin } from "react-google-login";
 const GoogleLoginButton = (props) => {
   console.log("props ", props, GOOGLE_CLIENT_ID);

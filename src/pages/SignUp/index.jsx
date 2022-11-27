@@ -9,7 +9,7 @@ import { registerUser } from "../../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginUserWithGoogle } from "../../utils/api";
-import GoogleLoginButton from "../../components/GoogleLoginButton";
+import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();

@@ -6,13 +6,13 @@ import Avatar from "@mui/material/Avatar";
 export const Styled = styled.div`
   line-height: 1.72;
   #logo {
-    width: .4rem;
+    width: 0.4rem;
   }
 
   #menubar {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    box-shadow: .0rem .4rem 1.0rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0rem 0.4rem 1rem rgba(0, 0, 0, 0.25);
     position: absolute;
     left: 0;
     top: 0;
@@ -20,14 +20,14 @@ export const Styled = styled.div`
   }
 
   .nav-link {
-    height: 6..4rem;
+    height: 6.4rem;
     display: flex;
     align-items: center;
-    padding: 0..2rem .2rem 0;
+    padding: 0.2rem 0.2rem 0;
     position: relative;
     box-sizing: border-box;
     font-weight: 500;
-    font-size: 1..4rem;
+    font-size: 1.4rem;
   }
 
   .nav-link:hover {
@@ -35,7 +35,7 @@ export const Styled = styled.div`
   }
   .nav-link.active {
     color: #ff8b66;
-    border-bottom: .1rem solid transparent;
+    border-bottom: 0.1rem solid transparent;
     background: #feefe3;
   }
 
@@ -48,13 +48,13 @@ export const Styled = styled.div`
 export const MenuBar = styled(Navbar)`
   padding: 0 !important;
   height: 6.4rem;
-  border-bottom: .1rem solid #ccc;
-  box-shadow: .0rem .2rem .5rem rgba(0, 0, 0, 0.25);
+  border-bottom: 0.1rem solid #ccc;
+  box-shadow: 0rem 0.2rem 0.5rem rgba(0, 0, 0, 0.25);
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 1;
 `;
 
 export const MenuList = styled(Nav)`
@@ -70,7 +70,7 @@ export const MenuItem = styled(NavLink)`
   color: #000;
   font-size: 1.6rem;
   font-weight: 500;
-  border-bottom: .1rem solid transparent;
+  border-bottom: 0.1rem solid transparent;
   :hover {
     background-color: #ccc;
     color: #000;
@@ -78,24 +78,24 @@ export const MenuItem = styled(NavLink)`
   :after {
     content: "";
     position: absolute;
-    bottom: -.2rem;
-    left: .0rem;
+    bottom: -0.2rem;
+    left: 0rem;
     width: 100%;
-    height: .0rem;
-    border-top: .4rem solid transparent;
+    height: 0rem;
+    border-top: 0.4rem solid transparent;
     border-radius: 2.5rem 2.5rem 0 0;
   }
   &.active {
     color: #009e58 !important;
   }
   &.active:after {
-    border-color:#009e58 !important;
+    border-color: #009e58 !important;
   }
-  &.active:hover{
+  &.active:hover {
     background-color: #deece8;
   }
   &.active:hover:after {
-    border-top: .5rem solid;
+    border-top: 0.5rem solid;
   }
 `;
 

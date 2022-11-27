@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleLogout } from "react-google-login";
-import { GOOGLE_CLIENT_ID } from "../actions/constants";
+import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 
 const GoogleLogoutButton = (props) => (
   <GoogleLogout
