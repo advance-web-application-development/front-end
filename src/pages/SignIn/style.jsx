@@ -1,6 +1,23 @@
 import styled from "styled-components";
 const Styled = styled.div`
   box-shadow: rgb(0 0 0 / 25%) 0 0.2rem 0.4rem 0;
+  .header {
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+    height: 6.4rem;
+    box-shadow: rgb(0 0 0 / 10%) 0px 2px 4px 0px;
+    background: #fff;
+    padding: 10px 20px;
+    display: flex;
+  }
+  .header-img {
+    width: auto;
+    background-size: cover;
+    height: auto;
+  }
   .signin-main {
     padding-top: 5rem;
     width: 100%;

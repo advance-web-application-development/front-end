@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import { Header } from "./components/Header";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -22,7 +21,6 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Header />
           <main
             style={{
               marginTop: "6.4rem",
@@ -48,7 +46,7 @@ const App = () => {
                 <Route path={``} element={<Navigate to={`./profile`} />} />
                 <Route path={`profile`} element={<ProfileSetting />} />
               </Route>
-              <Route element={<NoMatch />} />
+              <Route path="*" element={<NoMatch />} />
             </Routes>
           </main>
         </BrowserRouter>

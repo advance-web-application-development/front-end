@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 const port = process.env.PORT || 3001;
 
 module.exports = {
@@ -10,10 +10,10 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.join(__dirname, "/dist"),
-    publicPath: '/',
+    publicPath: "/",
     filename: "index_bundle.js"
   },
-  devtool: "inline-source-map",
+  devtool: "source-map",
   module: {
     rules: [
       // First Rule
@@ -31,19 +31,14 @@ module.exports = {
       // Second Rule
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              modules: true,
-              sourceMap: true
-            }
-          }
-        ]
+        use: ["style-loader", { loader: "css-loader", options: { sourceMap: true } }]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+        loader: "file-loader",
+        options: {
+          name: "[path][name].[ext]"
+        }
       }
     ]
   },
@@ -52,7 +47,7 @@ module.exports = {
       template: "./public/index.html"
     }),
     new ESLintPlugin(),
-    new Dotenv(),
+    new Dotenv()
   ],
   devServer: {
     host: "localhost",
