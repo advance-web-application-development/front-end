@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Styled from "./style";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -11,15 +11,21 @@ import { refreshTokenSetup } from "../../utils/refreshToken";
 import { toast } from "react-toastify";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
-// import { gapi } from "gapi-script";
-export const SignIn = function () {
+import UserContext from "../../utils/UserContext";
+const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  useEffect(() => {
+    console.log("currentUser log in ", currentUser);
+    if (currentUser != undefined) {
+      navigate("/home");
+    }
+  });
   const responseGoogle = async (response) => {
     console.log("response google ", response);
     const res = await loginUserWithGoogle(response.tokenId);
     const { data, status } = res;
-
     if (status != 200) {
       toast.error(data, {
         position: "top-right",
@@ -217,3 +223,4 @@ export const SignIn = function () {
     </Styled>
   );
 };
+export default SignIn;

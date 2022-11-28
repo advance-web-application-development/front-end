@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 export const onLogout = () => {
   localStorage.removeItem("accessToken");
@@ -14,4 +12,5 @@ export const onLogout = () => {
     draggable: true,
     theme: "light"
   });
+  window.location.href = "/signin";
 };

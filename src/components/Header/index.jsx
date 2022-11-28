@@ -13,6 +13,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
+import { onLogout } from "../../utils/method.jsx";
 
 // Lấy 2 chữ cái đầu của tên cho Avatar.
 function stringAvatar(name) {
@@ -222,7 +223,10 @@ function AvatarButton(props) {
             </ListItemText>
           </MenuItem>
         </Link>
-        <Link className="text-decoration-none text-dark" href="/logout" sx={{ fontSize: "1.4rem" }}>
+        <div
+          className="text-decoration-none text-dark"
+          onClick={() => onLogout()}
+          sx={{ fontSize: "1.4rem" }}>
           <MenuItem onClick={handleClose} sx={{ minWidth: "4rem" }}>
             <ListItemIcon>
               <LogoutIcon fontSize="large" />
@@ -231,7 +235,7 @@ function AvatarButton(props) {
               <span style={{ fontSize: "1.4rem" }}>Log out</span>
             </ListItemText>
           </MenuItem>
-        </Link>
+        </div>
       </Menu>
     </>
   );
