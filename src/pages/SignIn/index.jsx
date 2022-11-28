@@ -12,16 +12,18 @@ import { toast } from "react-toastify";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 import UserContext from "../../utils/UserContext";
+import { isAuthenticated } from "../../utils/AuthService";
 const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useContext(UserContext);
+
   useEffect(() => {
     console.log("currentUser log in ", currentUser);
     if (currentUser != undefined) {
       navigate("/home");
     }
-  });
+  }, [currentUser]);
   const responseGoogle = async (response) => {
     console.log("response google ", response);
     const res = await loginUserWithGoogle(response.tokenId);
@@ -49,6 +51,11 @@ const SignIn = function () {
         draggable: true,
         theme: "light"
       });
+      let cuser = await isAuthenticated();
+      console.log("cuser ", cuser);
+      if (cuser?.user != undefined) {
+        setCurrentUser(cuser.user);
+      }
       navigate("/home");
     }
   };
@@ -96,6 +103,11 @@ const SignIn = function () {
             draggable: true,
             theme: "light"
           });
+          let cuser = await isAuthenticated();
+          console.log("cuser ", cuser);
+          if (cuser?.user != undefined) {
+            setCurrentUser(cuser.user);
+          }
           navigate("/home");
         }
       } catch (err) {
