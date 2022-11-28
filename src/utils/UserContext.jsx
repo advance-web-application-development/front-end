@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
+    console.log("vao useEffect: " + currentUser);
     const checkLoggedIn = async () => {
       let cuser = await isAuthenticated();
       console.log("cuser ", cuser);
@@ -20,10 +21,11 @@ export const UserProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     const currentPathname = window.location.pathname;
+    const accessToken = localStorage.getItem("accessToken");
     console.log("currentPathname ", currentPathname);
     if (currentPathname != "/signin" && currentPathname != "/signup") {
-      console.log("currentUser ", currentUser);
-      if (currentUser == undefined) {
+      console.log("check sign in ", accessToken);
+      if (currentUser == undefined && accessToken == null) {
         window.location.href = "/signin";
       }
     }

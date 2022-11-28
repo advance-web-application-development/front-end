@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { fetchUsers } from "../../utils/api";
@@ -7,6 +7,7 @@ import { onLogout } from "../../utils/method";
 import { Link } from "react-router-dom";
 import { Header } from "../../components/Header";
 import "react-toastify/dist/ReactToastify.css";
+import UserContext from "../../utils/UserContext";
 
 const queryClient = new QueryClient();
 export default function Home() {
@@ -28,16 +29,16 @@ function HomePage_() {
     }
   );
   useEffect(() => {
-    verifyToken();
+    // verifyToken();
     refetch();
   }, []);
 
   //vertify token
-  const verifyToken = async () => {
-    if (!accessToken) {
-      navigate("/signin");
-    }
-  };
+  // const verifyToken = async () => {
+  //   if (!accessToken) {
+  //     navigate("/signin");
+  //   }
+  // };
   if (isLoading) {
     return <div>Is Loading</div>;
   }
@@ -72,10 +73,15 @@ function HomePage_() {
 }
 
 function HomePage() {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+
   useEffect(() => {
     document.title = "Home Page - KKahoot";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
+  useEffect(() => {
+    console.log("currentUser ", currentUser);
+  }, [currentUser]);
   return (
     <>
       <Header />
