@@ -13,7 +13,7 @@ import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 import UserContext from "../../utils/UserContext";
 import { isAuthenticated } from "../../utils/AuthService";
-const SignIn = function () {
+export const SignIn = function () {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useContext(UserContext);
@@ -234,5 +234,4 @@ const SignIn = function () {
       </div>
     </Styled>
   );
-};
-export default SignIn;
+}
