@@ -42,7 +42,7 @@ export const UpdateUserProfile = async (user) =>
   try
   {
     var requestData = {
-      Id: user.id,
+      Id: user._id,
       Username: user.username,
       Email: user.email,
       Name: user.name,
