@@ -312,7 +312,7 @@ export const  SignIn = function() {
     // prompt: 'consent',
   });
   useEffect(() => {
-    document.title = "Sign Up - KKahoot!"
+    document.title = "Sign In - KKahoot!"
     document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
