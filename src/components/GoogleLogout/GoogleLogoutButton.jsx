@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { GoogleLogout } from "react-google-login";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 
@@ -11,4 +11,4 @@ const GoogleLogoutButton = (props) => (
   />
 );
 
-export default GoogleLogoutButton;
+export default memo(GoogleLogoutButton);
