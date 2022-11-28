@@ -1,34 +1,45 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useEffect, useContext } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { fetchUsers, fetchGroup, createGroup } from "../../../utils/api";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { createGroup, fetchGroup } from "../../../utils/api";
 // import { onLogout } from "../../utils/method";
-import { Link } from "react-router-dom";
-import AddIcon from '@mui/icons-material/Add';
-import { Typography, Box, Table, TableBody, TableCell, TableRow, Button, TableContainer, Paper, Modal } from '@mui/material';
+import AddIcon from "@mui/icons-material/Add";
+import {
+  Box,
+  Button,
+  Modal,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography
+} from "@mui/material";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import * as Yup from "yup";
 import Styled from "./style";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
-  pb: 3,
+  pb: 3
 };
 
 const queryClient = new QueryClient();
 export default function ListGroup() {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  console.log("currentUser", currentUser);  
   return (
     <QueryClientProvider client={queryClient}>
       <GroupsPage />
@@ -37,9 +48,9 @@ export default function ListGroup() {
 }
 
 // function List() {
-  // const rows = [{id: 1, name:'dysfdygfsdh'}]
+// const rows = [{id: 1, name:'dysfdygfsdh'}]
 //   console.log(rows);
-  // const navigate = useNavigate();
+// const navigate = useNavigate();
 //   // const accessToken = localStorage.getItem("accessToken");
 //   // const { data, isLoading, error, isError, refetch } = useQuery(
 //   //   "user",
@@ -101,35 +112,36 @@ export default function ListGroup() {
 //           </Typography>
 //         </Toolbar>
 //       </AppBar>
-    //   <TableContainer component={Paper}>
-    //     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    //       <TableBody>
-    //         {rows.map((row) => (
-    //           <TableRow
-    //             key={row.id}
-    //             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    //           >
-    //             <TableCell component="th" scope="row">
-    //               {row.name}
-    //             </TableCell>
-    //           </TableRow>
-    //         ))}
-    //     </TableBody>
-    //   </Table>
-    // </TableContainer>
+//   <TableContainer component={Paper}>
+//     <Table sx={{ minWidth: 650 }} aria-label="simple table">
+//       <TableBody>
+//         {rows.map((row) => (
+//           <TableRow
+//             key={row.id}
+//             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+//           >
+//             <TableCell component="th" scope="row">
+//               {row.name}
+//             </TableCell>
+//           </TableRow>
+//         ))}
+//     </TableBody>
+//   </Table>
+// </TableContainer>
 
 //     </div>
 //   );
 // }
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
+import AppBar from "@mui/material/AppBar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import UserContext from "../../../utils/UserContext";
 
 const drawerWidth = 240;
 
@@ -143,16 +155,15 @@ function GroupsPage() {
   };
   const handleClose = () => {
     setOpen(false);
-    formik.setFieldValue("name",'');
-
+    formik.setFieldValue("name", "");
   };
   const GroupSchema = Yup.object({
-    name: Yup.string().max(20, "Maximine 20 characters").required("Name required"),
+    name: Yup.string().max(20, "Maximine 20 characters").required("Name required")
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      name: ""
     },
     validationSchema: GroupSchema,
     onSubmit: async (value) => {
@@ -171,7 +182,7 @@ function GroupsPage() {
         return;
       }
       handleClose();
-      reloadGroup('')
+      reloadGroup("");
       const msg = `Group ${data.data.group.name} have successfully create`;
       toast.success(msg, {
         position: "top-right",
@@ -182,69 +193,66 @@ function GroupsPage() {
         draggable: true,
         theme: "light"
       });
-      reloadGroup('');
+      reloadGroup("");
     }
   });
-  const reloadGroup = async(params) => {
-    const list = await fetchGroup(params)
+  const reloadGroup = async (params) => {
+    const list = await fetchGroup(params);
     setData(list.groups);
   };
 
   useEffect(() => {
-    reloadGroup('')
+    reloadGroup("");
   }, []);
 
-  const getGroupDetail=(groupId)=>{
-      console.log(groupId)
-      navigate('/group-detail', { state: { id: groupId } });
-  }
+  const getGroupDetail = (groupId) => {
+    console.log(groupId);
+    navigate("/group-detail", { state: { id: groupId } });
+  };
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-          <ListItem key={'my-group'} disablePadding>
-            <ListItemButton onClick={()=>reloadGroup('')} >
-              <ListItemText primary={'Nhóm Của Tôi'} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem key={'my-owner-group'} disablePadding>
-            <ListItemButton onClick={()=>{reloadGroup('/owner')}}>
-              <ListItemText primary={'Nhóm Của Tôi Quản Lý'} />
-            </ListItemButton>
-          </ListItem>
+        <ListItem key={"my-group"} disablePadding>
+          <ListItemButton onClick={() => reloadGroup("")}>
+            <ListItemText primary={"Nhóm Của Tôi"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key={"my-owner-group"} disablePadding>
+          <ListItemButton
+            onClick={() => {
+              reloadGroup("/owner");
+            }}>
+            <ListItemText primary={"Nhóm Của Tôi Quản Lý"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );
 
-
   return (
     <Styled>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
           position="fixed"
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
-            bgcolor: 'white'
-          }}
-
-        >
+            bgcolor: "white"
+          }}>
           <Toolbar>
-            <Typography variant="h6" component="div" style={{ color: 'black' }}>
+            <Typography variant="h6" component="div" style={{ color: "black" }}>
               Danh Sách Nhóm
             </Typography>
             <Box sx={{ marginLeft: "auto" }}>
-              <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>Tạo Nhóm</Button>
+              <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
+                Tạo Nhóm
+              </Button>
             </Box>
-            <Modal
-              hideBackdrop
-              open={open}
-              onClose={handleClose}
-            >
+            <Modal hideBackdrop open={open} onClose={handleClose}>
               <Box sx={{ ...style, width: 200 }}>
-
                 <form
                   className="form"
                   method="post"
@@ -267,38 +275,35 @@ function GroupsPage() {
                       <p className="error-message">{formik.errors.name}</p>
                     )}
                   </div>
-                  
+
                   <Button variant="contained" type="submit">
                     Tạo Nhóm
                   </Button>
-                  <Button variant="contained" onClick={handleClose} >Hủy</Button>
-
+                  <Button variant="contained" onClick={handleClose}>
+                    Hủy
+                  </Button>
                 </form>
               </Box>
             </Modal>
-
           </Toolbar>
         </AppBar>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-          aria-label="mailbox folders"
-        >
+          aria-label="mailbox folders">
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: 'none', sm: 'block' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth }
             }}
-            open
-          >
+            open>
             {drawer}
           </Drawer>
         </Box>
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-        >
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <Toolbar />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -306,11 +311,9 @@ function GroupsPage() {
                 {data.map((row) => (
                   <TableRow
                     key={row.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    onClick={() => getGroupDetail(row.id)}
-
-                  >
-                    <TableCell component="th" scope="row" >
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    onClick={() => getGroupDetail(row.id)}>
+                    <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
                   </TableRow>
@@ -323,4 +326,3 @@ function GroupsPage() {
     </Styled>
   );
 }
-

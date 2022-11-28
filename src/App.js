@@ -10,6 +10,7 @@ import GroupSile from "./pages/Group/Slide/Slide";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { UserProvider } from "./utils/UserContext";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -32,23 +33,25 @@ const App = () => {
               width: "100vw",
               height: "100vh"
             }}>
-            <Routes>
-              <Route exact path="/" element={<Navigate to="/signin" />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/home" element={<Home />} />
-              <Route exact path="/groups" element={<ListGroup />}>
-                <Route path="group-detail" element={<ButtonAppBar />} />
-                <Route path="group-members" element={<GroupMember />} />
-                <Route path="group-slides" element={<GroupSile />} />
-              </Route>
+            <UserProvider>
+              <Routes>
+                <Route exact path="/" element={<Navigate to="/signin" />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/home" element={<Home />} />
+                <Route exact path="/groups" element={<ListGroup />}>
+                  <Route path="group-detail" element={<ButtonAppBar />} />
+                  <Route path="group-members" element={<GroupMember />} />
+                  <Route path="group-slides" element={<GroupSile />} />
+                </Route>
 
-              <Route path="/user" element={<UserProfile />}>
-                <Route path={``} element={<Navigate to={`./profile`} />} />
-                <Route path={`profile`} element={<ProfileSetting />} />
-              </Route>
-              <Route path="*" element={<NoMatch />} />
-            </Routes>
+                <Route path="/user" element={<UserProfile />}>
+                  <Route path={``} element={<Navigate to={`./profile`} />} />
+                  <Route path={`profile`} element={<ProfileSetting />} />
+                </Route>
+                <Route path="*" element={<NoMatch />} />
+              </Routes>
+            </UserProvider>
           </main>
         </BrowserRouter>
       </QueryClientProvider>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Styled from "./style";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -10,9 +10,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginUserWithGoogle } from "../../utils/api";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
+import UserContext from "../../utils/UserContext";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  useEffect(() => {
+    console.log("currentUser log up ", currentUser);
+    if (currentUser != undefined) {
+      navigate("/home");
+    }
+  });
   const SignUpSchema = Yup.object({
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     email: Yup.string()

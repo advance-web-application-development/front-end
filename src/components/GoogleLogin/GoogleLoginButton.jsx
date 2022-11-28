@@ -1,8 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import { GoogleLogin } from "react-google-login";
 const GoogleLoginButton = (props) => {
-  console.log("props ", props, GOOGLE_CLIENT_ID);
   return (
     <GoogleLogin
       clientId={GOOGLE_CLIENT_ID}
@@ -13,4 +12,4 @@ const GoogleLoginButton = (props) => {
       prompt="select_account"></GoogleLogin>
   );
 };
-export default GoogleLoginButton;
+export default memo(GoogleLoginButton);
