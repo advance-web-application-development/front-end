@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ApiConfig as _ParamConfig } from "../../StaticConfig/ApiConfig";
 
-const AxiosInstance = axios.create({
+let AxiosInstance = axios.create({
   baseURL: _ParamConfig.serverUrl,
   timeout: _ParamConfig.timeout
 });
@@ -9,7 +9,11 @@ const AxiosInstance = axios.create({
 // #region private methods
 
 export const PostAsync = async (method, requestData) => {
-  var response = await AxiosInstance.post(method, requestData);
+  var response = await AxiosInstance.post(method, requestData, {
+    headers: {
+      x_authorization: localStorage.getItem('accessToken')
+    }
+  });
   return response.data;
 };
 
@@ -26,7 +30,7 @@ export const GetUserInfo = async (username) => {
       Method: "GETPROFILE",
       RequestData: JSON.stringify(requestData)
     };
-    const GetUserInfoResponse = await PostAsync("user/profile", request);
+    const GetUserInfoResponse = await PostAsync("users/profile", request);
     return GetUserInfoResponse;
   } catch (error) {
     console.error(error);
@@ -47,7 +51,7 @@ export const UpdateUserProfile = async (user) =>
       Method: "UpdateProfile",
       RequestData: JSON.stringify(requestData)
     };
-    const UpdateUserProfileResponse = await PostAsync("user/profile", request);
+    const UpdateUserProfileResponse = await PostAsync("users/profile", request);
     return UpdateUserProfileResponse;
   }
   catch (error) {

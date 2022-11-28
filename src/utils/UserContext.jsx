@@ -1,12 +1,18 @@
-import React, { useState, createContext, useEffect } from "react";
-import SignIn from "../pages/SignIn";
+import React, { useState, createContext, useEffect, useMemo } from "react";
 import { isAuthenticated } from "./AuthService";
 import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
+const userDefault = {
+  id: "",
+  username: "",
+  email: "",
+  name: ""
+};
+
 export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
     console.log("vao useEffect: " + currentUser);
     const checkLoggedIn = async () => {
@@ -30,8 +36,9 @@ export const UserProvider = ({ children }) => {
       }
     }
   });
+  let values = useMemoY(() => [currentUser, setCurrentUser], [currentUser]);
   return (
-    <UserContext.Provider value={[currentUser, setCurrentUser]}>{children}</UserContext.Provider>
+    <UserContext.Provider value={values}>{children}</UserContext.Provider>
   );
 };
 export default UserContext;

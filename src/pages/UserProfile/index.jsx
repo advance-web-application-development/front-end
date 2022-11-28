@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Router, Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Router, Routes, Route, Navigate, useLocation, Outlet, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 import { EditProfileScreen } from "./EditProfile";
 import { ChangePassWordScreen } from "./ChangePassword";
+import UserContext from "../../utils/UserContext";
 
 export const UserProfile = function (props) {
   return (
@@ -32,14 +33,19 @@ const handleChange = (event, newValue) => {
 
 export const ProfileSetting = function (props) {
   const [value, setValue] = useState("1");
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   useEffect(() => {
     document.title = "Your Profile";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
+  useEffect(() => {
+    console.log("currentUser ", currentUser);
+  }, [currentUser]);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <>
       <h3 className="my-5" style={{ fontSize: "2.8rem", fontWeight: "600" }}>
@@ -63,10 +69,12 @@ export const ProfileSetting = function (props) {
             </StyledTabList>
           </Box>
           <StyledTabPanel value="1" sx={{ fontSize: "1.4rem" }}>
-            <EditProfileScreen/>
+            <EditProfileScreen />
           </StyledTabPanel>
           <StyledTabPanel value="2">Your Privacy</StyledTabPanel>
-          <StyledTabPanel value="3"><ChangePassWordScreen/></StyledTabPanel>
+          <StyledTabPanel value="3">
+            <ChangePassWordScreen />
+          </StyledTabPanel>
         </TabContext>
       </Box>
     </>

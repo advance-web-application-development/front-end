@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserProvider } from "./utils/UserContext";
+import { Header } from "./components/Header";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -25,6 +26,7 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+        <Header/>
           <main
             style={{
               marginTop: "6.4rem",
