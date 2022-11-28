@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
       }
     }
   });
-  let values = useMemoY(() => [currentUser, setCurrentUser], [currentUser]);
+  let values = useMemo(() => [currentUser, setCurrentUser], [currentUser]);
   return (
     <UserContext.Provider value={values}>{children}</UserContext.Provider>
   );

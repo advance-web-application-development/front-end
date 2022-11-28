@@ -93,7 +93,6 @@ export const EditProfileScreen = (props) => {
               theme: "light"
             });
             setCurrentUser(values);
-            setUserProfile(values);
           } else {
             Toast.error(`Update fail ${updateUserProfileResponse.Description}`, {
               position: "top-right",
@@ -218,6 +217,7 @@ const EditUserNameModal = (props) => {
             draggable: true,
             theme: "light"
           });
+          setCurrentUser(values);
         } else {
           Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
             position: "top-right",
