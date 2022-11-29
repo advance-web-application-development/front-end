@@ -11,7 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Typography, Box, Button, Modal } from '@mui/material';
 import { toast } from "react-toastify";
-import { BACKEND_URL } from "../../../actions/constants";
+import { FRONTEND_URL } from "../../../actions/constants";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -180,7 +180,7 @@ export default function ButtonAppBar() {
                       className="input-text"
                       id="email"
                       name="email"
-                      value={`${BACKEND_URL}/group/confirmMail/${id}`}
+                      value={`${FRONTEND_URL}/group-invitation/${id}`}
                       type="text"
                       readOnly
                       placeholder="Nhập Email"
