@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import Styled from "./style";
+import { Header } from "../../../components/Header";
 
 const style = {
   position: "absolute",
@@ -39,14 +40,13 @@ const style = {
 const queryClient = new QueryClient();
 export default function ListGroup() {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  console.log("currentUser", currentUser);  
+  console.log("currentUser", currentUser);
   return (
     <QueryClientProvider client={queryClient}>
       <GroupsPage />
     </QueryClientProvider>
   );
 }
-
 
 import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -66,7 +66,7 @@ function GroupsPage() {
   const [data, setData] = React.useState([]);
   const accessToken = localStorage.getItem("accessToken");
   let { groupId } = useParams();
-  console.log("parameter:", groupId )
+  console.log("parameter:", groupId);
   const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
@@ -85,7 +85,7 @@ function GroupsPage() {
     },
     validationSchema: GroupSchema,
     onSubmit: async (value) => {
-      console.log("accessToken=", accessToken)
+      console.log("accessToken=", accessToken);
       const data = await createGroup(value.name, accessToken);
       if (data.status != 200) {
         // alert(data.data);
@@ -120,14 +120,14 @@ function GroupsPage() {
     setData(list.groups);
   };
   const verifyToken = async () => {
-      console.log("jdjnfsdj:", accessToken)
-      if (!accessToken) {
-          navigate("/signin");
-      }
+    console.log("jdjnfsdj:", accessToken);
+    if (!accessToken) {
+      navigate("/signin");
+    }
   };
 
   useEffect(() => {
-    verifyToken();    
+    verifyToken();
     reloadGroup("");
   }, []);
 
@@ -159,10 +159,12 @@ function GroupsPage() {
 
   return (
     <Styled>
-      <Box sx={{ display: "flex" }}>
+      <Header />
+      <Box sx={{ display: "block", width: "100%" }}>
         <CssBaseline />
-        <AppBar
+        {/* <AppBar
           position="fixed"
+
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
@@ -172,11 +174,7 @@ function GroupsPage() {
             <Typography variant="h6" component="div" style={{ color: "black" }}>
               Danh Sách Nhóm
             </Typography>
-            <Box sx={{ marginLeft: "auto" }}>
-              <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
-                Tạo Nhóm
-              </Button>
-            </Box>
+
             <Modal hideBackdrop open={open} onClose={handleClose}>
               <Box sx={{ ...style, width: 200 }}>
                 <form
@@ -212,7 +210,17 @@ function GroupsPage() {
               </Box>
             </Modal>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
+        {/* <Box className="button-create-group" sx={{ marginLeft: "auto" }}>
+          <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
+            Tạo Nhóm
+          </Button>
+        </Box> */}
+        <div className="group-list-top-bar">
+          <button type="button" onClick={handleOpen} className="create-group-button">
+            Create group
+          </button>
+        </div>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
