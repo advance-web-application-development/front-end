@@ -28,10 +28,6 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <UserProvider>
-            <Header />
-          </UserProvider>
-
           <main
             style={{
               marginTop: "6.4rem",
@@ -46,12 +42,12 @@ const App = () => {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/home" element={<Home />} />
-                <Route exact path="/groups" element={<ListGroup />}/>
+                <Route exact path="/groups" element={<ListGroup />} />
 
                 <Route path="group-detail" element={<ButtonAppBar />} />
                 <Route path="group-members" element={<GroupMember />} />
                 <Route path="group-slides" element={<GroupSile />} />
-                <Route exact path="/group-invitation/:id" element={<GroupInvitation />}/>
+                <Route exact path="/group-invitation/:id" element={<GroupInvitation />} />
 
                 <Route path="/user" element={<UserProfile />}>
                   <Route path={``} element={<Navigate to={`./profile`} />} />
