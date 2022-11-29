@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import { GetUserInfo, UpdateUserProfile } from "./ProfileApi";
 import UserContext from "../../utils/UserContext";
+import { isAuthenticated } from "../../utils/AuthService";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -213,6 +214,11 @@ const EditUserNameModal = (props) => {
         setSubmitting(false);
         const updateUserProfileResponse = await UpdateUserProfile(values);
         console.log(updateUserProfileResponse);
+        let cuser = await isAuthenticated();
+        console.log("cuser ", cuser);
+        if (cuser?.user != undefined) {
+          setCurrentUser(cuser.user);
+        }
         if (updateUserProfileResponse.Code == 1) {
           Toast.success("Update successfully", {
             position: "top-right",
