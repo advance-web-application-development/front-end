@@ -1,6 +1,6 @@
 import React from "react";
 import NoMatch from "./pages/NoMatch";
-import SignIn from "./pages/SignIn";
+import { SignIn } from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import ListGroup from "./pages/Group/List/List";
@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserProvider } from "./utils/UserContext";
+import { Header } from "./components/Header";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -27,6 +28,10 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+          <UserProvider>
+            <Header />
+          </UserProvider>
+
           <main
             style={{
               marginTop: "6.4rem",
