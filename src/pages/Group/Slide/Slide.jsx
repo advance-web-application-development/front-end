@@ -16,6 +16,7 @@ import CardContent from '@mui/material/CardContent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { exitsGroup} from "../../../utils/api";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function GroupSile() {
   const {state} = useLocation();

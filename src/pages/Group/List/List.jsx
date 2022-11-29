@@ -65,8 +65,6 @@ function GroupsPage() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState([]);
   const accessToken = localStorage.getItem("accessToken");
-  let { groupId } = useParams();
-  console.log("parameter:", groupId);
   const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
