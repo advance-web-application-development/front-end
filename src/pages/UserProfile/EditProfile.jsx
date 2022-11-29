@@ -81,7 +81,12 @@ export const EditProfileScreen = (props) => {
           await sleep(500);
           setSubmitting(false);
           const updateUserProfileResponse = await UpdateUserProfile(values);
-          console.log(updateUserProfileResponse);
+          console.log("update user profile response ", updateUserProfileResponse);
+          let cuser = await isAuthenticated();
+          console.log("cuser ", cuser);
+          if (cuser?.user != undefined) {
+            setCurrentUser(cuser.user);
+          }
           if (updateUserProfileResponse.Code == 1) {
             Toast.success("Update successfully", {
               position: "top-right",
