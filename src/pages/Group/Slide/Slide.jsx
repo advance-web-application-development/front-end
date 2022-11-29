@@ -58,6 +58,15 @@ export default function GroupSile() {
   const back = () => {
     navigate('/groups');
   };
+  const verifyToken = async () => {
+      console.log("jdjnfsdj:", accessToken)
+      if (!accessToken) {
+          navigate("/signin");
+      }
+  };
+  useEffect(() => {
+      verifyToken();
+  }, []);
 
   return (
     <div>

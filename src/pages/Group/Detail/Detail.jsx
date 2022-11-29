@@ -85,6 +85,15 @@ export default function ButtonAppBar() {
       .min(10, "Minimum 10 characters")
       .required("Email required"),
   });
+  const verifyToken = async () => {
+      console.log("jdjnfsdj:", accessToken)
+      if (!accessToken) {
+          navigate("/signin");
+      }
+  };
+  useEffect(() => {
+      verifyToken();
+  }, []);
 
   const formik = useFormik({
       initialValues: {

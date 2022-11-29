@@ -89,6 +89,12 @@ function MemberPage() {
   const RoleSchema = Yup.object({
     role: Yup.string().required("Role required"),
   });
+  const verifyToken = async () => {
+      console.log("jdjnfsdj:", accessToken)
+      if (!accessToken) {
+          navigate("/signin");
+      }
+  };
 
   const roleFormik = useFormik({
     initialValues: {
@@ -225,6 +231,8 @@ function MemberPage() {
   useEffect(() => {
     reloadMember()
     loadUser()
+    verifyToken();
+
   }, []);
 
 
