@@ -67,6 +67,7 @@ function MemberPage() {
 
   const {state} = useLocation();
   const { id } = state; // Read values passed on state
+  const accessToken = localStorage.getItem("accessToken");
 
   const handleOpenRoleForm = (rowId) => {
     setCurrentMember(rowId);
@@ -96,7 +97,7 @@ function MemberPage() {
     validationSchema: RoleSchema,
     onSubmit: async (value) => {
       console.log("submit ", value);
-      const data = await toggleRole(value.role, currentMember);
+      const data = await toggleRole(value.role, currentMember, accessToken);
       if (data.status != 200) {
         // alert(data.data);
         toast.error(data.data, {
@@ -139,7 +140,7 @@ function MemberPage() {
     validationSchema: AddSchema,
     onSubmit: async (value) => {
       console.log("submit ", value);
-      const data = await addGroupMember(value.email,id );
+      const data = await addGroupMember(value.email,id, accessToken);
       console.log("data register ", data);
       if (data.status != 200) {
         // alert(data.data);
@@ -176,7 +177,7 @@ function MemberPage() {
   const navigate = useNavigate();
 
   const leaveGroup = async() => {
-    const data = await exitsGroup(id );
+    const data = await exitsGroup(id, accessToken);
     if (data.status != 200) {
       toast.error(data.data, {
         position: "top-right",
@@ -211,12 +212,12 @@ function MemberPage() {
     navigate('/groups');
   };
   const reloadMember = async() => {
-    const list = await fetchGroupMember(id)
+    const list = await fetchGroupMember(id, accessToken);
     setData(list.users)
     console.log(list.users)
   };
   const loadUser = async() => {
-    const list = await fetchListUser()
+    const list = await fetchListUser(accessToken)
     console.log(list.users)
     setListUser(list.users)
     

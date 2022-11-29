@@ -42,8 +42,10 @@ export default function ButtonAppBar() {
     setOpen(false);
   };
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
+
   const leaveGroup = async() => {
-    const data = await exitsGroup(id );
+    const data = await exitsGroup(id,accessToken);
     if (data.status != 200) {
       toast.error(data.data, {
         position: "top-right",
@@ -91,7 +93,7 @@ export default function ButtonAppBar() {
       validationSchema: UserSchema,
       onSubmit: async (value) => {
         console.log(value);
-        const data = await sendInvitationMail(value.email, id);
+        const data = await sendInvitationMail(value.email, id, accessToken);
         
         if (data.status != 200) {
           // alert(data.data);

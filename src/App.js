@@ -7,6 +7,8 @@ import ListGroup from "./pages/Group/List/List";
 import ButtonAppBar from "./pages/Group/Detail/Detail";
 import GroupMember from "./pages/Group/Member/Member";
 import GroupSile from "./pages/Group/Slide/Slide";
+import GroupInvitation from "./pages/Group/Invitate/Invitate";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -39,11 +41,12 @@ const App = () => {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/home" element={<Home />} />
-                <Route exact path="/groups" element={<ListGroup />}>
-                  <Route path="group-detail" element={<ButtonAppBar />} />
-                  <Route path="group-members" element={<GroupMember />} />
-                  <Route path="group-slides" element={<GroupSile />} />
-                </Route>
+                <Route exact path="/groups" element={<ListGroup />}/>
+
+                <Route path="group-detail" element={<ButtonAppBar />} />
+                <Route path="group-members" element={<GroupMember />} />
+                <Route path="group-slides" element={<GroupSile />} />
+                <Route exact path="/group-invitation/:id" element={<GroupInvitation />}/>
 
                 <Route path="/user" element={<UserProfile />}>
                   <Route path={``} element={<Navigate to={`./profile`} />} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createGroup, fetchGroup } from "../../../utils/api";
 // import { onLogout } from "../../utils/method";
 import AddIcon from "@mui/icons-material/Add";
@@ -47,91 +47,7 @@ export default function ListGroup() {
   );
 }
 
-// function List() {
-// const rows = [{id: 1, name:'dysfdygfsdh'}]
-//   console.log(rows);
-// const navigate = useNavigate();
-//   // const accessToken = localStorage.getItem("accessToken");
-//   // const { data, isLoading, error, isError, refetch } = useQuery(
-//   //   "user",
-//   //   () => fetchUsers(accessToken),
-//   //   {
-//   //     enabled: false
-//   //   }
-//   // );
-//   // useEffect(() => {
-//   //   verifyToken();
-//   //   refetch();
-//   // }, []);
 
-//   // //vertify token
-//   // const verifyToken = async () => {
-//   //   if (!accessToken) {
-//   //   }
-//   // };
-//   // if (isLoading) {
-//   //   return <div>Is Loading</div>;
-//   // }
-//   // if (isError) {
-//   //   console.log("err", error);
-//   // }
-//   // // const onLogoutSuccess = () => {
-//   // //   console.log("log out success from google");
-//   // // };
-//   // // const onLogoutFailture = () => {
-//   // //   console.log("log out fail from google");
-//   // // };
-//   return (
-//     <div>
-//       <div style={{display:"inline-block"}}>
-//         <Typography>Nhóm</Typography>
-//         <Box>
-//           <Button variant="contained" startIcon={<AddIcon />}>Tạo Nhóm</Button>
-//         </Box>
-//       </div>
-//       <CssBaseline />
-//       <AppBar
-//         position="fixed"
-//         sx={{
-//           width: { sm: `calc(100% - ${drawerWidth}px)` },
-//           ml: { sm: `${drawerWidth}px` },
-//         }}
-//       >
-//         <Toolbar>
-//           <IconButton
-//             color="inherit"
-//             aria-label="open drawer"
-//             edge="start"
-//             onClick={handleDrawerToggle}
-//             sx={{ mr: 2, display: { sm: 'none' } }}
-//           >
-//             <MenuIcon />
-//           </IconButton>
-//           <Typography variant="h6" noWrap component="div">
-//             Responsive drawer
-//           </Typography>
-//         </Toolbar>
-//       </AppBar>
-//   <TableContainer component={Paper}>
-//     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-//       <TableBody>
-//         {rows.map((row) => (
-//           <TableRow
-//             key={row.id}
-//             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-//           >
-//             <TableCell component="th" scope="row">
-//               {row.name}
-//             </TableCell>
-//           </TableRow>
-//         ))}
-//     </TableBody>
-//   </Table>
-// </TableContainer>
-
-//     </div>
-//   );
-// }
 import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -148,7 +64,9 @@ const drawerWidth = 240;
 function GroupsPage() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState([]);
-
+  const accessToken = localStorage.getItem("accessToken");
+  let { groupId } = useParams();
+  console.log("parameter:", groupId )
   const navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
@@ -167,7 +85,8 @@ function GroupsPage() {
     },
     validationSchema: GroupSchema,
     onSubmit: async (value) => {
-      const data = await createGroup(value.name);
+      console.log("accessToken=", accessToken)
+      const data = await createGroup(value.name, accessToken);
       if (data.status != 200) {
         // alert(data.data);
         toast.error(data.data, {
@@ -197,11 +116,12 @@ function GroupsPage() {
     }
   });
   const reloadGroup = async (params) => {
-    const list = await fetchGroup(params);
+    const list = await fetchGroup(params, accessToken);
     setData(list.groups);
   };
 
   useEffect(() => {
+    
     reloadGroup("");
   }, []);
 

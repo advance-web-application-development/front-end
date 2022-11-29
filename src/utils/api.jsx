@@ -102,11 +102,16 @@ export const loginUserWithGoogle = async (tokenId) => {
   // };
   // return objectReturn;
 };
-export const createGroup = async (name) => {
+export const createGroup = async (name, accessToken) => {
   try {
     const response = await axios
       .post(`${URL}/group`, {
         name: name
+      },{
+        headers: {
+            x_authorization: accessToken
+        }
+
       })
       .catch((error) => {
         if (error.response) {
@@ -129,19 +134,24 @@ export const createGroup = async (name) => {
     console.log("err", err);
   }
 };
-export const fetchGroup = async (params) => {
+export const fetchGroup = async (params, accessToken) => {
   const { data } = await axios.get(`${URL}/group` + params, {
-    // headers: {
-    //   x_authorization: accessToken
-    // }
+    headers: {
+      x_authorization: accessToken
+    }
   });
   return data;
 };
-export const addGroupMember = async (email, id) => {
+export const addGroupMember = async (email, id, accessToken) => {
   try {
     const response = await axios
       .post(`${URL}/group/${id}`, {
         email: email
+      },
+      {
+        headers: {
+          x_authorization: accessToken
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -164,28 +174,33 @@ export const addGroupMember = async (email, id) => {
     console.log("err", err);
   }
 };
-export const fetchGroupMember = async (id) => {
+export const fetchGroupMember = async (id, accessToken) => {
   const { data } = await axios.get(`${URL}/group/member/${id}`, {
-    // headers: {
-    //   x_authorization: accessToken
-    // }
+    headers: {
+      x_authorization: accessToken
+    }
   });
   return data;
 };
-export const fetchListUser = async () => {
+export const fetchListUser = async (accessToken) => {
   const { data } = await axios.get(`${URL}/users/list`, {
-    // headers: {
-    //   x_authorization: accessToken
-    // }
+    headers: {
+      x_authorization: accessToken
+    }
   });
   return data;
 };
 
-export const toggleRole = async (newRole, id) => {
+export const toggleRole = async (newRole, id, accessToken) => {
   try {
     const response = await axios
       .post(`${URL}/group/toggleRole/${id}`, {
         newRole: newRole
+      },      
+      {
+        headers: {
+          x_authorization: accessToken
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -208,9 +223,14 @@ export const toggleRole = async (newRole, id) => {
     console.log("err", err);
   }
 };
-export const exitsGroup = async (id) => {
+export const exitsGroup = async (id, accessToken) => {
   try {
-    const response = await axios.get(`${URL}/group/escape/${id}`).catch((error) => {
+    const response = await axios.get(`${URL}/group/escape/${id}`,       
+      {
+        headers: {
+          x_authorization: accessToken
+        }
+      }).catch((error) => {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -231,11 +251,16 @@ export const exitsGroup = async (id) => {
     console.log("err", err);
   }
 };
-export const sendInvitationMail = async (email, id) => {
+export const sendInvitationMail = async (email, id, accessToken) => {
   try {
     const response = await axios
       .post(`${URL}/group/sendInvitation/${id}`, {
         email: email
+      },
+      {
+        headers: {
+          x_authorization: accessToken
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -258,3 +283,22 @@ export const sendInvitationMail = async (email, id) => {
     console.log("err", err);
   }
 };
+export const getAGroup = async (id, accessToken) => {
+  const { data } = await axios.get(`${URL}/group/${id}`, {
+    headers: {
+      x_authorization: accessToken
+    }
+  });
+  return data;
+};
+export const confirmGroupInvitation = async (id, accessToken) => {
+  const { data } = await axios.get(`${URL}/group/confirmMail/${id}`, 
+  {
+    headers: {
+      x_authorization: accessToken
+    }
+  });
+  return data;
+};
+
+

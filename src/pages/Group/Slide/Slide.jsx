@@ -21,9 +21,9 @@ export default function GroupSile() {
   const {state} = useLocation();
   const { id } = state; // Read values passed on state  
   const navigate = useNavigate();
-  
+  const accessToken = localStorage.getItem("accessToken");
   const leaveGroup = async() => {
-    const data = await exitsGroup(id );
+    const data = await exitsGroup(id, accessToken );
     if (data.status != 200) {
       toast.error(data.data, {
         position: "top-right",
