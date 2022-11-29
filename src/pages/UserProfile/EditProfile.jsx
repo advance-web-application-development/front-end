@@ -215,6 +215,11 @@ const EditUserNameModal = (props) => {
         setSubmitting(false);
         const updateUserProfileResponse = await UpdateUserProfile(values);
         console.log(updateUserProfileResponse);
+        let cuser = await isAuthenticated();
+        console.log("cuser ", cuser);
+        if (cuser?.user != undefined) {
+          setCurrentUser(cuser.user);
+        }
         if (updateUserProfileResponse.Code == 1) {
           Toast.success("Update successfully", {
             position: "top-right",
