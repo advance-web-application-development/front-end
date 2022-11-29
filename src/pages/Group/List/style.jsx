@@ -1,5 +1,17 @@
 import styled from "styled-components";
 const Styled = styled.div`
+  .nav-container {
+    z-index: -1;
+  }
+  .table-modal {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .table-container {
+    margin-left: 200px;
+  }
   .group-list-top-bar {
     display: flex;
     flex: 1 1 0%;

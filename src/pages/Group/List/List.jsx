@@ -175,40 +175,7 @@ function GroupsPage() {
               Danh Sách Nhóm
             </Typography>
 
-            <Modal hideBackdrop open={open} onClose={handleClose}>
-              <Box sx={{ ...style, width: 200 }}>
-                <form
-                  className="form"
-                  method="post"
-                  onSubmit={formik.handleSubmit}
-                  autoComplete="on">
-                  <div className="input-box">
-                    <label htmlFor="name" className="input-label">
-                      Tên
-                    </label>
-                    <input
-                      className="input-text"
-                      id="name"
-                      name="name"
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      type="text"
-                      placeholder="Nhập Tên"
-                    />
-                    {formik.errors.name && formik.touched.name && (
-                      <p className="error-message">{formik.errors.name}</p>
-                    )}
-                  </div>
-
-                  <Button variant="contained" type="submit">
-                    Tạo Nhóm
-                  </Button>
-                  <Button variant="contained" onClick={handleClose}>
-                    Hủy
-                  </Button>
-                </form>
-              </Box>
-            </Modal>
+          
           </Toolbar>
         </AppBar> */}
         {/* <Box className="button-create-group" sx={{ marginLeft: "auto" }}>
@@ -216,12 +183,43 @@ function GroupsPage() {
             Tạo Nhóm
           </Button>
         </Box> */}
+        <Modal hideBackdrop open={open} onClose={handleClose}>
+          <Box sx={{ ...style, width: 200 }}>
+            <form className="form" method="post" onSubmit={formik.handleSubmit} autoComplete="on">
+              <div className="input-box">
+                <label htmlFor="name" className="input-label">
+                  Tên
+                </label>
+                <input
+                  className="input-text"
+                  id="name"
+                  name="name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  type="text"
+                  placeholder="Nhập Tên"
+                />
+                {formik.errors.name && formik.touched.name && (
+                  <p className="error-message">{formik.errors.name}</p>
+                )}
+              </div>
+
+              <Button variant="contained" type="submit">
+                Tạo Nhóm
+              </Button>
+              <Button variant="contained" onClick={handleClose}>
+                Hủy
+              </Button>
+            </form>
+          </Box>
+        </Modal>
         <div className="group-list-top-bar">
           <button type="button" onClick={handleOpen} className="create-group-button">
             Create group
           </button>
         </div>
         <Box
+          className="nav-container"
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
           aria-label="mailbox folders">
@@ -229,7 +227,7 @@ function GroupsPage() {
             variant="permanent"
             sx={{
               display: { xs: "none", sm: "block" },
-              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth }
+              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, zIndex: 1 }
             }}
             open>
             {drawer}
@@ -239,7 +237,7 @@ function GroupsPage() {
           component="main"
           sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <Toolbar />
-          <TableContainer component={Paper}>
+          <TableContainer className="table-container" component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableBody>
                 {data.map((row) => (
