@@ -18,59 +18,60 @@ import UserContext from "../../utils/UserContext.jsx";
 
 // Lấy 2 chữ cái đầu của tên cho Avatar.
 function stringAvatar(name) {
-  const wordArr = name.trim().split(" ");
-  if (!wordArr || wordArr.length < 0) {
-    return { children: "Ig" };
+  if (name !== undefined && name !== null) {
+    const wordArr = name.trim().split(" ");
+    if (!wordArr || wordArr.length < 0) {
+      return { children: "Ig" };
+    }
+    if (wordArr.length == 1) {
+      var word = wordArr[0];
+      if (word.length == 1) return { children: word };
+      return { children: word.substring(0, 2) };
+    }
+    return {
+      children: `${wordArr[0][0]}${wordArr[1][0]}`
+    };
   }
-  if (wordArr.length == 1) {
-    var word = wordArr[0];
-    if (word.length == 1) return { children: word };
-    return { children: word.substring(0, 2) };
-  }
-  return {
-    children: `${wordArr[0][0]}${wordArr[1][0]}`
-  };
 }
 
 export const Header = function (props) {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  
-    return (
-      <>
-        <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
-          <Container fluid style={{ height: "inherit" }}>
-            <MenuBar.Brand href="/">
-              <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
-            </MenuBar.Brand>
-            {/* <MenuBar.Toggle aria-controls="navbar-nav" /> */}
-            <MenuList className="me-auto">
-              <MenuBarItem to="/home">Home</MenuBarItem>
-              <MenuBarItem to="/groups">Groups</MenuBarItem>
-            </MenuList>
-            <MenuList className="d-flex align-items-center justify-content-evenly">
-              <CreatingButton variant="contained" id="create-btn" className="m-2 expanded">
-                <AddIcon className="d-lg-none" fontSize="large" />
-                <p className="d-none d-lg-block mb-0">Create</p>
-              </CreatingButton>
-              <AvatarButton>
-                <Avatar
-                  {...stringAvatar(currentUser.name || currentUser.username)}
-                  className="bg-success"
-                  role="button"
-                  sx={{ fontSize: "1.6rem" }}
-                />
-              </AvatarButton>
-              <NotificationsOutlinedIcon
-                className="m-2"
-                sx={{ width: "4rem", height: "4rem" }}
+
+  return (
+    <>
+      <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
+        <Container fluid style={{ height: "inherit" }}>
+          <MenuBar.Brand href="/">
+            <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
+          </MenuBar.Brand>
+          {/* <MenuBar.Toggle aria-controls="navbar-nav" /> */}
+          <MenuList className="me-auto">
+            <MenuBarItem to="/home">Home</MenuBarItem>
+            <MenuBarItem to="/groups">Groups</MenuBarItem>
+          </MenuList>
+          <MenuList className="d-flex align-items-center justify-content-evenly">
+            <CreatingButton variant="contained" id="create-btn" className="m-2 expanded">
+              <AddIcon className="d-lg-none" fontSize="large" />
+              <p className="d-none d-lg-block mb-0">Create</p>
+            </CreatingButton>
+            <AvatarButton>
+              <Avatar
+                {...stringAvatar(currentUser?.name || currentUser?.username)}
+                className="bg-success"
                 role="button"
+                sx={{ fontSize: "1.6rem" }}
               />
-            </MenuList>
-          </Container>
-        </MenuBar>
-      </>
-    );
-  
+            </AvatarButton>
+            <NotificationsOutlinedIcon
+              className="m-2"
+              sx={{ width: "4rem", height: "4rem" }}
+              role="button"
+            />
+          </MenuList>
+        </Container>
+      </MenuBar>
+    </>
+  );
 };
 
 const DefaultHeader = (props) => {

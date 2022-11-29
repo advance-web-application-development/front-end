@@ -19,71 +19,20 @@ export default function Home() {
   );
 }
 
-function HomePage_() {
-  const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
-  const { data, isLoading, error, isError, refetch } = useQuery(
-    "user",
-    () => fetchUsers(accessToken),
-    {
-      enabled: false
-    }
-  );
-  useEffect(() => {
-    // verifyToken();
-    refetch();
-  }, []);
-
-  //vertify token
-  // const verifyToken = async () => {
-  //   if (!accessToken) {
-  //     navigate("/signin");
-  //   }
-  // };
-  if (isLoading) {
-    return <div>Is Loading</div>;
-  }
-  if (isError) {
-    console.log("err", error);
-  }
-  // const onLogoutSuccess = () => {
-  //   console.log("log out success from google");
-  // };
-  // const onLogoutFailture = () => {
-  //   console.log("log out fail from google");
-  // };
-  return (
-    <div>
-      <p className="text-white text-[40px]">Hello {data ? data.username : ""}</p>
-      <Link
-        className="px-[10px] py-[8px] bg-[#20DF7F] h-[45px] w-full rounded-[10px] mt-[24px]"
-        onClick={() => onLogout()}
-        to="/signin">
-        <p className="text-white text-[16px] text-center">Log Out</p>
-      </Link>
-      {/* <GoogleLogout
-        clientId={clientId}
-        buttonText="Logout button"
-        onLogoutSuccess={() => onLogoutSuccess()}
-        onFailure={() => onLogoutFailer()}
-        className="logout button"
-        ref={btngoogleLogout}
-      /> */}
-    </div>
-  );
-}
-
 function HomePage() {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-
+  const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log("currentUser ", currentUser);
+    if (!currentUser || !accessToken) {
+      navigate("/signin");
+    }
+  }, [currentUser]);
   useEffect(() => {
     document.title = "Home Page - KKahoot";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
-  useEffect(() => {
-    console.log("currentUser ", currentUser);
-  }, [currentUser]);
   return (
     <>
       <Header />
