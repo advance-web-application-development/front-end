@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import { GetUserInfo, UpdateUserProfile } from "./ProfileApi";
 import UserContext from "../../utils/UserContext";
+import { isAuthenticated } from "../../utils/AuthService";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -180,6 +181,7 @@ export const EditProfileScreen = (props) => {
                   className="mb-5"
                   fullWidth={true}
                   onChangeCapture={handleHasChanges}
+                  disabled
                 />
               </Card.Body>
             </Card>
