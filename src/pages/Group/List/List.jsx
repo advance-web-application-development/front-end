@@ -142,7 +142,7 @@ function GroupsPage() {
       <List>
         <ListItem key={"my-group"} disablePadding>
           <ListItemButton onClick={() => reloadGroup("")}>
-            <ListItemText primary={"Nhóm Của Tôi"} />
+            <ListItemText primary={"My group"} />
           </ListItemButton>
         </ListItem>
         <ListItem key={"my-owner-group"} disablePadding>
@@ -150,7 +150,7 @@ function GroupsPage() {
             onClick={() => {
               reloadGroup("/owner");
             }}>
-            <ListItemText primary={"Nhóm Của Tôi Quản Lý"} />
+            <ListItemText primary={"Group I've managed"} />
           </ListItemButton>
         </ListItem>
       </List>
