@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Box from "@mui/material/Box";
 import { StyledButton, StyledInput, StyledModal, StyledTooltip } from "./style";
@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 import { GetUserInfo, UpdateUserProfile } from "./ProfileApi";
+import UserContext from "../../utils/UserContext";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -35,26 +36,30 @@ export const EditProfileScreen = (props) => {
 
   const [hasChanges, setHasChanges] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
-  const [userProfile, setUserProfile] = useState(userProfileDefault);
+  // const [userProfile, setUserProfile] = useState(userProfileDefault);
+  const [currentUser, setCurrentUser] = useContext(UserContext);
   const navigate = useNavigate();
-
-  const testUsername = "minh10";
 
   //#endregion
 
   // #region Tải dữ liệu lên lần đầu
 
-  useEffect(() => {
-    GetUserInfo(testUsername).then((response) => {
-      console.log(response);
-      if (response.Code == 1) {
-        setUserProfile(response.ResponseData);
-      } else {
-        // Todo: Show error before redirect to sign in
-        navigate("/signin");
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     navigate("/signin");
+  //   }
+  //   alert(JSON.stringify(currentUser));
+  //   GetUserInfo(currentUser.username).then((response) => {
+  //     console.log(response);
+  //     if (response.Code == 1) {
+  //       setUserProfile(response.ResponseData);
+  //     } else {
+  //       // Todo: Show error before redirect to sign in
+  //       alert("there was an error");
+  //       navigate("/");
+  //     }
+  //   });
+  // }, [currentUser]);
 
   // #endregion
 
@@ -68,10 +73,9 @@ export const EditProfileScreen = (props) => {
 
   return (
     <div>
-      <Header />
       <Formik
         enableReinitialize
-        initialValues={userProfile}
+        initialValues={currentUser}
         validationSchema={EditProfileSchema}
         onSubmit={async (values, { setSubmitting }) => {
           await sleep(500);
@@ -88,8 +92,9 @@ export const EditProfileScreen = (props) => {
               draggable: true,
               theme: "light"
             });
+            setCurrentUser(values);
           } else {
-            Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
+            Toast.error(`Update fail ${updateUserProfileResponse.Description}`, {
               position: "top-right",
               autoClose: 2000,
               hideProgressBar: false,
@@ -176,7 +181,7 @@ export const EditProfileScreen = (props) => {
           </Box>
         )}
       </Formik>
-      <EditUserNameModal user={userProfile} show={modalShow} onHide={() => setModalShow(false)} />
+      <EditUserNameModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   );
 };
@@ -186,14 +191,13 @@ const EditUserNameModal = (props) => {
   const handleOnSubmit = (event) => {
     event.preventDefault();
   };
-  const userProfile = props.user;
+  // const currentUser = props.user;
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+
   return (
     <Formik
       enableReinitialize
-      initialValues={{
-        id: userProfile.id,
-        username: userProfile.username
-      }}
+      initialValues={currentUser}
       validationSchema={Yup.object({
         id: Yup.string().required(),
         username: Yup.string().required().min(3, "Username must include at least 3 characters")
@@ -213,6 +217,7 @@ const EditUserNameModal = (props) => {
             draggable: true,
             theme: "light"
           });
+          setCurrentUser(values);
         } else {
           Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
             position: "top-right",
