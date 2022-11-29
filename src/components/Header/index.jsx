@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Avatar from "@mui/material/Avatar";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -14,19 +14,16 @@ import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { onLogout } from "../../utils/method.jsx";
-import UserContext from "../../utils/UserContext.jsx";
 
 // Lấy 2 chữ cái đầu của tên cho Avatar.
 function stringAvatar(name) {
   return {
-    children: `${name.split(" ")[0][0]}`
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
   };
 }
 
 export const Header = function (props) {
   const [hasSignedIn, setHasSignedIn] = useState(true);
-  const [currentUser, setCurrentUser] = useContext(UserContext);
-  console.log("header currentUser ", currentUser);
   if (hasSignedIn) {
     return (
       <>
@@ -35,6 +32,7 @@ export const Header = function (props) {
             <MenuBar.Brand href="/">
               <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
             </MenuBar.Brand>
+            {/* <MenuBar.Toggle aria-controls="navbar-nav" /> */}
             <MenuList className="me-auto">
               <MenuBarItem to="/home">Home</MenuBarItem>
               <MenuBarItem to="/groups">Groups</MenuBarItem>
@@ -46,7 +44,7 @@ export const Header = function (props) {
               </CreatingButton>
               <AvatarButton>
                 <Avatar
-                  {...stringAvatar(currentUser?.username || "Incognito")}
+                  {...stringAvatar("Kent Dodds")}
                   className="bg-success"
                   role="button"
                   sx={{ fontSize: "1.6rem" }}
@@ -242,3 +240,4 @@ function AvatarButton(props) {
     </>
   );
 }
+//#endregion
