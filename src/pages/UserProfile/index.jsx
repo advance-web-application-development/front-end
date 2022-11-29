@@ -57,7 +57,7 @@ export const ProfileSetting = function (props) {
     setValue(newValue);
   };
   return (
-    <>
+    <div style={{minHeight: "80rem"}}>
       <h3 className="my-5" style={{ fontSize: "2.8rem", fontWeight: "600" }}>
         Settings
       </h3>
@@ -87,7 +87,7 @@ export const ProfileSetting = function (props) {
           </StyledTabPanel>
         </TabContext>
       </Box>
-    </>
+    </div>
   );
 };
 

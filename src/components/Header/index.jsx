@@ -39,7 +39,7 @@ export const Header = function (props) {
 
   return (
     <>
-      <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
+      <MenuBar id="menubar-horizontal" bg="light" className="d-flex">
         <Container fluid style={{ height: "inherit" }}>
           <MenuBar.Brand href="/">
             <img id="logo" style={{ width: "4rem" }} src="/assets/images/google-classroom.png" />
