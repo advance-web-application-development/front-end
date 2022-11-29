@@ -116,6 +116,9 @@ const SignUp = () => {
   });
   return (
     <Styled>
+      <div className="header">
+        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+      </div>
       <div className="signup-container">
         <main className="signup-main">
           <div className="main-container">

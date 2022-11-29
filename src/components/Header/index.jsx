@@ -34,9 +34,7 @@ function stringAvatar(name) {
 
 export const Header = function (props) {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  // const [hasSignedIn, setHasSignedIn] = useState(true);
-
-  if (currentUser) {
+  
     return (
       <>
         <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
@@ -72,8 +70,7 @@ export const Header = function (props) {
         </MenuBar>
       </>
     );
-  }
-  return <DefaultHeader />;
+  
 };
 
 const DefaultHeader = (props) => {

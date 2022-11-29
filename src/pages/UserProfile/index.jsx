@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Router, Routes, Route, Navigate, useLocation, Outlet, useNavigate } from "react-router-dom";
+import {
+  Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Outlet,
+  useNavigate
+} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -10,10 +18,12 @@ import styled from "styled-components";
 import { EditProfileScreen } from "./EditProfile";
 import { ChangePassWordScreen } from "./ChangePassword";
 import UserContext from "../../utils/UserContext";
+import { Header } from "../../components/Header";
 
 export const UserProfile = function (props) {
   return (
     <>
+      <Header />
       <Outlet />
     </>
   );

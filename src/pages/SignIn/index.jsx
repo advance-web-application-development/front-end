@@ -143,6 +143,9 @@ export const SignIn = function () {
   });
   return (
     <Styled>
+      <div className="header">
+        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+      </div>
       <div className="signin-container">
         <main className="signin-main">
           <div className="main-container">

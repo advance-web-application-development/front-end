@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { fetchUsers } from "../../utils/api";
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
@@ -10,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import UserContext from "../../utils/UserContext";
 import { Button, Card, Col, Container, ListGroup, NavLink, Row } from "react-bootstrap";
 import { StyledButton } from "./style";
-import { margin } from "@mui/system";
 
 const queryClient = new QueryClient();
 export default function Home() {
@@ -85,10 +83,10 @@ function HomePage() {
   }, []);
   useEffect(() => {
     console.log("currentUser ", currentUser);
-    
   }, [currentUser]);
   return (
     <>
+      <Header />
       <Container fluid className="mb-5">
         <Row>
           <Col xs={12} md={3} style={{ marginBottom: "1.4rem" }}>
@@ -187,7 +185,7 @@ function HomePage() {
                       <Card.Header style={{ padding: "1.2rem 1.6rem" }}>
                         <b>What's new</b>
                       </Card.Header>
-                      <Card.Body style={{ padding: "1.6rem"}}>
+                      <Card.Body style={{ padding: "1.6rem" }}>
                         <ListGroup variant="flush">
                           <ListGroup.Item
                             className="d-flex"
@@ -287,7 +285,12 @@ function HomePage() {
                           </ListGroup.Item>
                         </ListGroup>
                       </Card.Body>
-                      <Card.Link href="#" className="mx-auto" style={{padding: "1.6rem", fontWeight: "550", fontSize: "1.2rem"}}>Show more</Card.Link>
+                      <Card.Link
+                        href="#"
+                        className="mx-auto"
+                        style={{ padding: "1.6rem", fontWeight: "550", fontSize: "1.2rem" }}>
+                        Show more
+                      </Card.Link>
                     </Card>
                   </div>
                 </Col>
