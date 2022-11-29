@@ -75,7 +75,7 @@ export const EditProfileScreen = (props) => {
     <div>
       <Formik
         enableReinitialize
-        initialValues={currentUser}
+        initialValues={currentUser || userProfileDefault}
         validationSchema={EditProfileSchema}
         onSubmit={async (values, { setSubmitting }) => {
           await sleep(500);
@@ -188,6 +188,7 @@ export const EditProfileScreen = (props) => {
 
 const EditUserNameModal = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
+  const handleClose = () => setShow(false);
   const handleOnSubmit = (event) => {
     event.preventDefault();
   };
@@ -197,12 +198,12 @@ const EditUserNameModal = (props) => {
   return (
     <Formik
       enableReinitialize
-      initialValues={currentUser}
+      initialValues={currentUser || userProfileDefault}
       validationSchema={Yup.object({
         id: Yup.string().required(),
         username: Yup.string().required().min(3, "Username must include at least 3 characters")
       })}
-      onSubmit={async (values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
         await sleep(500);
         setSubmitting(false);
         const updateUserProfileResponse = await UpdateUserProfile(values);
@@ -218,8 +219,9 @@ const EditUserNameModal = (props) => {
             theme: "light"
           });
           setCurrentUser(values);
+          props.onHide();
         } else {
-          Toast.error(`Update successfully ${updateUserProfileResponse.Description}`, {
+          Toast.error(`Update fail ${updateUserProfileResponse.Description}`, {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
@@ -230,12 +232,13 @@ const EditUserNameModal = (props) => {
           });
         }
       }}>
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm, isSubmitting, resetForm }) => (
         <StyledModal
           {...props}
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          dialogClassName="modal-50w">
+          dialogClassName="modal-50w"
+          onExiting={() => resetForm({})}>
           <Box
             component="form"
             style={{ fontSize: "1.4rem !important", margin: "auto" }}
@@ -264,7 +267,9 @@ const EditUserNameModal = (props) => {
               />
             </StyledModal.Body>
             <StyledModal.Footer className="justify-content-center py-4">
-              <StyledButton variant="secondary">Cancel</StyledButton>
+              <StyledButton variant="secondary" onClick={props.onHide}>
+                Cancel
+              </StyledButton>
               <StyledButton
                 variant="success"
                 type="submit"

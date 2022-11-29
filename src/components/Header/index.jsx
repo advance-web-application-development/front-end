@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Avatar from "@mui/material/Avatar";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -14,17 +14,29 @@ import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { onLogout } from "../../utils/method.jsx";
+import UserContext from "../../utils/UserContext.jsx";
 
 // Lấy 2 chữ cái đầu của tên cho Avatar.
 function stringAvatar(name) {
+  const wordArr = name.trim().split(" ");
+  if (!wordArr || wordArr.length < 0) {
+    return { children: "Ig" };
+  }
+  if (wordArr.length == 1) {
+    var word = wordArr[0];
+    if (word.length == 1) return { children: word };
+    return { children: word.substring(0, 2) };
+  }
   return {
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
+    children: `${wordArr[0][0]}${wordArr[1][0]}`
   };
 }
 
 export const Header = function (props) {
-  const [hasSignedIn, setHasSignedIn] = useState(true);
-  if (hasSignedIn) {
+  const [currentUser, setCurrentUser] = useContext(UserContext);
+  // const [hasSignedIn, setHasSignedIn] = useState(true);
+
+  if (currentUser) {
     return (
       <>
         <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
@@ -44,7 +56,7 @@ export const Header = function (props) {
               </CreatingButton>
               <AvatarButton>
                 <Avatar
-                  {...stringAvatar("Kent Dodds")}
+                  {...stringAvatar(currentUser.name || currentUser.username)}
                   className="bg-success"
                   role="button"
                   sx={{ fontSize: "1.6rem" }}
