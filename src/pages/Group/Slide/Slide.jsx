@@ -20,7 +20,8 @@ import { useEffect } from "react";
 
 export default function GroupSile() {
   const {state} = useLocation();
-  const { id } = state; // Read values passed on state  
+  const [ id, setId] = React.useState(); 
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const leaveGroup = async() => {
@@ -66,6 +67,24 @@ export default function GroupSile() {
       }
   };
   useEffect(() => {
+      if(!state||!state.id) 
+      {
+        navigate("/groups");
+        const msg = `Group is undefined `;
+        toast.error(msg, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "light"
+        });
+        return;
+      }
+      setId(state.id)
+    
+
       verifyToken();
   }, []);
 

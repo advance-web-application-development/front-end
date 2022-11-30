@@ -65,7 +65,7 @@ const groupManageToolbar = {
 export default function ButtonAppBar() {
   const [open, setOpen] = React.useState(false);
   const { state } = useLocation();
-  const { id } = state; // Read values passed on state
+  const [ id, setId] = React.useState(); 
   const handleOpen = () => {
     setOpen(true);
   };
@@ -124,6 +124,23 @@ export default function ButtonAppBar() {
     }
   };
   useEffect(() => {
+    if(!state||!state.id) 
+    {
+      navigate("/groups");
+      const msg = `Group is undefined `;
+      toast.error(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      return;
+    }
+    setId(state.id)
+    
     verifyToken();
   }, []);
 

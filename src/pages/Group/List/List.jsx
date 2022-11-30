@@ -61,201 +61,6 @@ export default function ListGroup() {
 
 const drawerWidth = 240;
 
-function GroupsPage_() {
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState([]);
-  const accessToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-    formik.setFieldValue("name", "");
-  };
-  const GroupSchema = Yup.object({
-    name: Yup.string().max(20, "Maximine 20 characters").required("Name required")
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      name: ""
-    },
-    validationSchema: GroupSchema,
-    onSubmit: async (value) => {
-      console.log("accessToken=", accessToken);
-      const data = await createGroup(value.name, accessToken);
-      if (data.status != 200) {
-        // alert(data.data);
-        toast.error(data.data, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          theme: "light"
-        });
-        return;
-      }
-      handleClose();
-      reloadGroup("");
-      const msg = `Group ${data.data.group.name} have successfully create`;
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "light"
-      });
-      reloadGroup("");
-    }
-  });
-  const reloadGroup = async (params) => {
-    const list = await fetchGroup(params, accessToken);
-    setData(list.groups);
-  };
-  const verifyToken = async () => {
-    console.log("jdjnfsdj:", accessToken);
-    if (!accessToken) {
-      navigate("/signin");
-    }
-  };
-
-  useEffect(() => {
-    verifyToken();
-    reloadGroup("");
-  }, []);
-
-  const getGroupDetail = (groupId) => {
-    console.log(groupId);
-    navigate("/group-detail", { state: { id: groupId } });
-  };
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        <ListItem key={"my-group"} disablePadding>
-          <ListItemButton onClick={() => reloadGroup("")}>
-            <ListItemText primary={"My group"} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key={"my-owner-group"} disablePadding>
-          <ListItemButton
-            onClick={() => {
-              reloadGroup("/owner");
-            }}>
-            <ListItemText primary={"Group I've managed"} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </div>
-  );
-
-  return (
-    <Styled>
-      <Header />
-      <Box sx={{ display: "block", width: "100%" }}>
-        <CssBaseline />
-        {/* <AppBar
-          position="fixed"
-
-          sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
-            bgcolor: "white"
-          }}>
-          <Toolbar>
-            <Typography variant="h6" component="div" style={{ color: "black" }}>
-              Danh Sách Nhóm
-            </Typography>
-
-          
-          </Toolbar>
-        </AppBar> */}
-        {/* <Box className="button-create-group" sx={{ marginLeft: "auto" }}>
-          <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
-            Tạo Nhóm
-          </Button>
-        </Box> */}
-        <Modal hideBackdrop open={open} onClose={handleClose}>
-          <Box sx={{ ...style, width: 200 }}>
-            <form className="form" method="post" onSubmit={formik.handleSubmit} autoComplete="on">
-              <div className="input-box">
-                <label htmlFor="name" className="input-label">
-                  Tên
-                </label>
-                <input
-                  className="input-text"
-                  id="name"
-                  name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  type="text"
-                  placeholder="Nhập Tên"
-                />
-                {formik.errors.name && formik.touched.name && (
-                  <p className="error-message">{formik.errors.name}</p>
-                )}
-              </div>
-
-              <Button variant="contained" type="submit">
-                Tạo Nhóm
-              </Button>
-              <Button variant="contained" onClick={handleClose}>
-                Hủy
-              </Button>
-            </form>
-          </Box>
-        </Modal>
-        <div className="group-list-top-bar">
-          <button type="button" onClick={handleOpen} className="create-group-button">
-            Create group
-          </button>
-        </div>
-        <Box
-          className="nav-container"
-          component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-          aria-label="mailbox folders">
-          <Drawer
-            variant="permanent"
-            sx={{
-              display: { xs: "none", sm: "block" },
-              "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, zIndex: 1 }
-            }}
-            open>
-            {drawer}
-          </Drawer>
-        </Box>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-          <Toolbar />
-          <TableContainer className="table-container" component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                {data.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    onClick={() => getGroupDetail(row.id)}>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Box>
-    </Styled>
-  );
-}
 
 function GroupsPage() {
   const [open, setOpen] = React.useState(false);
@@ -319,7 +124,6 @@ function GroupsPage() {
   }, []);
   
   const verifyToken = async () => {
-    console.log("jdjnfsdj:", accessToken);
     if (!accessToken) {
       navigate("/signin");
     }
@@ -334,25 +138,25 @@ function GroupsPage() {
     console.log(groupId);
     navigate("/group-detail", { state: { id: groupId } });
   };
-  const drawer = (
-    <div>
-      <List>
-        <ListItem key={"my-group"} disablePadding>
-          <ListItemButton onClick={() => reloadGroup("")}>
-            <ListItemText primary={"My group"} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key={"my-owner-group"} disablePadding>
-          <ListItemButton
-            onClick={() => {
-              reloadGroup("/owner");
-            }}>
-            <ListItemText primary={"Group I've managed"} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </div>
-  );
+  var MenuItemList = [
+    getItem(
+      <Button onClick={() => {reloadGroup("");}}>
+        <GroupsIcon style={{ fontSize: "2rem" }} />
+        <p style={{ marginLeft: "1rem" }}></p>
+        Group I've joined
+      </Button>,
+      "menuitem_1"
+    ),
+    getItem(
+      <Button onClick={() => {reloadGroup("/owner");}}>
+        <GroupsIcon style={{ fontSize: "2rem" }} />
+        <p style={{ marginLeft: "1rem" }}></p>
+        Group I manage
+      </Button>,
+      "menuitem_2"
+    )
+];
+
 
   return (
     <>
@@ -449,23 +253,5 @@ function getItem(label, key, icon, children, type) {
   };
 }
 
-var MenuItemList = [
-  getItem(
-    <StyledNavLink to="/groups">
-      <GroupsIcon style={{ fontSize: "2rem" }} />
-      <p style={{ marginLeft: "1rem" }}></p>
-      Group I've joined
-    </StyledNavLink>,
-    "menuitem_1"
-  ),
-  getItem(
-    <StyledNavLink to="/groups/owner">
-      <GroupsIcon style={{ fontSize: "2rem" }} />
-      <p style={{ marginLeft: "1rem" }}></p>
-      Group I manage
-    </StyledNavLink>,
-    "menuitem_2"
-  )
-];
 
 // #endregion
