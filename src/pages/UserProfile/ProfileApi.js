@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiConfig as _ParamConfig } from "../../StaticConfig/ApiConfig";
+import { ApiConfig as _ParamConfig } from "../../actions/constants";
 
 let AxiosInstance = axios.create({
   baseURL: _ParamConfig.serverUrl,
@@ -11,7 +11,7 @@ let AxiosInstance = axios.create({
 export const PostAsync = async (method, requestData) => {
   var response = await AxiosInstance.post(method, requestData, {
     headers: {
-      x_authorization: localStorage.getItem('accessToken')
+      x_authorization: localStorage.getItem("accessToken")
     }
   });
   return response.data;
@@ -37,15 +37,13 @@ export const GetUserInfo = async (username) => {
   }
 };
 
-export const UpdateUserProfile = async (user) =>
-{
-  try
-  {
+export const UpdateUserProfile = async (user) => {
+  try {
     var requestData = {
       Id: user._id,
       Username: user.username,
       Email: user.email,
-      Name: user.name,
+      Name: user.name
     };
     var request = {
       Method: "UpdateProfile",
@@ -53,9 +51,8 @@ export const UpdateUserProfile = async (user) =>
     };
     const UpdateUserProfileResponse = await PostAsync("users/profile", request);
     return UpdateUserProfileResponse;
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-}
+};
 // #endregion
