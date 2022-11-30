@@ -134,7 +134,7 @@ export const SignIn = function () {
   });
   useEffect(() => {
     document.title = "Sign in- KKahoot!";
-    document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
+    document.getElementById("root").style.backgroundImage = `url("./assets/images/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
     return () => {
@@ -144,7 +144,7 @@ export const SignIn = function () {
   return (
     <Styled>
       <div className="header">
-        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+        <img src="./assets/images/kahoot.png" className="header-img" alt="kahoot" />
       </div>
       <div className="signin-container">
         <main className="signin-main">
@@ -234,4 +234,4 @@ export const SignIn = function () {
       </div>
     </Styled>
   );
-}
+};
