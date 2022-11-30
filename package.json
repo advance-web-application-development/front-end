@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --mode development --open --hot",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "deploy": "yarn build && netlify deploy --prod"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.19.1",

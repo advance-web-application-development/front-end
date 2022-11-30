@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://localhost:5000";
+const URL = "https://backend-ptudwnc-kahoot.herokuapp.com";
 export const fetchUsers = async (accessToken) => {
   const { data } = await axios.get(`${URL}/users`, {
     headers: {
@@ -105,14 +105,17 @@ export const loginUserWithGoogle = async (tokenId) => {
 export const createGroup = async (name, accessToken) => {
   try {
     const response = await axios
-      .post(`${URL}/group`, {
-        name: name
-      },{
-        headers: {
+      .post(
+        `${URL}/group`,
+        {
+          name: name
+        },
+        {
+          headers: {
             x_authorization: accessToken
+          }
         }
-
-      })
+      )
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -145,14 +148,17 @@ export const fetchGroup = async (params, accessToken) => {
 export const addGroupMember = async (email, id, accessToken) => {
   try {
     const response = await axios
-      .post(`${URL}/group/${id}`, {
-        email: email
-      },
-      {
-        headers: {
-          x_authorization: accessToken
+      .post(
+        `${URL}/group/${id}`,
+        {
+          email: email
+        },
+        {
+          headers: {
+            x_authorization: accessToken
+          }
         }
-      })
+      )
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -194,10 +200,42 @@ export const fetchListUser = async (accessToken) => {
 export const toggleRole = async (newRole, id, accessToken) => {
   try {
     const response = await axios
-      .post(`${URL}/group/toggleRole/${id}`, {
-        newRole: newRole
-      },      
-      {
+      .post(
+        `${URL}/group/toggleRole/${id}`,
+        {
+          newRole: newRole
+        },
+        {
+          headers: {
+            x_authorization: accessToken
+          }
+        }
+      )
+      .catch((error) => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          const objectReturn = {
+            data: error.response.data,
+            status: error.response.status
+          };
+          return objectReturn;
+        }
+      });
+    const { data, status } = response;
+    const objectReturn = {
+      data: data,
+      status: status
+    };
+    return objectReturn;
+  } catch (err) {
+    console.log("err", err);
+  }
+};
+export const exitsGroup = async (id, accessToken) => {
+  try {
+    const response = await axios
+      .get(`${URL}/group/escape/${id}`, {
         headers: {
           x_authorization: accessToken
         }
@@ -223,45 +261,20 @@ export const toggleRole = async (newRole, id, accessToken) => {
     console.log("err", err);
   }
 };
-export const exitsGroup = async (id, accessToken) => {
-  try {
-    const response = await axios.get(`${URL}/group/escape/${id}`,       
-      {
-        headers: {
-          x_authorization: accessToken
-        }
-      }).catch((error) => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        const objectReturn = {
-          data: error.response.data,
-          status: error.response.status
-        };
-        return objectReturn;
-      }
-    });
-    const { data, status } = response;
-    const objectReturn = {
-      data: data,
-      status: status
-    };
-    return objectReturn;
-  } catch (err) {
-    console.log("err", err);
-  }
-};
 export const sendInvitationMail = async (email, id, accessToken) => {
   try {
     const response = await axios
-      .post(`${URL}/group/sendInvitation/${id}`, {
-        email: email
-      },
-      {
-        headers: {
-          x_authorization: accessToken
+      .post(
+        `${URL}/group/sendInvitation/${id}`,
+        {
+          email: email
+        },
+        {
+          headers: {
+            x_authorization: accessToken
+          }
         }
-      })
+      )
       .catch((error) => {
         if (error.response) {
           // The request was made and the server responded with a status code
@@ -292,13 +305,10 @@ export const getAGroup = async (id, accessToken) => {
   return data;
 };
 export const confirmGroupInvitation = async (id, accessToken) => {
-  const { data } = await axios.get(`${URL}/group/confirmMail/${id}`, 
-  {
+  const { data } = await axios.get(`${URL}/group/confirmMail/${id}`, {
     headers: {
       x_authorization: accessToken
     }
   });
   return data;
 };
-
-

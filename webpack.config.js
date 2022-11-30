@@ -9,9 +9,9 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "/dist"),
+    path: path.join(__dirname, "build"),
     publicPath: "/",
-    filename: "index_bundle.js"
+    filename: "[name].bundle.js"
   },
   devtool: "source-map",
   module: {
