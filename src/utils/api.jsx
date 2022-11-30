@@ -7,7 +7,7 @@ export const fetchUsers = async (accessToken) => {
       x_authorization: accessToken
     }
   });
-  console.log("data fetchUsers ", data);
+  // console.log("data fetchUsers ", data);
   return data;
 };
 export const registerUser = async (username, email, password) => {
@@ -40,7 +40,7 @@ export const registerUser = async (username, email, password) => {
   }
 };
 export const loginUser = async (username, password) => {
-  console.log("URL login ", URL);
+  // console.log("URL login ", URL);
   const response = await axios
     .post(`${URL}/auth/login`, {
       username,

@@ -19,7 +19,7 @@ export const SignIn = function () {
   const [currentUser, setCurrentUser] = useContext(UserContext);
 
   useEffect(() => {
-    console.log("currentUser log in ", currentUser);
+    // console.log("currentUser log in ", currentUser);
     if (currentUser != undefined) {
       navigate("/home");
     }
@@ -52,7 +52,7 @@ export const SignIn = function () {
         theme: "light"
       });
       let cuser = await isAuthenticated();
-      console.log("cuser ", cuser);
+      // console.log("cuser ", cuser);
       if (cuser?.user != undefined) {
         setCurrentUser(cuser.user);
       }
@@ -75,7 +75,7 @@ export const SignIn = function () {
     },
     validationSchema: signInSchema,
     onSubmit: async (value) => {
-      console.log("value submit ", value);
+      // console.log("value submit ", value);
       try {
         const responseSignIn = await loginUser(value.username, value.password);
         const { data, status } = responseSignIn;
@@ -104,7 +104,7 @@ export const SignIn = function () {
             theme: "light"
           });
           let cuser = await isAuthenticated();
-          console.log("cuser ", cuser);
+          // console.log("cuser ", cuser);
           if (cuser?.user != undefined) {
             setCurrentUser(cuser.user);
           }

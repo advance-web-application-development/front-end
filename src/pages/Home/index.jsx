@@ -24,7 +24,7 @@ function HomePage() {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("currentUser ", currentUser);
+    // console.log("currentUser ", currentUser);
     if (!currentUser || !accessToken) {
       navigate("/signin");
     }

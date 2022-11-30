@@ -23,13 +23,13 @@ export default function GroupInvitation() {
 
 function InvitationPage() {
     let { id } = useParams();
-    console.log("parameter:", id )
+    // console.log("parameter:", id )
     const accessToken = localStorage.getItem("accessToken");
     const [group, setGroup] = useState(null);
 
     const handleClick = async() => {
         const data = await confirmGroupInvitation(id, accessToken);
-        console.log(data);
+        // console.log(data);
         toast.success(data, {
             position: "top-right",
             autoClose: 2000,
@@ -42,7 +42,7 @@ function InvitationPage() {
     };
 
     const verifyToken = async () => {
-        console.log("jdjnfsdj:", accessToken)
+        // console.log("jdjnfsdj:", accessToken)
         if (!accessToken) {
             navigate("/signin");
         }
@@ -68,7 +68,7 @@ function InvitationPage() {
     }, []);
     const getGroup = async () => {
         const data = await getAGroup(id, accessToken);
-        console.log(data);
+        // console.log(data);
         setGroup(data.group);
     };
 

@@ -14,10 +14,10 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState();
   useEffect(() => {
-    console.log("vao useEffect: " + currentUser);
+    // console.log("vao useEffect: " + currentUser);
     const checkLoggedIn = async () => {
       let cuser = await isAuthenticated();
-      console.log("cuser ", cuser);
+      // console.log("cuser ", cuser);
       if (cuser?.user != undefined) {
         setCurrentUser(cuser.user);
       }
@@ -28,9 +28,9 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const currentPathname = window.location.pathname;
     const accessToken = localStorage.getItem("accessToken");
-    console.log("currentPathname ", currentPathname);
+    // console.log("currentPathname ", currentPathname);
     if (currentPathname != "/signin" && currentPathname != "/signup") {
-      console.log("check sign in ", accessToken);
+      // console.log("check sign in ", accessToken);
       if (currentUser == undefined && accessToken == null) {
         window.location.href = "/signin";
       }

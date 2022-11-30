@@ -118,7 +118,7 @@ export default function ButtonAppBar() {
       .required("Email required")
   });
   const verifyToken = async () => {
-    console.log("jdjnfsdj:", accessToken);
+    // console.log("jdjnfsdj:", accessToken);
     if (!accessToken) {
       navigate("/signin");
     }
@@ -150,7 +150,7 @@ export default function ButtonAppBar() {
     },
     validationSchema: UserSchema,
     onSubmit: async (value) => {
-      console.log(value);
+      // console.log(value);
       const data = await sendInvitationMail(value.email, id, accessToken);
 
       if (data.status != 200) {

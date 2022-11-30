@@ -50,9 +50,9 @@ export const ProfileSetting = function (props) {
     document.title = "Your Profile";
     document.getElementById("root").style.backgroundImage = "none";
   }, []);
-  useEffect(() => {
-    console.log("currentUser ", currentUser);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log("currentUser ", currentUser);
+  // }, [currentUser]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
