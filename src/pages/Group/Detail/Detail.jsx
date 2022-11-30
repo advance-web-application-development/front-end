@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import { FRONTEND_URL } from "../../../actions/constants";
 import GroupsIcon from "@mui/icons-material/Groups";
 
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { StyledNavLink } from "./style";
@@ -34,7 +33,35 @@ const style = {
   px: 4,
   pb: 3
 };
-
+const groupButton = {
+  margin: "0px",
+  border: "0px",
+  cursor: "pointer",
+  verticalAlign: "bottom",
+  boxShadow: "rgb(0 0 0 / 25%) 0px -4px inset",
+  background: "rgb(19, 104, 206)",
+  color: "rgb(255, 255, 255)",
+  borderRadius: "4px",
+  fontSize: "1.2rem",
+  fontWeight: "bold",
+  /* padding: 20px, */
+  textAlign: "center",
+  textDecoration: "none",
+  minWidth: "42px",
+  minHeight: "42px",
+  padding: "0px 16px 5px",
+  position: "relative",
+  fontFamily: 'Montserrat, "Noto Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  lineHeight: "42px"
+};
+const groupManageContainer = {
+  marginLeft: "200px"
+};
+const groupManageToolbar = {
+  display: "flex",
+  flexDirection: "row",
+  gap: "20px"
+};
 export default function ButtonAppBar() {
   const [open, setOpen] = React.useState(false);
   const { state } = useLocation();
@@ -157,16 +184,16 @@ export default function ButtonAppBar() {
       />
       <div>
         <Toolbar>
-          <Typography variant="h6" component="div" style={{ color: "black" }}>
-            Danh Sách Nhóm
+          <Typography variant="h6" component="div" style={{ color: "black", marginLeft: "200px" }}>
+            Group List
           </Typography>
-          <Box sx={{ marginLeft: "auto" }}>
+          <Box sx={{ marginLeft: "auto", display: "flex", flexDirection: "row", gap: "20px" }}>
             <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={back}></Button>
 
             <Button variant="contained" startIcon={<LogoutIcon />} onClick={leaveGroup}>
-              Rời Nhóm
+              Leave the group
             </Button>
-            <Button variant="contained" onClick={handleOpen}>
+            <Button variant="contained" style={{ minHeight: "32px" }} onClick={handleOpen}>
               Invite
             </Button>
           </Box>
@@ -214,14 +241,33 @@ export default function ButtonAppBar() {
             </Box>
           </Modal>
         </Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <Toolbar>
-            <Button key="members" sx={{ color: "black", p: 2, mr: 6 }} onClick={getMemeber}>
-              Danh sách Thành Viên
-            </Button>
-            <Button key="slides" sx={{ color: "black", p: 2 }} onClick={getSlide}>
-              Chia sẻ Bộ Câu Hỏi
-            </Button>
+        <Box
+          sx={{ flexGrow: 1 }}
+          className="group-manage-container"
+          style={{ ...groupManageContainer }}>
+          <Toolbar className="group-manage-toolbar" style={{ ...groupManageToolbar }}>
+            {/* <Button key="members" sx={{ color: "black", p: 2, mr: 6 }} onClick={getMemeber}>
+              Member List
+            </Button> */}
+            <button
+              key="members"
+              type="button"
+              onClick={getMemeber}
+              className="group-button"
+              style={{ ...groupButton }}>
+              Member List
+            </button>
+            {/* <Button key="slides" sx={{ color: "black", p: 2 }} onClick={getSlide}>
+              Share question set
+            </Button> */}
+            <button
+              key="slides"
+              type="button"
+              onClick={getSlide}
+              className="group-button"
+              style={{ ...groupButton }}>
+              Share question set
+            </button>
           </Toolbar>
         </Box>
       </div>
