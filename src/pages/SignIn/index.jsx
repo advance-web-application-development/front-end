@@ -19,7 +19,7 @@ export const SignIn = function () {
   const [currentUser, setCurrentUser] = useContext(UserContext);
 
   useEffect(() => {
-    console.log("currentUser log in ", currentUser);
+    // console.log("currentUser log in ", currentUser);
     if (currentUser != undefined) {
       navigate("/home");
     }
@@ -52,7 +52,7 @@ export const SignIn = function () {
         theme: "light"
       });
       let cuser = await isAuthenticated();
-      console.log("cuser ", cuser);
+      // console.log("cuser ", cuser);
       if (cuser?.user != undefined) {
         setCurrentUser(cuser.user);
       }
@@ -63,7 +63,7 @@ export const SignIn = function () {
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     password: Yup.string()
       .required("No password provided.")
-      .min(8, "Password is too short - shoulWd be at least 8 characters")
+      .min(8, "Password is too short - should be at least 8 characters")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*[0-9])/, "Must contain at least one number")
       .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character")
@@ -75,7 +75,7 @@ export const SignIn = function () {
     },
     validationSchema: signInSchema,
     onSubmit: async (value) => {
-      console.log("value submit ", value);
+      // console.log("value submit ", value);
       try {
         const responseSignIn = await loginUser(value.username, value.password);
         const { data, status } = responseSignIn;
@@ -104,7 +104,7 @@ export const SignIn = function () {
             theme: "light"
           });
           let cuser = await isAuthenticated();
-          console.log("cuser ", cuser);
+          // console.log("cuser ", cuser);
           if (cuser?.user != undefined) {
             setCurrentUser(cuser.user);
           }

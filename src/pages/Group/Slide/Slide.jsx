@@ -61,7 +61,7 @@ export default function GroupSile() {
     navigate('/groups');
   };
   const verifyToken = async () => {
-      console.log("jdjnfsdj:", accessToken)
+      // console.log("jdjnfsdj:", accessToken)
       if (!accessToken) {
           navigate("/signin");
       }

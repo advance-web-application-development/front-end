@@ -120,7 +120,7 @@ export default function ButtonAppBar() {
       .required("Email required")
   });
   const verifyToken = async () => {
-    console.log("jdjnfsdj:", accessToken);
+    // console.log("jdjnfsdj:", accessToken);
     if (!accessToken) {
       navigate("/signin");
     }
@@ -141,6 +141,7 @@ export default function ButtonAppBar() {
       });
       return;
     }
+
     setId(state.id)
     
     verifyToken();
@@ -154,7 +155,6 @@ export default function ButtonAppBar() {
     onSubmit: async (value) => {
       console.log(value);
       const data = await sendInvitationMail(value.email, id, URL, accessToken);
-
       if (data.status != 200) {
         // alert(data.data);
         toast.error(data.data, {
@@ -308,19 +308,19 @@ function getItem(label, key, icon, children, type) {
 
 var MenuItemList = [
   getItem(
-    <StyledNavLink to="/groups">
+    <Button onClick={() => {reloadGroup("");}}>
       <GroupsIcon style={{ fontSize: "2rem" }} />
       <p style={{ marginLeft: "1rem" }}></p>
       Group I've joined
-    </StyledNavLink>,
+    </Button>,
     "menuitem_1"
   ),
   getItem(
-    <StyledNavLink to="/groups/owner">
+    <Button onClick={() => {reloadGroup("/owner");}}>
       <GroupsIcon style={{ fontSize: "2rem" }} />
       <p style={{ marginLeft: "1rem" }}></p>
       Group I manage
-    </StyledNavLink>,
+    </Button>,
     "menuitem_2"
   )
 ];

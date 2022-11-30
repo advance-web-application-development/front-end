@@ -17,7 +17,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useContext(UserContext);
   useEffect(() => {
-    console.log("currentUser log up ", currentUser);
+    // console.log("currentUser log up ", currentUser);
     if (currentUser != undefined) {
       navigate("/home");
     }
@@ -43,9 +43,9 @@ const SignUp = () => {
     },
     validationSchema: SignUpSchema,
     onSubmit: async (value) => {
-      console.log("sign up submit ", value);
+      // console.log("sign up submit ", value);
       const data = await registerUser(value.username, value.email, value.password);
-      console.log("data register ", data);
+      // console.log("data register ", data);
       if (data.status != 200) {
         // alert(data.data);
         toast.error(data.data, {
@@ -104,7 +104,7 @@ const SignUp = () => {
         theme: "light"
       });
       let cuser = await isAuthenticated();
-      console.log("cuser ", cuser);
+      // console.log("cuser ", cuser);
       if (cuser?.user != undefined) {
         setCurrentUser(cuser.user);
       }

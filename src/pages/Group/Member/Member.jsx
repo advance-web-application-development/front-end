@@ -90,7 +90,7 @@ function MemberPage() {
     role: Yup.string().required("Role required"),
   });
   const verifyToken = async () => {
-      console.log("jdjnfsdj:", accessToken)
+      // console.log("jdjnfsdj:", accessToken)
       if (!accessToken) {
           navigate("/signin");
       }
@@ -102,7 +102,7 @@ function MemberPage() {
     },
     validationSchema: RoleSchema,
     onSubmit: async (value) => {
-      console.log("submit ", value);
+      // console.log("submit ", value);
       const data = await toggleRole(value.role, currentMember, accessToken);
       if (data.status != 200) {
         // alert(data.data);
@@ -145,9 +145,9 @@ function MemberPage() {
     },
     validationSchema: AddSchema,
     onSubmit: async (value) => {
-      console.log("submit ", value);
+      // console.log("submit ", value);
       const data = await addGroupMember(value.email,id, accessToken);
-      console.log("data register ", data);
+      // console.log("data register ", data);
       if (data.status != 200) {
         // alert(data.data);
         toast.error(data.data, {
@@ -175,7 +175,7 @@ function MemberPage() {
       });
     },
     onChange:(e, value)=>{
-      console.log(value);
+      // console.log(value);
       addFormik.setValue({email: value});
     }
   });
@@ -220,11 +220,11 @@ function MemberPage() {
   const reloadMember = async() => {
     const list = await fetchGroupMember(state.id, accessToken);
     setData(list.users)
-    console.log(list.users)
+    // console.log(list.users)
   };
   const loadUser = async() => {
     const list = await fetchListUser(accessToken)
-    console.log(list.users)
+    // console.log(list.users)
     setListUser(list.users)
     
   };

@@ -51,7 +51,7 @@ const style = {
 const queryClient = new QueryClient();
 export default function ListGroup() {
   const [currentUser, setCurrentUser] = useContext(UserContext);
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
   return (
     <QueryClientProvider client={queryClient}>
       <GroupsPage />
@@ -84,7 +84,7 @@ function GroupsPage() {
     },
     validationSchema: GroupSchema,
     onSubmit: async (value) => {
-      console.log("accessToken=", accessToken);
+      // console.log("accessToken=", accessToken);
       const data = await createGroup(value.name, accessToken);
       if (data.status != 200) {
         // alert(data.data);
@@ -118,6 +118,11 @@ function GroupsPage() {
     const list = await fetchGroup(params, accessToken);
     setData(list.groups);
   };
+  useEffect(() => {
+    document.title = "My Groups - KKahoot";
+    document.getElementById("root").style.backgroundImage = "none";
+  }, []);
+  
   const verifyToken = async () => {
     if (!accessToken) {
       navigate("/signin");
@@ -130,7 +135,7 @@ function GroupsPage() {
   }, []);
 
   const getGroupDetail = (groupId) => {
-    console.log(groupId);
+    // console.log(groupId);
     navigate("/group-detail", { state: { id: groupId } });
   };
   var MenuItemList = [
