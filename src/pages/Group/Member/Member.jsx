@@ -66,7 +66,7 @@ function MemberPage() {
   const [listUser, setListUser] = React.useState([]);
 
   const {state} = useLocation();
-  const { id } = state; // Read values passed on state
+  const [ id, setId] = React.useState(); 
   const accessToken = localStorage.getItem("accessToken");
 
   const handleOpenRoleForm = (rowId) => {
@@ -218,7 +218,7 @@ function MemberPage() {
     navigate('/groups');
   };
   const reloadMember = async() => {
-    const list = await fetchGroupMember(id, accessToken);
+    const list = await fetchGroupMember(state.id, accessToken);
     setData(list.users)
     console.log(list.users)
   };
@@ -229,6 +229,22 @@ function MemberPage() {
     
   };
   useEffect(() => {
+    if(!state||!state.id) 
+    {
+      navigate("/groups");
+      const msg = `Group is undefined `;
+      toast.error(msg, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "light"
+      });
+      return;
+    }
+    setId(state.id)
     reloadMember()
     loadUser()
     verifyToken();

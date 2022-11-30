@@ -48,6 +48,21 @@ function InvitationPage() {
         }
     };
     useEffect(() => {
+        if(!id||id.length==0) 
+        {
+            navigate("/groups");
+            const msg = `Group is undefined `;
+            toast.success(msg, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                theme: "light"
+            });
+        }
+
         verifyToken();
         getGroup();
     }, []);
