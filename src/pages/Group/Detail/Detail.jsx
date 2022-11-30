@@ -12,9 +12,15 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Typography, Box, Button, Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import { FRONTEND_URL } from "../../../actions/constants";
+import GroupsIcon from "@mui/icons-material/Groups";
+
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { StyledNavLink } from "./style";
+import { Header } from "../../../components/Header";
+import { Menu } from "antd";
+const drawerWidth = 240;
 const style = {
   position: "absolute",
   top: "50%",
@@ -131,75 +137,127 @@ export default function ButtonAppBar() {
     }
   });
   return (
-    <div>
-      <Toolbar>
-        <Typography variant="h6" component="div" style={{ color: "black" }}>
-          Danh Sách Nhóm
-        </Typography>
-        <Box sx={{ marginLeft: "auto" }}>
-          <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={back}></Button>
-
-          <Button variant="contained" startIcon={<LogoutIcon />} onClick={leaveGroup}>
-            Rời Nhóm
-          </Button>
-          <Button variant="contained" onClick={handleOpen}>
-            Invite
-          </Button>
-        </Box>
-        <Modal hideBackdrop open={open} onClose={handleClose}>
-          <Box sx={{ ...style, width: 200 }}>
-            <form className="form" method="post" onSubmit={formik.handleSubmit} autoComplete="on">
-              <div className="input-box">
-                <label htmlFor="email" className="input-label">
-                  Email
-                </label>
-                <input
-                  className="input-text"
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  type="text"
-                  placeholder="Nhập Email"
-                />
-                {formik.errors.email && formik.touched.email && (
-                  <p className="error-message">{formik.errors.email}</p>
-                )}
-                <label htmlFor="email" className="input-label">
-                  Coppy this invitation link and send it to invitate new member
-                </label>
-
-                <input
-                  className="input-text"
-                  id="email"
-                  name="email"
-                  value={`${FRONTEND_URL}/group-invitation/${id}`}
-                  type="text"
-                  readOnly
-                  placeholder="Nhập Email"
-                />
-              </div>
-
-              <Button variant="contained" type="submit">
-                Invited
-              </Button>
-              <Button variant="contained" onClick={handleClose}>
-                Hủy
-              </Button>
-            </form>
-          </Box>
-        </Modal>
-      </Toolbar>
-      <Box sx={{ flexGrow: 1 }}>
+    <>
+      <Header />
+      <Menu
+        style={{
+          width: drawerWidth,
+          position: "absolute",
+          left: 0,
+          top: "6.4rem",
+          bottom: 0,
+          fontSize: "1.4rem",
+          paddingTop: "2.4rem",
+          boxShadow: "rgb(0 0 0 / 5%) 4px 0px 8px 0px"
+        }}
+        defaultSelectedKeys={["1"]}
+        defaultOpenKeys={["menuitem_1"]}
+        mode="inline"
+        items={MenuItemList}
+      />
+      <div>
         <Toolbar>
-          <Button key="members" sx={{ color: "black", p: 2, mr: 6 }} onClick={getMemeber}>
-            Danh sách Thành Viên
-          </Button>
-          <Button key="slides" sx={{ color: "black", p: 2 }} onClick={getSlide}>
-            Chia sẻ Bộ Câu Hỏi
-          </Button>
+          <Typography variant="h6" component="div" style={{ color: "black" }}>
+            Danh Sách Nhóm
+          </Typography>
+          <Box sx={{ marginLeft: "auto" }}>
+            <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={back}></Button>
+
+            <Button variant="contained" startIcon={<LogoutIcon />} onClick={leaveGroup}>
+              Rời Nhóm
+            </Button>
+            <Button variant="contained" onClick={handleOpen}>
+              Invite
+            </Button>
+          </Box>
+          <Modal hideBackdrop open={open} onClose={handleClose}>
+            <Box sx={{ ...style, width: 200 }}>
+              <form className="form" method="post" onSubmit={formik.handleSubmit} autoComplete="on">
+                <div className="input-box">
+                  <label htmlFor="email" className="input-label">
+                    Email
+                  </label>
+                  <input
+                    className="input-text"
+                    id="email"
+                    name="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    type="text"
+                    placeholder="Nhập Email"
+                  />
+                  {formik.errors.email && formik.touched.email && (
+                    <p className="error-message">{formik.errors.email}</p>
+                  )}
+                  <label htmlFor="email" className="input-label">
+                    Coppy this invitation link and send it to invitate new member
+                  </label>
+
+                  <input
+                    className="input-text"
+                    id="email"
+                    name="email"
+                    value={`${FRONTEND_URL}/group-invitation/${id}`}
+                    type="text"
+                    readOnly
+                    placeholder="Nhập Email"
+                  />
+                </div>
+
+                <Button variant="contained" type="submit">
+                  Invited
+                </Button>
+                <Button variant="contained" onClick={handleClose}>
+                  Hủy
+                </Button>
+              </form>
+            </Box>
+          </Modal>
         </Toolbar>
-      </Box>
-    </div>
+        <Box sx={{ flexGrow: 1 }}>
+          <Toolbar>
+            <Button key="members" sx={{ color: "black", p: 2, mr: 6 }} onClick={getMemeber}>
+              Danh sách Thành Viên
+            </Button>
+            <Button key="slides" sx={{ color: "black", p: 2 }} onClick={getSlide}>
+              Chia sẻ Bộ Câu Hỏi
+            </Button>
+          </Toolbar>
+        </Box>
+      </div>
+    </>
   );
 }
+
+// #region Create Dynamic Menu Item
+
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type
+  };
+}
+
+var MenuItemList = [
+  getItem(
+    <StyledNavLink to="/groups">
+      <GroupsIcon style={{ fontSize: "2rem" }} />
+      <p style={{ marginLeft: "1rem" }}></p>
+      Group I've joined
+    </StyledNavLink>,
+    "menuitem_1"
+  ),
+  getItem(
+    <StyledNavLink to="/groups/owner">
+      <GroupsIcon style={{ fontSize: "2rem" }} />
+      <p style={{ marginLeft: "1rem" }}></p>
+      Group I manage
+    </StyledNavLink>,
+    "menuitem_2"
+  )
+];
+
+// #endregion
