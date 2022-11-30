@@ -42,28 +42,6 @@ export const EditProfileScreen = (props) => {
   const navigate = useNavigate();
 
   //#endregion
-
-  // #region Tải dữ liệu lên lần đầu
-
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     navigate("/signin");
-  //   }
-  //   alert(JSON.stringify(currentUser));
-  //   GetUserInfo(currentUser.username).then((response) => {
-  //     console.log(response);
-  //     if (response.Code == 1) {
-  //       setUserProfile(response.ResponseData);
-  //     } else {
-  //       // Todo: Show error before redirect to sign in
-  //       alert("there was an error");
-  //       navigate("/");
-  //     }
-  //   });
-  // }, [currentUser]);
-
-  // #endregion
-
   // # region Handler
 
   const handleHasChanges = (event) => {
@@ -112,21 +90,18 @@ export const EditProfileScreen = (props) => {
           }
           // handle axios api
         }}>
-        {({ submitForm, isSubmitting }) => (
+        {({ isValid, handleChange, handleBlur, handleSubmit }) => (
           <Box
             component="form"
             style={{ fontSize: "1.4rem !important", maxWidth: "500px", margin: "auto" }}
-            autoComplete="off">
+            autoComplete="off"
+            onSubmit={handleSubmit}>
             <Card>
               <Card.Header
                 className="d-flex justify-content-between align-items-center"
                 style={{ fontWeight: "600", padding: "1.2rem" }}>
                 <div>User Information</div>
-                <StyledButton
-                  variant="primary"
-                  type="submit"
-                  disabled={!hasChanges || isSubmitting}
-                  onClick={submitForm}>
+                <StyledButton variant="primary" type="submit" disabled={!(hasChanges && isValid)}>
                   Save
                 </StyledButton>
               </Card.Header>
@@ -141,6 +116,8 @@ export const EditProfileScreen = (props) => {
                     fullWidth={true}
                     sx={{ marginRight: "1rem" }}
                     className="flex-fill"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     disabled
                   />
                   <StyledTooltip
@@ -170,6 +147,8 @@ export const EditProfileScreen = (props) => {
                   className="mb-5"
                   fullWidth={true}
                   onChangeCapture={handleHasChanges}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 <Field
                   component={StyledInput}
@@ -181,6 +160,8 @@ export const EditProfileScreen = (props) => {
                   className="mb-5"
                   fullWidth={true}
                   onChangeCapture={handleHasChanges}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   disabled
                 />
               </Card.Body>
@@ -195,11 +176,6 @@ export const EditProfileScreen = (props) => {
 
 const EditUserNameModal = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-  };
-  // const currentUser = props.user;
   const [currentUser, setCurrentUser] = useContext(UserContext);
 
   return (
@@ -244,7 +220,7 @@ const EditUserNameModal = (props) => {
           });
         }
       }}>
-      {({ submitForm, isSubmitting, resetForm }) => (
+      {({ isSubmitting, resetForm, isValid, handleChange, handleBlur, handleSubmit }) => (
         <StyledModal
           {...props}
           aria-labelledby="contained-modal-title-vcenter"
@@ -254,7 +230,8 @@ const EditUserNameModal = (props) => {
           <Box
             component="form"
             style={{ fontSize: "1.4rem !important", margin: "auto" }}
-            autoComplete="off">
+            autoComplete="off"
+            onSubmit={handleSubmit}>
             <StyledModal.Header closeButton style={{ padding: "2.4rem 2.4rem 0.8rem" }}>
               <StyledModal.Title id="contained-modal-title-vcenter">
                 <div style={{ fontWeight: "600", fontSize: "2.4rem" }}>Change your username</div>
@@ -276,17 +253,15 @@ const EditUserNameModal = (props) => {
                 sx={{ marginBottom: "1rem" }}
                 className="flex-fill"
                 onChangeCapture={() => setHasChanges(true)}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </StyledModal.Body>
             <StyledModal.Footer className="justify-content-center py-4">
               <StyledButton variant="secondary" onClick={props.onHide}>
                 Cancel
               </StyledButton>
-              <StyledButton
-                variant="success"
-                type="submit"
-                disabled={!hasChanges || isSubmitting}
-                onClick={submitForm}>
+              <StyledButton variant="success" type="submit" disabled={!(hasChanges && isValid)}>
                 Change username
               </StyledButton>
             </StyledModal.Footer>

@@ -57,7 +57,7 @@ export const ProfileSetting = function (props) {
     setValue(newValue);
   };
   return (
-    <div style={{minHeight: "80rem"}}>
+    <div style={{ minHeight: "80rem" }}>
       <h3 className="my-5" style={{ fontSize: "2.8rem", fontWeight: "600" }}>
         Settings
       </h3>
@@ -70,7 +70,7 @@ export const ProfileSetting = function (props) {
               textColor="secondary"
               indicatorColor="secondary">
               <StyledTab
-                style={{ color: "#009e58 !important", fontSize: "1.6rem !important" }}
+                // style={{ color: "#009e58 !important", fontSize: "1.6rem !important" }}
                 label="Edit profile"
                 value="1"
               />
@@ -92,20 +92,18 @@ export const ProfileSetting = function (props) {
 };
 
 const StyledTabList = styled(TabList)`
-  .css-1a4cg4j-MuiButtonBase-root-MuiTab-root.Mui-selected {
+& .MuiTabs-indicator {
+  background-color: #009e58 !important;
+}`;
+
+const StyledTab = styled(Tab)`
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  text-transform: capitalize !important;
+  &.Mui-selected {
     color: #009e58 !important;
   }
-  .css-11yukd5-MuiTabs-indicator {
-    background-color: #009e58 !important;
-  }
-  .css-1a4cg4j-MuiButtonBase-root-MuiTab-root {
-    font-size: 1.6rem !important;
-    font-weight: 700 !important;
-    text-transform: capitalize !important;
-  }
 `;
-
-const StyledTab = styled(Tab)``;
 
 const StyledTabPanel = styled(TabPanel)`
   fontsize: 1.4rem !important;
