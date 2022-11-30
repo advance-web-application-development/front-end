@@ -40,6 +40,7 @@ export const registerUser = async (username, email, password) => {
   }
 };
 export const loginUser = async (username, password) => {
+  console.log("URL login ", URL);
   const response = await axios
     .post(`${URL}/auth/login`, {
       username,
