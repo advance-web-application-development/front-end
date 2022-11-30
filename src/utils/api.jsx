@@ -264,13 +264,14 @@ export const exitsGroup = async (id, accessToken) => {
     console.log("err", err);
   }
 };
-export const sendInvitationMail = async (email, id, accessToken) => {
+export const sendInvitationMail = async (email, id, link, accessToken) => {
   try {
     const response = await axios
       .post(
         `${URL}/group/sendInvitation/${id}`,
         {
-          email: email
+          email: email,
+          URL: link
         },
         {
           headers: {

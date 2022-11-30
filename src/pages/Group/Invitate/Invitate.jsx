@@ -62,7 +62,6 @@ function InvitationPage() {
                 theme: "light"
             });
         }
-
         verifyToken();
         getGroup();
     }, []);

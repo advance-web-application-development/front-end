@@ -11,7 +11,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Typography, Box, Button, Modal } from "@mui/material";
 import { toast } from "react-toastify";
-import { FRONTEND_URL } from "../../../actions/constants";
 import GroupsIcon from "@mui/icons-material/Groups";
 
 import { useFormik } from "formik";
@@ -69,6 +68,9 @@ export default function ButtonAppBar() {
   const handleOpen = () => {
     setOpen(true);
   };
+  const currentUrl = window.location.href;
+  const URL= currentUrl.slice(0, currentUrl.lastIndexOf('/'));
+  
   const handleClose = () => {
     formik.setFieldValue("email", "");
     setOpen(false);
@@ -151,7 +153,7 @@ export default function ButtonAppBar() {
     validationSchema: UserSchema,
     onSubmit: async (value) => {
       console.log(value);
-      const data = await sendInvitationMail(value.email, id, accessToken);
+      const data = await sendInvitationMail(value.email, id, URL, accessToken);
 
       if (data.status != 200) {
         // alert(data.data);
@@ -241,7 +243,7 @@ export default function ButtonAppBar() {
                     className="input-text"
                     id="email"
                     name="email"
-                    value={`${FRONTEND_URL}/group-invitation/${id}`}
+                    value={`${URL}/group-invitation/${id}`}
                     type="text"
                     readOnly
                     placeholder="Nhập Email"
