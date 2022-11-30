@@ -63,7 +63,7 @@ export const SignIn = function () {
     username: Yup.string().min(3, "Minimum 3 characters").required("Username required"),
     password: Yup.string()
       .required("No password provided.")
-      .min(8, "Password is too short - shoulWd be at least 8 characters")
+      .min(8, "Password is too short - should be at least 8 characters")
       .matches(/^(?=.*[A-Z])/, "Must contain at least one uppercase character")
       .matches(/^(?=.*[0-9])/, "Must contain at least one number")
       .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character")

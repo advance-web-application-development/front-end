@@ -1,7 +1,17 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
 const GoogleLoginButton = (props) => {
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: GOOGLE_CLIENT_ID,
+        scope: ""
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  });
   return (
     <GoogleLogin
       clientId={GOOGLE_CLIENT_ID}
