@@ -107,7 +107,7 @@ const SignUp = () => {
   };
   useEffect(() => {
     document.title = "Sign Up - KKahoot!";
-    document.getElementById("root").style.backgroundImage = `url("./img/universe.jpg")`;
+    document.getElementById("root").style.backgroundImage = `url("./assets/images/universe.jpg")`;
     document.getElementById("root").style.backgroundSize = `cover`;
     document.getElementById("root").style.backgroundRepeat = `no-repeat`;
     return () => {
@@ -117,7 +117,7 @@ const SignUp = () => {
   return (
     <Styled>
       <div className="header">
-        <img src="./img/kahoot.png" className="header-img" alt="kahoot" />
+        <img src="./assets/images/kahoot.png" className="header-img" alt="kahoot" />
       </div>
       <div className="signup-container">
         <main className="signup-main">

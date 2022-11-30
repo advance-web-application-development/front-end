@@ -2,16 +2,18 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const port = process.env.PORT || 3001;
+const ASSET_PATH = process.env.ASSET_PATH || "/";
 
 module.exports = {
   // Webpack configuration goes here
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "/dist"),
-    publicPath: "/",
-    filename: "index_bundle.js"
+    path: path.join(__dirname, "build"),
+    publicPath: ASSET_PATH,
+    filename: "[name].bundle.js"
   },
   devtool: "source-map",
   module: {
@@ -47,7 +49,12 @@ module.exports = {
       template: "./public/index.html"
     }),
     new ESLintPlugin(),
-    new Dotenv()
+    new Dotenv(),
+    new CopyPlugin({
+      patterns: [
+        { from: "public/assets", to: "assets" } //to the  root directory
+      ]
+    })
   ],
   devServer: {
     host: "localhost",
