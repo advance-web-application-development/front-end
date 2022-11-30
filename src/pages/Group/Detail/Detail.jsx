@@ -306,19 +306,19 @@ function getItem(label, key, icon, children, type) {
 
 var MenuItemList = [
   getItem(
-    <StyledNavLink to="/groups">
+    <Button onClick={() => {reloadGroup("");}}>
       <GroupsIcon style={{ fontSize: "2rem" }} />
       <p style={{ marginLeft: "1rem" }}></p>
       Group I've joined
-    </StyledNavLink>,
+    </Button>,
     "menuitem_1"
   ),
   getItem(
-    <StyledNavLink to="/groups/owner">
+    <Button onClick={() => {reloadGroup("/owner");}}>
       <GroupsIcon style={{ fontSize: "2rem" }} />
       <p style={{ marginLeft: "1rem" }}></p>
       Group I manage
-    </StyledNavLink>,
+    </Button>,
     "menuitem_2"
   )
 ];
