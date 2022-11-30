@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { loginUserWithGoogle } from "../../utils/api";
 import GoogleLoginButton from "../../components/GoogleLogin/GoogleLoginButton";
 import UserContext from "../../utils/UserContext";
+import { isAuthenticated } from "../../utils/AuthService";
 const SignUp = () => {
   const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
@@ -102,6 +103,11 @@ const SignUp = () => {
         draggable: true,
         theme: "light"
       });
+      let cuser = await isAuthenticated();
+      console.log("cuser ", cuser);
+      if (cuser?.user != undefined) {
+        setCurrentUser(cuser.user);
+      }
       navigate("/home");
     }
   };

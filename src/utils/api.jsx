@@ -1,11 +1,13 @@
 import axios from "axios";
-const URL = "https://backend-ptudwnc-kahoot.herokuapp.com";
+import { ApiConfig as _ParamConfig } from "../actions/constants";
+const URL = _ParamConfig.serverUrl;
 export const fetchUsers = async (accessToken) => {
   const { data } = await axios.get(`${URL}/users`, {
     headers: {
       x_authorization: accessToken
     }
   });
+  console.log("data fetchUsers ", data);
   return data;
 };
 export const registerUser = async (username, email, password) => {
