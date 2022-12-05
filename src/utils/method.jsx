@@ -1,5 +1,10 @@
 import { toast } from "react-toastify";
+import { BroadcastChannel } from "broadcast-channel";
+
+const logoutChannel = new BroadcastChannel("logout");
+
 export const onLogout = () => {
+  console.log("call onLogout");
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   sessionStorage.clear();
@@ -12,5 +17,12 @@ export const onLogout = () => {
     draggable: true,
     theme: "light"
   });
-  window.location.href = "/signin";
+  window.location.href = window.location.origin + "/";
 };
+// export const logoutAllTabs = () => {
+//   console.log("go to logout channel");
+//   logoutChannel.onmessage = () => {
+//     onLogout();
+//     logoutChannel.close();
+//   };
+// };
