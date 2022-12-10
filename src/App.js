@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NoMatch from "./pages/NoMatch";
 import { SignIn } from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProfile, ProfileSetting } from "./pages/UserProfile";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserProvider } from "./utils/UserContext";
+import { onLogout } from "./utils/method";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,6 +24,19 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  useEffect(() => {
+    const handleInvalidToken = e => {
+      console.log("e token", e);
+      if ((e.key === "accessToken" || e.key == "refreshToken") && e.oldValue && !e.newValue) {
+        // Your logout logic here
+        onLogout();
+      }
+    };
+    window.addEventListener("storage", handleInvalidToken);
+    return function cleanup() {
+      window.removeEventListener("storage", handleInvalidToken);
+    };
+  }, [onLogout]);
   return (
     <>
       <QueryClientProvider client={queryClient}>

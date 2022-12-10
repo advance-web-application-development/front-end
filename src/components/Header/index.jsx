@@ -34,7 +34,7 @@ function stringAvatar(name) {
   }
 }
 
-export const Header = function (props) {
+export const Header = function(props) {
   const [currentUser, setCurrentUser] = useContext(UserContext);
 
   return (
@@ -74,7 +74,7 @@ export const Header = function (props) {
   );
 };
 
-const DefaultHeader = (props) => {
+const DefaultHeader = props => {
   return (
     <>
       <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
@@ -88,7 +88,7 @@ const DefaultHeader = (props) => {
   );
 };
 
-const FullHeader = (props) => {
+const FullHeader = props => {
   return (
     <>
       <MenuBar id="menubar-horizontal" bg="light" className="d-none d-md-flex">
@@ -131,7 +131,7 @@ const FullHeader = (props) => {
 function CreatingButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -188,7 +188,7 @@ function CreatingButton(props) {
 function AvatarButton(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

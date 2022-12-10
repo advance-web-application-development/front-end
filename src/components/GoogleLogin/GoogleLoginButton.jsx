@@ -2,7 +2,7 @@ import React, { memo, useEffect } from "react";
 import { GOOGLE_CLIENT_ID } from "../../actions/constants";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
-const GoogleLoginButton = (props) => {
+const GoogleLoginButton = props => {
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -11,7 +11,7 @@ const GoogleLoginButton = (props) => {
       });
     };
     gapi.load("client:auth2", initClient);
-  });
+  }, []);
   return (
     <GoogleLogin
       clientId={GOOGLE_CLIENT_ID}
