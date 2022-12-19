@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {Styled} from "./style";
 import { useLocation } from "react-router";
 
-import { Space, Table, Button, Form, Input, Modal, Select, Tabs } from 'antd';
+import {Layout, Space, Table, Button, Form, Input, Modal, Select, Tabs } from 'antd';
 import { Header } from "../../../components/Header";
 import  SideBar  from "../SideBar";
 const { Column } = Table;
@@ -61,7 +61,7 @@ function MemberPage() {
 
     const [data, setData] = React.useState([]);
     const [currentMember, setCurrentMember] = React.useState(null);
-    const [listUser, setListUser] = React.useState([]);
+    const [listUser, setListUser] = React.useState();
 
     const {state} = useLocation();
     const [ id, setId] = React.useState(); 
@@ -104,7 +104,7 @@ function MemberPage() {
         },
         validationSchema: RoleSchema,
         onSubmit: async (value) => {
-        console.log("submit ", value);
+        // console.log("submit ", value);
         const data = await toggleRole(value.role, currentMember, accessToken);
         if (data.status != 200) {
             // alert(data.data);
@@ -147,7 +147,7 @@ function MemberPage() {
         },
         validationSchema: AddSchema,
         onSubmit: async (value) => {
-        console.log("submit ", value);
+        // console.log("submit ", value);
         const data = await addGroupMember(value.email,id, accessToken);
         // console.log("data register ", data);
         if (data.status != 200) {
@@ -216,13 +216,18 @@ function MemberPage() {
     };
     const loadUser = async() => {
         const list = await fetchListUser(accessToken)
-        for (let user of list.users)
+        let users= list.users
+        for (let u of users)
         {
-            user.label=user.email;
+            u.label=u.email;
+            u.value=u.email;
+
         }
-        setListUser(list.users)
+
+        setListUser(users)
         
     };
+
     useEffect(() => {
         if(!state||!state.id) 
         {
@@ -240,9 +245,11 @@ function MemberPage() {
         return;
         }
         setId(state.id)
-        reloadMember()
-        loadUser()
         verifyToken();
+        reloadMember()     
+        loadUser()
+
+
 
     }, []);
     const onChange = (key) => {
@@ -261,99 +268,105 @@ function MemberPage() {
 
     return (
         <>
-        <Header />
-        <SideBar selectedKey=''/>
-        <Styled>
-            <div className="group-list-top-bar">
-                <button type="button" onClick={handleOpenAddForm} className="create-group-button">
-                    Add member
-                </button>
-                <button type="button" onClick={leaveGroup} className="create-group-button">
-                    Leave Group
-                </button>
-            </div>
-            <div>
-                <Tabs defaultActiveKey="2" onChange={onChange} className="main-content" style ={{ left: 300, position: 'relative'}}
-                    items={items}
-                />
-                <Table dataSource={[...data]}
-                    style={{
-                        left: 300,                    
-                        position: "relative",
-                    }}
-                    >
-                    <Column title="Email" dataIndex="email" key="email" width= "50%"/>
-                    <Column title="Role" dataIndex="role" key="role" width= "20%"/>
+        <Layout width= "100%">
+            <Header />
+            <SideBar selectedKey=''/>
+            <Layout>
+                <Styled>
+                    <div className="group-list-top-bar">
+                        <button type="button" onClick={handleOpenAddForm} className="create-group-button">
+                            Add member
+                        </button>
+                        <button type="button" onClick={leaveGroup} className="create-group-button">
+                            Leave Group
+                        </button>
+                    </div>
+                    <div>
+                        <Tabs defaultActiveKey="2" onChange={onChange} className="main-content" style ={{ left: 300, position: 'relative'}}
+                            items={items}
+                        />
+                        <Table dataSource={[...data]}
+                            style={{
+                                left: 300,                    
+                                position: "relative",
+                                width: "75%"
+                            }}
+                            >
+                            <Column title="Email" dataIndex="email" key="email" width= "50%"/>
+                            <Column title="Role" dataIndex="role" key="role" width= "20%"/>
 
-                    <Column
-                    title="Action"
-                    key="id"
-                    dataIndex="id" 
-                    render={(record) => (
-                        <Space size="middle">
-                            <Button type="primary" onClick={()=>{handleOpenRoleForm(record)}}>Change Role</Button>                
-                        </Space>
-                    )}
-                />
-            </Table>
+                            <Column
+                            title="Action"
+                            key="id"
+                            dataIndex="id" 
+                            render={(record) => (
+                                <Space size="middle">
+                                    <Button type="primary" onClick={()=>{handleOpenRoleForm(record)}}>Change Role</Button>                
+                                </Space>
+                            )}
+                        />
+                    </Table>
 
-            </div>
-            <Modal title="Invited Member" open={openAddForm} footer={null}>
-                <Form name="basic" onSubmit={addFormik.handleSubmit} form={addForm}>
-                    <Form.Item label="Email" name="email" >
-                    <Select
-                        showSearch
-                        placeholder="Select a person"
-                        optionFilterProp="children"
-                        onChange={(e)=>{addFormik.setFieldValue('email',e)}}
-                        filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                        }
-                        options={listUser}
-                    />
-                    </Form.Item>
-                    {addFormik.errors.email && addFormik.touched.email && (<p className="error-message">{addFormik.errors.email}</p>)}
-                    <Form.Item wrapperCol={{ offset: 8,span: 16,}}
-                    >
-                        <Button type="primary" onClick={addFormik.handleSubmit} style={{margin: "10px"}} htmlType="submit">
-                        Submit
-                        </Button>
-                        <Button  style={{margin: "10px"}} onClick={handleCloseAddForm} htmlType="button" >
-                            Cancel
-                        </Button>
+                    </div>
+                    <Modal title="Invited Member" open={openAddForm} footer={null}>
+                        <Form name="basic" onSubmit={addFormik.handleSubmit} form={addForm}>
+                            <Form.Item label="Email" name="email" >
+                            <Select
+                                showSearch
+                                placeholder="Select a person"
+                                optionFilterProp="children"
+                                onChange={(e)=>{console.log(e);addFormik.setFieldValue('email',e)}}
+                                filterOption={(input, option) =>
+                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
+                                options={listUser}
+                            />
+                            </Form.Item>
+                            {addFormik.errors.email && addFormik.touched.email && (<p className="error-message">{addFormik.errors.email}</p>)}
+                            <Form.Item wrapperCol={{ offset: 8,span: 16,}}
+                            >
+                                <Button type="primary" onClick={addFormik.handleSubmit} style={{margin: "10px"}} htmlType="submit">
+                                Submit
+                                </Button>
+                                <Button  style={{margin: "10px"}} onClick={handleCloseAddForm} htmlType="button" >
+                                    Cancel
+                                </Button>
 
-                    </Form.Item>
-                </Form>
-            </Modal>
-            <Modal title="Change Member's Role" open={openRoleForm} footer={null}>
-                <Form name="basic" onSubmit={roleFormik.handleSubmit} form={roleForm}>
-                    <Form.Item label="Email" name="email" >
-                    <Select
-                        showSearch
-                        placeholder="Select a person"
-                        optionFilterProp="children"
-                        onChange={(e)=>{roleFormik.setFieldValue('role',e)}}
-                        filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                        }
-                        options={userRole}
-                    />
-                    </Form.Item>
-                    {roleFormik.errors.email && roleFormik.touched.email && (<p className="error-message">{roleFormik.errors.email}</p>)}
-                    <Form.Item wrapperCol={{ offset: 8,span: 16,}}
-                    >
-                        <Button type="primary" onClick={roleFormik.handleSubmit} style={{margin: "10px"}} htmlType="submit">
-                        Submit
-                        </Button>
-                        <Button  style={{margin: "10px"}} onClick={handleCloseRoleForm} htmlType="button" >
-                            Cancel
-                        </Button>
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                    <Modal title="Change Member's Role" open={openRoleForm} footer={null}>
+                        <Form name="basic" onSubmit={roleFormik.handleSubmit} form={roleForm}>
+                            <Form.Item label="Email" name="email" >
+                            <Select
+                                showSearch
+                                placeholder="Select a person"
+                                optionFilterProp="children"
+                                onChange={(e)=>{roleFormik.setFieldValue('role',e)}}
+                                filterOption={(input, option) =>
+                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
+                                options={userRole}
+                            />
+                            </Form.Item>
+                            {roleFormik.errors.email && roleFormik.touched.email && (<p className="error-message">{roleFormik.errors.email}</p>)}
+                            <Form.Item wrapperCol={{ offset: 8,span: 16,}}
+                            >
+                                <Button type="primary" onClick={roleFormik.handleSubmit} style={{margin: "10px"}} htmlType="submit">
+                                Submit
+                                </Button>
+                                <Button  style={{margin: "10px"}} onClick={handleCloseRoleForm} htmlType="button" >
+                                    Cancel
+                                </Button>
 
-                    </Form.Item>
-                </Form>
-            </Modal>
+                            </Form.Item>
+                        </Form>
+                    </Modal>
 
-        </Styled>
+                </Styled>
+            </Layout>
+        </Layout>
+
         </>
     );
 }

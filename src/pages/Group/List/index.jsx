@@ -142,6 +142,7 @@ function GroupsPage({typeOfGroup}) {
                 style={{
                     left: 300,                    
                     position: "relative",
+                    width: "75%"
                 }}
                 >
                 <Column title="Name" dataIndex="name" key="name" width= "75%"/>
